@@ -2,6 +2,19 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
+<meta name="theme-color" content="#f9a825">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GamersCube">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="TheGamersCubeNL">
+<meta name="description" content="De officiële site van TheGamersCubeNL — Star Citizen & Fortnite streamer vanuit Nederland">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-72.png">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TheGamersCubeNL</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -2046,6 +2059,559 @@
   }
   .easter-egg-close:hover { background: var(--amber); color: var(--navy); }
 
+
+  /* ── TAAL SCHAKELAAR ── */
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 8px;
+  }
+  .lang-btn {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    border: 1px solid rgba(79,195,247,0.3);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .lang-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(249,168,37,0.08); }
+
+  /* ── DONKERE/LICHTE MODUS ── */
+  .theme-btn {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(79,195,247,0.3);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .theme-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+  /* Light mode */
+  body.light-mode {
+    --navy:     rgba(255,255,255,0.45);
+    --navy2:    rgba(255,255,255,0.6);
+    --navy3:    rgba(255,255,255,0.3);
+    --navy4:    rgba(255,255,255,0.2);
+    --text:     #1a202c;
+    --text-dim: #4a5a78;
+    --amber-glow: rgba(249,168,37,0.12);
+    --cyan-glow:  rgba(79,195,247,0.12);
+    background: linear-gradient(135deg, #c9d6ff 0%, #e2d1f9 25%, #fde8d8 50%, #d4f0f7 75%, #c9d6ff 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    min-height: 100vh;
+  }
+
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Starfield verbergen, subtiele blur blobs toevoegen */
+  body.light-mode::before {
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(249,168,37,0.18) 0%, transparent 50%),
+      radial-gradient(circle at 80% 10%, rgba(79,195,247,0.15) 0%, transparent 40%),
+      radial-gradient(circle at 50% 80%, rgba(180,120,255,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 10% 70%, rgba(79,195,247,0.1) 0%, transparent 40%),
+      radial-gradient(circle at 90% 60%, rgba(249,168,37,0.1) 0%, transparent 40%);
+  }
+  body.light-mode::after { opacity: 0.04; }
+
+  /* Nav */
+  body.light-mode nav {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 2px 20px rgba(100,120,200,0.1);
+  }
+  body.light-mode .nav-logo span { color: var(--cyan-dim); }
+
+  /* Hero */
+  body.light-mode .hero {
+    background: linear-gradient(180deg, #eef2ff 0%, #f5f7fa 100%);
+  }
+  body.light-mode .hero-badge {
+    border-color: rgba(249,168,37,0.4);
+    color: var(--amber-dim);
+  }
+  body.light-mode .hero-sub { color: #5a6a85; }
+  body.light-mode .scroll-indicator { color: #8a9ab5; }
+  body.light-mode .scroll-indicator::after {
+    background: linear-gradient(to bottom, var(--cyan-dim), transparent);
+  }
+
+  /* Cards */
+  body.light-mode .about-card,
+  body.light-mode .game-card,
+  body.light-mode .cmd-card,
+  body.light-mode .support-card,
+  body.light-mode .stat-card,
+  body.light-mode .yt-card,
+  body.light-mode .clip-card,
+  body.light-mode .merch-card,
+  body.light-mode .loyalty-card,
+  body.light-mode .upcoming-event,
+  body.light-mode .day-card,
+  body.light-mode .poll-wrap,
+  body.light-mode .donatie-wrap,
+  body.light-mode .guestbook-entry,
+  body.light-mode .guestbook-form,
+  body.light-mode .admin-card,
+  body.light-mode .faq-item,
+  body.light-mode .sc-banner,
+  body.light-mode .drnl-banner {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 4px 24px rgba(100,120,200,0.08), 0 1px 3px rgba(255,255,255,0.6) inset;
+  }
+
+  /* Schedule dag kaarten */
+  body.light-mode .day-card.active {
+    background: rgba(249,168,37,0.08);
+    border-color: rgba(249,168,37,0.4);
+  }
+  body.light-mode .day-card.today {
+    border-color: rgba(79,195,247,0.5);
+    background: rgba(79,195,247,0.05);
+  }
+
+  /* Schedule note */
+  body.light-mode .schedule-note {
+    background: #ffffff;
+    border-left-color: var(--cyan-dim);
+  }
+
+  /* Inputs */
+  body.light-mode .auth-field input,
+  body.light-mode .admin-input,
+  body.light-mode .guestbook-input,
+  body.light-mode .search-input,
+  body.light-mode .admin-select {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(8px);
+    border-color: rgba(255,255,255,0.7);
+    color: #1a202c;
+  }
+  body.light-mode .auth-field input:focus,
+  body.light-mode .admin-input:focus,
+  body.light-mode .guestbook-input:focus,
+  body.light-mode .search-input:focus { border-color: var(--amber); }
+
+  /* Modals */
+  body.light-mode .modal-box {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: 0 8px 40px rgba(100,120,200,0.15);
+  }
+  body.light-mode .modal-close { color: #5a6a85; }
+  body.light-mode .auth-tab { color: #8a9ab5; }
+  body.light-mode .auth-tab.active { color: var(--amber); }
+
+  /* Admin */
+  body.light-mode .admin-overlay {
+    background: rgba(200,210,255,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  body.light-mode .admin-panel { }
+  body.light-mode .admin-list-item {
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(8px);
+    border-color: rgba(255,255,255,0.6);
+  }
+
+  /* Buttons */
+  body.light-mode .btn-support { border-color: var(--amber); color: var(--amber-dim); }
+  body.light-mode .btn-support:hover { background: var(--amber); color: #fff; }
+  body.light-mode .filter-btn { border-color: rgba(0,0,0,0.12); color: #5a6a85; }
+  body.light-mode .filter-btn:hover,
+  body.light-mode .filter-btn.active { border-color: var(--cyan-dim); color: var(--cyan-dim); }
+
+  /* Week nav */
+  body.light-mode .week-btn { border-color: rgba(0,0,0,0.12); color: var(--cyan-dim); }
+  body.light-mode .week-label { color: var(--amber-dim); }
+
+  /* Countdown */
+  body.light-mode .countdown-wrap {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.7);
+  }
+  body.light-mode .countdown-num {
+    background: rgba(255,255,255,0.5);
+    border-color: rgba(79,195,247,0.25);
+  }
+
+  /* Discord */
+  body.light-mode .discord-wrap { border-color: rgba(0,0,0,0.1); }
+
+  /* Donatie balk */
+  body.light-mode .donatie-bar-wrap { background: #f0f2f5; border-color: rgba(249,168,37,0.2); }
+
+  /* Poll */
+  body.light-mode .poll-option-inner { border-color: rgba(0,0,0,0.1); }
+  body.light-mode .poll-option-bar { background: rgba(79,195,247,0.1); }
+
+  /* Loyalty */
+  body.light-mode .my-loyalty-card { background: #ffffff; border-color: rgba(249,168,37,0.25); }
+
+  /* SC banner code box */
+  body.light-mode .sc-code-box {
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(8px);
+    border-color: rgba(79,195,247,0.4);
+  }
+
+  /* FAQ */
+  body.light-mode .faq-question { color: #1a202c; }
+  body.light-mode .faq-item.open { border-color: rgba(249,168,37,0.3); }
+  body.light-mode .faq-answer { color: #5a6a85; }
+
+  /* Footer */
+  body.light-mode footer { border-top-color: rgba(0,0,0,0.08); }
+
+  /* Twitch section */
+  body.light-mode .twitch-embed-wrap { border-color: rgba(100,65,165,0.2); background: #f0f0ff; }
+  body.light-mode .twitch-offline-text { color: #8a9ab5; }
+
+  /* Announcement banner */
+  body.light-mode .announcement-banner {
+    background: linear-gradient(135deg, rgba(249,168,37,0.08), rgba(79,195,247,0.05));
+    border-color: rgba(249,168,37,0.3);
+  }
+
+  /* Guestbook */
+  body.light-mode .guestbook-submit { background: var(--amber); color: #fff; }
+
+  /* Section headers */
+  body.light-mode .divider { background: linear-gradient(to right, rgba(249,168,37,0.3), transparent); }
+  body.light-mode .section-tag { color: var(--cyan-dim); }
+
+  /* ── ZOEKBALK ── */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.2);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 12px 44px 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--amber); }
+  .search-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+  .search-count {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: -16px;
+    margin-bottom: 16px;
+  }
+
+  /* ── DONATIE KNOPPEN ── */
+  .donate-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .donate-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 12px 24px;
+    border: 1px solid;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+  }
+  .donate-btn-tipeee {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+  }
+  .donate-btn-tipeee:hover { background: #ff6b6b; color: white; }
+
+  /* ── STAR CITIZEN SECTIE ── */
+  .sc-banner {
+    background: linear-gradient(135deg, var(--navy2), var(--navy3));
+    border: 1px solid rgba(79,195,247,0.25);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .sc-banner::before {
+    content: 'STAR CITIZEN';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-family: var(--mono);
+    font-size: 6rem;
+    color: rgba(79,195,247,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .sc-code-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--navy);
+    border: 1px solid rgba(79,195,247,0.3);
+    padding: 12px 20px;
+    margin: 20px auto;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .sc-code-box:hover { border-color: var(--amber); }
+  .sc-code {
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+  }
+  .sc-copy-hint {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+  .sc-copied {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: #34d399;
+    margin-top: 8px;
+    display: none;
+  }
+  .sc-copied.show { display: block; }
+
+  /* ── FAQ ── */
+  .faq-list { display: flex; flex-direction: column; gap: 8px; }
+  .faq-item {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.12);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .faq-item.open { border-color: rgba(249,168,37,0.3); }
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 0.2s;
+    user-select: none;
+  }
+  .faq-item.open .faq-question { color: var(--amber); }
+  .faq-arrow {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    transition: transform 0.3s;
+  }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); color: var(--amber); }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 20px;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .faq-item.open .faq-answer { max-height: 300px; padding: 0 20px 16px; }
+
+  /* ── ANIMATIES verbeterd ── */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .fade-in:nth-child(2) { transition-delay: 0.1s; }
+  .fade-in:nth-child(3) { transition-delay: 0.2s; }
+
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  .shimmer-text {
+    background: linear-gradient(90deg, var(--amber), var(--cyan), var(--amber));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+
+
+  /* ── LIVE STATUS BAR ── */
+  .live-status-bar {
+    position: fixed;
+    top: 60px;
+    left: 0; right: 0;
+    z-index: 90;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 24px;
+    background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(249,168,37,0.1));
+    border-bottom: 1px solid rgba(239,68,68,0.3);
+    backdrop-filter: blur(12px);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .live-status-bar.show { display: flex; }
+
+  .live-status-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .live-pulse {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #ef4444;
+    animation: pulse 1s infinite;
+    flex-shrink: 0;
+  }
+  .live-status-text {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+  .live-status-text span { color: #ef4444; font-weight: bold; }
+  .live-viewers {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--amber);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .live-game-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--cyan);
+    border: 1px solid rgba(79,195,247,0.3);
+    padding: 2px 8px;
+  }
+  .live-watch-btn {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 5px 14px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .live-watch-btn:hover { opacity: 0.85; }
+
+  /* ── CHAT SECTIE ── */
+  .chat-wrap {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    align-items: start;
+  }
+  .twitch-chat-embed {
+    background: #18181b;
+    border: 1px solid rgba(145,71,255,0.3);
+    height: 500px;
+    overflow: hidden;
+  }
+  .twitch-chat-embed iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  @media (max-width: 900px) {
+    .chat-wrap { grid-template-columns: 1fr; }
+    .twitch-chat-embed { height: 350px; }
+  }
+
+  /* ── NOTIFICATIE TOESTEMMING ── */
+  .notif-banner {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.2);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .notif-icon { font-size: 1.5rem; }
+  .notif-text {
+    flex: 1;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .notif-text strong { color: var(--cyan); }
+  .notif-allow-btn {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 8px 18px;
+    background: var(--cyan);
+    color: var(--navy);
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .notif-allow-btn:hover { opacity: 0.85; }
+  .notif-deny-btn {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 8px 14px;
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .notif-deny-btn:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+
+  /* Live mode aanpassing voor body padding */
+  body.is-live { padding-top: 36px; }
+
 </style>
 </head>
 <body>
@@ -2055,24 +2621,46 @@
 <nav>
   <a class="nav-logo" href="#top"><img id="navLogo" src="" alt="TheGamersCubeNL" style="height:36px;display:none;"> <span id="navLogoText">TheGamers<span>CubeNL</span></span></a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#over">Over mij</a></li>
-    <li><a href="#schedule">Schedule</a></li>
-    <li><a href="#games">Games</a></li>
-    <li><a href="#commands">Commands</a></li>
-    <li><a href="#support">Support</a></li>
+    <li><a href="#over">Over</a></li>
+    <li><a href="#countdown">Stream</a></li>
     <li><a href="#live">Live</a></li>
+    <li><a href="#schedule">Schedule</a></li>
     <li><a href="#videos">Video's</a></li>
+    <li><a href="#clips">Clips</a></li>
+    <li><a href="#games">Games</a></li>
     <li><a href="#community">Community</a></li>
     <li><a href="#loyaliteit">Loyaliteit</a></li>
-    <li><a href="#gastenboek">Gastenboek</a></li>
     <li><a href="#merch">Merch</a></li>
+    <li><a href="#gastenboek">Gastenboek</a></li>
+    <li><a href="#starcitizen">Star Citizen</a></li>
+    <li><a href="#faq">FAQ</a></li>
   </ul>
+  <div class="lang-switch">
+    <button class="lang-btn active" id="btnNL" onclick="setLang('nl')">NL</button>
+    <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+  </div>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Thema wisselen">&#9790;</button>
   <div class="nav-auth"><div id="navUserInfo"></div><button id="navAuthBtn" onclick="openAuthModal('login')">Inloggen</button></div>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
 </nav>
 
+
+
+<!-- LIVE STATUS BAR -->
+<div class="live-status-bar" id="liveStatusBar">
+  <div class="live-status-left">
+    <div class="live-pulse"></div>
+    <div class="live-status-text"><span>LIVE</span> — TheGamersCubeNL streamt nu!</div>
+    <div class="live-game-tag" id="liveGameTag"></div>
+  </div>
+  <div class="live-viewers">
+    <span>&#128065;</span>
+    <span id="liveViewerCount">-</span> kijkers
+  </div>
+  <a class="live-watch-btn" href="https://twitch.tv/TheGamersCubeNL" target="_blank">&#9654; Kijk mee</a>
+</div>
 
 <!-- ANNOUNCEMENT BANNER -->
 <div class="announcement-banner" id="announcementBanner">
@@ -2085,7 +2673,7 @@
 <div class="hero" id="top">
   <img id="heroLogo" src="" alt="TheGamersCubeNL" style="height:120px;margin-bottom:24px;display:none;filter:drop-shadow(0 0 24px rgba(249,168,37,0.4));animation:fadeInDown 0.5s ease both;">
   <div class="hero-badge">// NL STREAMER — TWITCH &amp; YOUTUBE</div>
-  <h1>The<span class="amber">Gamers</span><span class="cyan">Cube</span>NL</h1>
+  <h1>The<span class="shimmer-text">Gamerscube</span>NL</h1>
   <p class="hero-sub">Star Citizen-piloot. Fortnite-speler. Elke stream een avontuur in de ruimte en op aarde.</p>
   <div class="hero-socials">
     <a class="btn btn-twitch" href="https://twitch.tv/TheGamersCubeNL" target="_blank">
@@ -2135,255 +2723,9 @@
   <div class="drnl-banner" style="margin-top:20px;">
     <div class="drnl-badge">DRNL</div>
     <div class="drnl-info">
-      <h3>Dutch Renegades NL — Star Citizen Organisatie</h3>
-      <p>TheGamersCubeNL is trots lid van de DRNL organisatie in Star Citizen. DRNL is een Nederlandse Star Citizen gemeenschap waar samenwerking, handelsmissies en gevechten hand in hand gaan. Vliegen we samen!</p>
-    </div>
-  </div>
-</section>
-
-<!-- SCHEDULE -->
-<section id="schedule" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 02</span>
-    <h2 class="section-title">Stream Schedule</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="week-nav">
-    <button class="week-btn" id="prevWeek" onclick="changeWeek(-1)">&#8592; Vorige week</button>
-    <span class="week-label" id="weekLabel">Deze week</span>
-    <button class="week-btn" id="nextWeek" onclick="changeWeek(1)">Volgende week &#8594;</button>
-  </div>
-  <div class="schedule-grid" id="calGrid">
-    <div class="day-card" id="day-0"><div class="day-name">Ma</div><div class="day-loading">...</div></div>
-    <div class="day-card" id="day-1"><div class="day-name">Di</div><div class="day-loading">...</div></div>
-    <div class="day-card" id="day-2"><div class="day-name">Wo</div><div class="day-loading">...</div></div>
-    <div class="day-card" id="day-3"><div class="day-name">Do</div><div class="day-loading">...</div></div>
-    <div class="day-card" id="day-4"><div class="day-name">Vr</div><div class="day-loading">...</div></div>
-    <div class="day-card" id="day-5"><div class="day-name">Za</div><div class="day-loading">...</div></div>
-    <div class="day-card" id="day-6"><div class="day-name">Zo</div><div class="day-loading">...</div></div>
-  </div>
-  <div id="upcomingList" style="margin-top:24px;"></div>
-  <div class="schedule-note" id="scheduleNote"><span>[ LADEN ]</span> Agenda wordt opgehaald...</div>
-</section>
-
-<!-- GAMES -->
-<section id="games" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 03</span>
-    <h2 class="section-title">Games</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="games-grid">
-    <div class="game-card">
-      <div class="game-icon">&#128640;</div>
-      <div class="game-info">
-        <h3>Star Citizen</h3>
-        <p>Ruimtevaart op z'n best. Handel, gevechten, en exploratie in het enorme universum van Star Citizen — samen met de DRNL organisatie.</p>
-        <span class="game-badge">HOOFDGAME</span>
-      </div>
-    </div>
-    <div class="game-card">
-      <div class="game-icon">&#9889;</div>
-      <div class="game-info">
-        <h3>Fortnite</h3>
-        <p>Battle Royale actie, bouw-strategieen en de nieuwste seizoenen. Van casual to tryhard — alles komt voorbij.</p>
-        <span class="game-badge cyan">REGELMATIG</span>
-      </div>
-    </div>
-    <div class="game-card">
-      <div class="game-icon">&#127918;</div>
-      <div class="game-info">
-        <h3>Overige Games</h3>
-        <p>Soms een andere game tussendoor. Houd Twitch en Discord in de gaten voor aankondigingen.</p>
-        <span class="game-badge" style="border-color:rgba(255,255,255,0.2);color:var(--text-dim)">INCIDENTEEL</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- COMMANDS -->
-<section id="commands" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 04</span>
-    <h2 class="section-title">Chat Commands</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="cmd-filter">
-    <button class="filter-btn active" onclick="filterCmds('all', this)">Alles</button>
-    <button class="filter-btn" onclick="filterCmds('info', this)">Info</button>
-    <button class="filter-btn" onclick="filterCmds('game', this)">Game</button>
-    <button class="filter-btn" onclick="filterCmds('muziek', this)">Muziek</button>
-    <button class="filter-btn" onclick="filterCmds('sociaal', this)">Sociaal</button>
-  </div>
-  <div class="cmd-grid" id="cmdGrid">
-    <div class="cmd-card" data-cat="info"><span class="cmd-name">!commands</span><span class="cmd-desc">Laat alle beschikbare commands zien</span></div>
-    <div class="cmd-card" data-cat="info"><span class="cmd-name">!uptime</span><span class="cmd-desc">Hoe lang de stream al live is</span></div>
-    <div class="cmd-card" data-cat="info"><span class="cmd-name">!schedule</span><span class="cmd-desc">Wanneer streamt TheGamersCubeNL?</span></div>
-    <div class="cmd-card" data-cat="info"><span class="cmd-name">!socials</span><span class="cmd-desc">Links naar YouTube en andere socials</span></div>
-    <div class="cmd-card" data-cat="info"><span class="cmd-name">!prime</span><span class="cmd-desc">Hoe je gratis kunt subscriben met Prime</span></div>
-    <div class="cmd-card" data-cat="game"><span class="cmd-name">!game</span><span class="cmd-desc">Welk spel er nu gespeeld wordt</span></div>
-    <div class="cmd-card" data-cat="game"><span class="cmd-name">!drnl</span><span class="cmd-desc">Informatie over de DRNL organisatie</span></div>
-    <div class="cmd-card" data-cat="muziek"><span class="cmd-name">!song</span><span class="cmd-desc">Welk nummer er nu speelt</span></div>
-    <div class="cmd-card" data-cat="muziek"><span class="cmd-name">!lumia</span><span class="cmd-desc">Sfeerverlichting bedienen via chat</span></div>
-    <div class="cmd-card" data-cat="sociaal"><span class="cmd-name">!donneer</span><span class="cmd-desc">Doneer aan de stream en steun de content</span></div>
-    <div class="cmd-card" data-cat="sociaal"><span class="cmd-name">!discord</span><span class="cmd-desc">Link naar de Discord server</span></div>
-    <div class="cmd-card" data-cat="sociaal"><span class="cmd-name">!clip</span><span class="cmd-desc">Maak een clip van dit moment</span></div>
-  </div>
-</section>
-
-<!-- SUPPORT -->
-<section id="support" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 05</span>
-    <h2 class="section-title">Steun de Stream</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="support-grid">
-    <div class="support-card">
-      <span class="support-icon">&#11088;</span>
-      <h3>Twitch Abonnement</h3>
-      <p>Steun direct via een Twitch sub. Heb je Amazon Prime? Dan kun je elke maand gratis subscriben!</p>
-      <a class="btn-support" href="https://twitch.tv/TheGamersCubeNL/subscribe" target="_blank">Subscriben</a>
-    </div>
-    <div class="support-card">
-      <span class="support-icon">&#128155;</span>
-      <h3>Doneren</h3>
-      <p>Een directe donatie helpt enorm bij het verbeteren van de stream-kwaliteit en nieuwe content.</p>
-      <a class="btn-support" href="#" target="_blank">Doneren</a>
-    </div>
-    <div class="support-card">
-      <span class="support-icon">&#128276;</span>
-      <h3>YouTube Abonneren</h3>
-      <p>Abonneer op YouTube en mis geen enkele video. Druk ook op het belletje voor meldingen!</p>
-      <a class="btn-support cyan" href="https://youtube.com/@TheGamersCubeNL" target="_blank">Abonneren</a>
-    </div>
-  </div>
-</section>
-
-<!-- TWITCH LIVE -->
-<section id="live" class="fade-in twitch-section">
-  <div class="section-header">
-    <span class="section-tag">// 06</span>
-    <h2 class="section-title">Live Stream <span id="liveBadge"></span></h2>
-    <div class="divider"></div>
-  </div>
-  <div class="twitch-embed-wrap" id="twitchWrap">
-    <div class="twitch-offline" id="twitchOffline">
-      <div class="twitch-offline-icon">&#128225;</div>
-      <div class="twitch-offline-text">// STREAM OFFLINE</div>
-      <a class="twitch-offline-link" href="https://twitch.tv/TheGamersCubeNL" target="_blank">Volg op Twitch voor meldingen</a>
-    </div>
-  </div>
-</section>
-
-<!-- YOUTUBE VIDEOS -->
-<section id="videos" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 07</span>
-    <h2 class="section-title">Nieuwste Videos</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="yt-grid" id="ytGrid">
-    <div class="yt-loading">// Videos worden geladen...</div>
-  </div>
-</section>
-
-
-<!-- COMMUNITY (Poll + Discord) -->
-<section id="community" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 08</span>
-    <h2 class="section-title">Community</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="community-grid">
-    <!-- Poll -->
-    <div>
-      <div class="poll-wrap" id="pollWrap">
-        <div class="poll-question" id="pollQuestion">// Laden...</div>
-        <div id="pollOptions"></div>
-        <div class="poll-meta">
-          <span id="pollVotes">0 stemmen</span>
-          <span id="pollExpiry"></span>
-        </div>
-      </div>
-    </div>
-    <!-- Discord -->
-    <div>
-      <div style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:12px;">// DISCORD SERVER</div>
-      <div class="discord-wrap">
-        <iframe src="https://discord.com/widget?id=763883078723960834&theme=dark" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DONATIE DOEL -->
-<section id="donatie" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 09</span>
-    <h2 class="section-title">Donatie Doel</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="donatie-wrap">
-    <div class="donatie-header">
-      <div class="donatie-title" id="donatieTitle">// Laden...</div>
-      <div class="donatie-bedragen"><span id="donatieHuidige">0</span> / <span id="donatieDoelBedrag">100</span> euro</div>
-    </div>
-    <div class="donatie-bar-wrap">
-      <div class="donatie-bar-fill" id="donatieBar" style="width:0%"></div>
-    </div>
-    <div class="donatie-pct" id="donatiePct">0% bereikt</div>
-  </div>
-  <div style="text-align:center;margin-top:20px;">
-    <a class="btn-support" href="#" target="_blank" id="donatieBtn">Doneren &#9829;</a>
-  </div>
-</section>
-
-<!-- LOYALITEIT LEADERBOARD -->
-<section id="loyaliteit" class="fade-in loyalty-section">
-  <div class="section-header">
-    <span class="section-tag">// 10</span>
-    <h2 class="section-title">Loyaliteit</h2>
-    <div class="divider"></div>
-  </div>
-  <div id="myLoyaltyWrap" style="display:none;">
-    <div class="my-loyalty-card">
-      <div class="my-loyalty-pts" id="myPts">0</div>
-      <div class="my-loyalty-info">
-        <div class="my-loyalty-label">Jouw punten</div>
-        <div class="my-loyalty-name" id="myLoyaltyName">-</div>
-      </div>
-      <div id="myBadge"></div>
-    </div>
-  </div>
-  <div id="loyaltyNotLoggedIn" style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);margin-bottom:20px;">
-    <span onclick="openAuthModal('login')" style="cursor:pointer;text-decoration:underline;color:var(--cyan);">Log in</span> om punten te verdienen en op het leaderboard te verschijnen.
-  </div>
-  <div class="loyalty-grid" id="loyaltyGrid">
-    <div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">// Leaderboard laden...</div>
-  </div>
-</section>
-
-
-<!-- COUNTDOWN -->
-<section id="countdown" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 11</span>
-    <h2 class="section-title">Volgende Stream</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="countdown-wrap" id="countdownWrap">
-    <div class="countdown-title">// COUNTDOWN</div>
-    <div class="countdown-stream-name" id="countdownName">Laden...</div>
-    <div class="countdown-digits" id="countdownDigits">
-      <div class="countdown-unit"><div class="countdown-num" id="cdDays">--</div><div class="countdown-label">Dagen</div></div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-unit"><div class="countdown-num" id="cdHours">--</div><div class="countdown-label">Uren</div></div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-unit"><div class="countdown-num" id="cdMins">--</div><div class="countdown-label">Minuten</div></div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-unit"><div class="countdown-num" id="cdSecs">--</div><div class="countdown-label">Seconden</div></div>
+      <h3>Dutch Republic [DRNL] — Star Citizen Organisatie</h3>
+      <p>TheGamersCubeNL is trots lid van de Dutch Republic [DRNL] — een band van 240+ edellieden verenigd onder één banier. Exploratie, handel, mijnbouw en bounty hunting. Iedereen is kapitein van zijn eigen vloot. Have fun! That's why we're here!</p>
+      <a href="https://robertsspaceindustries.com/en/orgs/DRNL" target="_blank" class="btn-support cyan" style="margin-top:16px;display:inline-block;">&#128640; Bekijk DRNL Organisatie</a>
     </div>
   </div>
 </section>
@@ -2391,7 +2733,7 @@
 <!-- STATS -->
 <section id="stats" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 12</span>
+    <span class="section-tag">// 02</span>
     <h2 class="section-title">Stream Statistieken</h2>
     <div class="divider"></div>
   </div>
@@ -2429,10 +2771,103 @@
   </div>
 </section>
 
+<!-- COUNTDOWN -->
+<section id="countdown" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 03</span>
+    <h2 class="section-title">Volgende Stream</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="countdown-wrap" id="countdownWrap">
+    <div class="countdown-title">// COUNTDOWN</div>
+    <div class="countdown-stream-name" id="countdownName">Laden...</div>
+    <div class="countdown-digits" id="countdownDigits">
+      <div class="countdown-unit"><div class="countdown-num" id="cdDays">--</div><div class="countdown-label">Dagen</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cdHours">--</div><div class="countdown-label">Uren</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cdMins">--</div><div class="countdown-label">Minuten</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cdSecs">--</div><div class="countdown-label">Seconden</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 04</span>
+    <h2 class="section-title">Stream Schedule</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="week-nav">
+    <button class="week-btn" id="prevWeek" onclick="changeWeek(-1)">&#8592; Vorige week</button>
+    <span class="week-label" id="weekLabel">Deze week</span>
+    <button class="week-btn" id="nextWeek" onclick="changeWeek(1)">Volgende week &#8594;</button>
+  </div>
+  <div class="schedule-grid" id="calGrid">
+    <div class="day-card" id="day-0"><div class="day-name">Ma</div><div class="day-loading">...</div></div>
+    <div class="day-card" id="day-1"><div class="day-name">Di</div><div class="day-loading">...</div></div>
+    <div class="day-card" id="day-2"><div class="day-name">Wo</div><div class="day-loading">...</div></div>
+    <div class="day-card" id="day-3"><div class="day-name">Do</div><div class="day-loading">...</div></div>
+    <div class="day-card" id="day-4"><div class="day-name">Vr</div><div class="day-loading">...</div></div>
+    <div class="day-card" id="day-5"><div class="day-name">Za</div><div class="day-loading">...</div></div>
+    <div class="day-card" id="day-6"><div class="day-name">Zo</div><div class="day-loading">...</div></div>
+  </div>
+  <div id="upcomingList" style="margin-top:24px;"></div>
+  <div class="schedule-note" id="scheduleNote"><span>[ LADEN ]</span> Agenda wordt opgehaald...</div>
+</section>
+
+<!-- TWITCH LIVE -->
+<section id="live" class="fade-in twitch-section">
+  <div class="section-header">
+    <span class="section-tag">// 05</span>
+    <h2 class="section-title">Live Stream <span id="liveBadge"></span></h2>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Push notificatie banner -->
+  <div class="notif-banner" id="notifBanner" style="display:none;">
+    <div class="notif-icon">&#128276;</div>
+    <div class="notif-text"><strong>Wil je een melding als TheGamersCubeNL live gaat?</strong><br>Krijg direct een pushmelding op je telefoon of computer!</div>
+    <button class="notif-allow-btn" onclick="requestPushPermission()">&#10003; Ja, meld me!</button>
+    <button class="notif-deny-btn" onclick="dismissNotifBanner()">Nee bedankt</button>
+  </div>
+
+  <div class="chat-wrap">
+    <div class="twitch-embed-wrap" id="twitchWrap">
+      <div class="twitch-offline" id="twitchOffline">
+        <div class="twitch-offline-icon">&#128225;</div>
+        <div class="twitch-offline-text">// STREAM OFFLINE</div>
+        <a class="twitch-offline-link" href="https://twitch.tv/TheGamersCubeNL" target="_blank">Volg op Twitch voor meldingen</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:12px;">// TWITCH CHAT</div>
+      <div class="twitch-chat-embed">
+        <iframe src="https://www.twitch.tv/embed/TheGamersCubeNL/chat?parent=thegamerscube.nl&parent=thegamerscubenl.github.io&darkpopout" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- YOUTUBE VIDEOS -->
+<section id="videos" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 06</span>
+    <h2 class="section-title">Nieuwste Videos</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="yt-grid" id="ytGrid">
+    <div class="yt-loading">// Videos worden geladen...</div>
+  </div>
+</section>
+
+
 <!-- CLIPS -->
 <section id="clips" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 13</span>
+    <span class="section-tag">// 07</span>
     <h2 class="section-title">Beste Clips</h2>
     <div class="divider"></div>
   </div>
@@ -2441,10 +2876,160 @@
   </div>
 </section>
 
+<!-- GAMES -->
+<section id="games" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 08</span>
+    <h2 class="section-title">Games</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="games-grid">
+    <div class="game-card">
+      <div class="game-icon">&#128640;</div>
+      <div class="game-info">
+        <h3>Star Citizen</h3>
+        <p>Ruimtevaart op z'n best. Handel, gevechten, en exploratie in het enorme universum van Star Citizen — samen met de DRNL organisatie.</p>
+        <span class="game-badge">HOOFDGAME</span>
+      </div>
+    </div>
+    <div class="game-card">
+      <div class="game-icon">&#9889;</div>
+      <div class="game-info">
+        <h3>Fortnite</h3>
+        <p>Battle Royale actie, bouw-strategieen en de nieuwste seizoenen. Van casual to tryhard — alles komt voorbij.</p>
+        <span class="game-badge cyan">REGELMATIG</span>
+      </div>
+    </div>
+    <div class="game-card">
+      <div class="game-icon">&#127918;</div>
+      <div class="game-info">
+        <h3>Overige Games</h3>
+        <p>Soms een andere game tussendoor. Houd Twitch en Discord in de gaten voor aankondigingen.</p>
+        <span class="game-badge" style="border-color:rgba(255,255,255,0.2);color:var(--text-dim)">INCIDENTEEL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMANDS -->
+<section id="commands" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 09</span>
+    <h2 class="section-title">Chat Commands</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="search-wrap">
+    <input class="search-input" id="cmdSearch" placeholder="// Zoek command..." oninput="searchCommands(this.value)">
+    <span class="search-icon">&#128269;</span>
+  </div>
+  <div class="search-count" id="cmdCount"></div>
+  <div class="cmd-filter">
+    <button class="filter-btn active" onclick="filterCmds('all', this)">Alles</button>
+    <button class="filter-btn" onclick="filterCmds('info', this)">Info</button>
+    <button class="filter-btn" onclick="filterCmds('game', this)">Game</button>
+    <button class="filter-btn" onclick="filterCmds('muziek', this)">Muziek</button>
+    <button class="filter-btn" onclick="filterCmds('sociaal', this)">Sociaal</button>
+  </div>
+  <div class="cmd-grid" id="cmdGrid">
+    <div class="cmd-card" data-cat="info"><span class="cmd-name">!commands</span><span class="cmd-desc">Laat alle beschikbare commands zien</span></div>
+    <div class="cmd-card" data-cat="info"><span class="cmd-name">!uptime</span><span class="cmd-desc">Hoe lang de stream al live is</span></div>
+    <div class="cmd-card" data-cat="info"><span class="cmd-name">!schedule</span><span class="cmd-desc">Wanneer streamt TheGamersCubeNL?</span></div>
+    <div class="cmd-card" data-cat="info"><span class="cmd-name">!socials</span><span class="cmd-desc">Links naar YouTube en andere socials</span></div>
+    <div class="cmd-card" data-cat="info"><span class="cmd-name">!prime</span><span class="cmd-desc">Hoe je gratis kunt subscriben met Prime</span></div>
+    <div class="cmd-card" data-cat="game"><span class="cmd-name">!game</span><span class="cmd-desc">Welk spel er nu gespeeld wordt</span></div>
+    <div class="cmd-card" data-cat="game"><span class="cmd-name">!drnl</span><span class="cmd-desc">Informatie over de DRNL organisatie</span></div>
+    <div class="cmd-card" data-cat="muziek"><span class="cmd-name">!song</span><span class="cmd-desc">Welk nummer er nu speelt</span></div>
+    <div class="cmd-card" data-cat="muziek"><span class="cmd-name">!lumia</span><span class="cmd-desc">Sfeerverlichting bedienen via chat</span></div>
+    <div class="cmd-card" data-cat="sociaal"><span class="cmd-name">!donneer</span><span class="cmd-desc">Doneer aan de stream en steun de content</span></div>
+    <div class="cmd-card" data-cat="sociaal"><span class="cmd-name">!discord</span><span class="cmd-desc">Link naar de Discord server</span></div>
+    <div class="cmd-card" data-cat="sociaal"><span class="cmd-name">!clip</span><span class="cmd-desc">Maak een clip van dit moment</span></div>
+  </div>
+</section>
+
+<!-- COMMUNITY (Poll + Discord) -->
+<section id="community" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 10</span>
+    <h2 class="section-title">Community</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="community-grid">
+    <!-- Poll -->
+    <div>
+      <div class="poll-wrap" id="pollWrap">
+        <div class="poll-question" id="pollQuestion">// Laden...</div>
+        <div id="pollOptions"></div>
+        <div class="poll-meta">
+          <span id="pollVotes">0 stemmen</span>
+          <span id="pollExpiry"></span>
+        </div>
+      </div>
+    </div>
+    <!-- Discord -->
+    <div>
+      <div style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:12px;">// DISCORD SERVER</div>
+      <div class="discord-wrap">
+        <iframe src="https://discord.com/widget?id=763883078723960834&theme=dark" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOYALITEIT LEADERBOARD -->
+<section id="loyaliteit" class="fade-in loyalty-section">
+  <div class="section-header">
+    <span class="section-tag">// 11</span>
+    <h2 class="section-title">Loyaliteit</h2>
+    <div class="divider"></div>
+  </div>
+  <div id="myLoyaltyWrap" style="display:none;">
+    <div class="my-loyalty-card">
+      <div class="my-loyalty-pts" id="myPts">0</div>
+      <div class="my-loyalty-info">
+        <div class="my-loyalty-label">Jouw punten</div>
+        <div class="my-loyalty-name" id="myLoyaltyName">-</div>
+      </div>
+      <div id="myBadge"></div>
+    </div>
+  </div>
+  <div id="loyaltyNotLoggedIn" style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);margin-bottom:20px;">
+    <span onclick="openAuthModal('login')" style="cursor:pointer;text-decoration:underline;color:var(--cyan);">Log in</span> om punten te verdienen en op het leaderboard te verschijnen.
+  </div>
+  <div class="loyalty-grid" id="loyaltyGrid">
+    <div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">// Leaderboard laden...</div>
+  </div>
+</section>
+
+
+<!-- DONATIE DOEL -->
+<section id="donatie" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 12</span>
+    <h2 class="section-title">Donatie Doel</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="donatie-wrap">
+    <div class="donatie-header">
+      <div class="donatie-title" id="donatieTitle">// Laden...</div>
+      <div class="donatie-bedragen"><span id="donatieHuidige">0</span> / <span id="donatieDoelBedrag">100</span> euro</div>
+    </div>
+    <div class="donatie-bar-wrap">
+      <div class="donatie-bar-fill" id="donatieBar" style="width:0%"></div>
+    </div>
+    <div class="donatie-pct" id="donatiePct">0% bereikt</div>
+  </div>
+  <div class="donate-btns">
+    <a class="donate-btn donate-btn-tipeee" href="https://www.tipeeestream.com/tgcnl/" target="_blank">
+      &#10084; Doneren via Tipeeestream
+    </a>
+    <a class="btn-support" href="https://twitch.tv/TheGamersCubeNL/subscribe" target="_blank">&#11088; Twitch Sub</a>
+  </div>
+</section>
+
 <!-- MERCH -->
 <section id="merch" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 14</span>
+    <span class="section-tag">// 13</span>
     <h2 class="section-title">Merch</h2>
     <div class="divider"></div>
   </div>
@@ -2452,6 +3037,35 @@
     <div class="merch-coming-soon">
       &#128230; Merch komt eraan!<br><br>
       <span style="font-size:0.75rem;">Volg de stream voor aankondigingen.</span>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 14</span>
+    <h2 class="section-title">Steun de Stream</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="support-grid">
+    <div class="support-card">
+      <span class="support-icon">&#11088;</span>
+      <h3>Twitch Abonnement</h3>
+      <p>Steun direct via een Twitch sub. Heb je Amazon Prime? Dan kun je elke maand gratis subscriben!</p>
+      <a class="btn-support" href="https://twitch.tv/TheGamersCubeNL/subscribe" target="_blank">Subscriben</a>
+    </div>
+    <div class="support-card">
+      <span class="support-icon">&#128155;</span>
+      <h3>Doneren</h3>
+      <p>Een directe donatie helpt enorm bij het verbeteren van de stream-kwaliteit en nieuwe content.</p>
+      <a class="btn-support" href="#" target="_blank">Doneren</a>
+    </div>
+    <div class="support-card">
+      <span class="support-icon">&#128276;</span>
+      <h3>YouTube Abonneren</h3>
+      <p>Abonneer op YouTube en mis geen enkele video. Druk ook op het belletje voor meldingen!</p>
+      <a class="btn-support cyan" href="https://youtube.com/@TheGamersCubeNL" target="_blank">Abonneren</a>
     </div>
   </div>
 </section>
@@ -2481,6 +3095,86 @@
     <button class="easter-egg-close" onclick="closeEasterEgg()">Bedankt! Sluiten</button>
   </div>
 </div>
+
+
+
+<!-- STAR CITIZEN -->
+<section id="starcitizen" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 16</span>
+    <h2 class="section-title">Star Citizen</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="sc-banner">
+    <div style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);letter-spacing:0.15em;margin-bottom:12px;">// REFERRAL CODE</div>
+    <div style="font-family:var(--sans);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;" data-nl="Nog niet begonnen met Star Citizen?" data-en="Haven't started Star Citizen yet?">Nog niet begonnen met Star Citizen?</div>
+    <div style="font-family:var(--mono);font-size:0.85rem;color:var(--text-dim);margin-bottom:20px;" data-nl="Gebruik mijn referral code en krijg 5.000 UEC bonus bij het aanmaken van je account!" data-en="Use my referral code and get 5,000 UEC bonus when creating your account!">Gebruik mijn referral code en krijg 5.000 UEC bonus bij het aanmaken van je account!</div>
+    <div class="sc-code-box" onclick="copySCCode()">
+      <span class="sc-code">STAR-DFRX-TQ4Z</span>
+      <span class="sc-copy-hint">// klik om te kopieren</span>
+    </div>
+    <div class="sc-copied" id="scCopied">&#10003; Gekopieerd!</div>
+    <div style="margin-top:20px;">
+      <a class="btn-support cyan" href="https://robertsspaceindustries.com/en/enlist?referral=STAR-DFRX-TQ4Z" target="_blank" data-nl="Account aanmaken met code" data-en="Create account with code">Account aanmaken met code &#128640;</a>
+    </div>
+    <div style="margin-top:24px;font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);">
+      <span data-nl="TheGamersCubeNL vliegt met de DRNL organisatie" data-en="TheGamersCubeNL flies with the DRNL organisation">TheGamersCubeNL vliegt met de DRNL organisatie</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 17</span>
+    <h2 class="section-title">FAQ</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span data-nl="Wanneer stream je?" data-en="When do you stream?">Wanneer stream je?</span>
+        <span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer" data-nl="Ik stream regelmatig op Twitch. Bekijk de schedule sectie voor actuele tijden, of volg me op Twitch en Discord voor live meldingen!" data-en="I stream regularly on Twitch. Check the schedule section for current times, or follow me on Twitch and Discord for live notifications!">Ik stream regelmatig op Twitch. Bekijk de schedule sectie voor actuele tijden, of volg me op Twitch en Discord voor live meldingen!</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span data-nl="Welke games speel je?" data-en="What games do you play?">Welke games speel je?</span>
+        <span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer" data-nl="Voornamelijk Star Citizen en Fortnite, maar soms ook andere games. Houd de stream in de gaten voor aankondigingen!" data-en="Mainly Star Citizen and Fortnite, but sometimes other games too. Keep an eye on the stream for announcements!">Voornamelijk Star Citizen en Fortnite, maar soms ook andere games. Houd de stream in de gaten voor aankondigingen!</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span data-nl="Hoe kan ik de stream steunen?" data-en="How can I support the stream?">Hoe kan ik de stream steunen?</span>
+        <span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer" data-nl="Je kunt doneren via Tipeeestream, subscriben op Twitch (gratis met Amazon Prime!), of gewoon meedoen in de chat. Elk beetje helpt enorm!" data-en="You can donate via Tipeeestream, subscribe on Twitch (free with Amazon Prime!), or just join the chat. Every bit helps enormously!">Je kunt doneren via Tipeeestream, subscriben op Twitch (gratis met Amazon Prime!), of gewoon meedoen in de chat. Elk beetje helpt enorm!</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span data-nl="Wat is DRNL?" data-en="What is DRNL?">Wat is DRNL?</span>
+        <span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer" data-nl="DRNL staat voor Dutch Republic, een Star Citizen organisatie met 240+ leden. We richten ons op exploratie, handel, mijnbouw en bounty hunting. Iedereen is kapitein van zijn eigen vloot — geen verplichtingen, wel veel plezier!" data-en="DRNL stands for Dutch Republic, a Star Citizen organisation with 240+ members. We focus on exploration, trading, mining and bounty hunting. Everyone is captain of their own fleet — no obligations, just lots of fun!">DRNL staat voor Dutch Republic, een Star Citizen organisatie met 240+ leden. We richten ons op exploratie, handel, mijnbouw en bounty hunting. Iedereen is kapitein van zijn eigen vloot — geen verplichtingen, wel veel plezier!</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span data-nl="Hoe verdien ik loyaliteitspunten?" data-en="How do I earn loyalty points?">Hoe verdien ik loyaliteitspunten?</span>
+        <span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer" data-nl="Log elke dag in voor +10 punten, stem op de community poll voor +5 punten, laat een bericht achter in het gastenboek voor +15 punten. En er zijn verborgen easter eggs... &#128521;" data-en="Log in every day for +10 points, vote on the community poll for +5 points, leave a message in the guestbook for +15 points. And there are hidden easter eggs... &#128521;">Log elke dag in voor +10 punten, stem op de community poll voor +5 punten, laat een bericht achter in het gastenboek voor +15 punten. En er zijn verborgen easter eggs... &#128521;</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span data-nl="Kan ik meedoen als clip op de site?" data-en="Can I get my clip featured on the site?">Kan ik meedoen als clip op de site?</span>
+        <span class="faq-arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer" data-nl="De clips worden automatisch opgehaald van Twitch op basis van populariteit. Clip iets grappigs tijdens de stream en maak kans om op de site te verschijnen!" data-en="Clips are automatically fetched from Twitch based on popularity. Clip something funny during the stream and you might appear on the site!">De clips worden automatisch opgehaald van Twitch op basis van populariteit. Clip iets grappigs tijdens de stream en maak kans om op de site te verschijnen!</div>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -2972,6 +3666,9 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       <button class="admin-tab" onclick="adminTab('schedule', this)">&#128197; Schedule</button>
       <button class="admin-tab" onclick="adminTab('poll', this)">&#128202; Poll</button>
       <button class="admin-tab" onclick="adminTab('donatie', this)">&#128155; Donatie</button>
+      <button class="admin-tab" onclick="adminTab('merch', this)">&#128230; Merch</button>
+      <button class="admin-tab" onclick="adminTab('loyalty', this)">&#127942; Loyaliteit</button>
+      <button class="admin-tab" onclick="adminTab('users', this)">&#128101; Gebruikers</button>
     </div>
 
     <!-- AANKONDIGING -->
@@ -3046,6 +3743,58 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         </div>
         <input class="admin-input" id="donLink" placeholder="Donatie link (bijv. streamlabs URL)">
         <button class="admin-save-btn" onclick="window.saveDonatie()">Opslaan</button>
+      </div>
+    </div>
+
+    <!-- MERCH -->
+    <div class="admin-section" id="admin-merch">
+      <div class="admin-card">
+        <h3>[ MERCH PRODUCT TOEVOEGEN ]</h3>
+        <div class="admin-success" id="merch-success">Product opgeslagen!</div>
+        <input class="admin-input" id="merchName" placeholder="Productnaam, bijv: TheGamersCube T-Shirt">
+        <div class="admin-row">
+          <input class="admin-input" id="merchPrice" placeholder="Prijs, bijv: €24,99">
+          <input class="admin-input" id="merchEmoji" placeholder="Emoji, bijv: 👕">
+        </div>
+        <input class="admin-input" id="merchLink" placeholder="BestelLink (URL)">
+        <input class="admin-input" id="merchImg" placeholder="Afbeelding URL (optioneel)">
+        <button class="admin-save-btn" onclick="window.saveMerchItem()">Product toevoegen</button>
+      </div>
+      <div class="admin-card">
+        <h3>[ HUIDIGE PRODUCTEN ]</h3>
+        <div id="adminMerchList"></div>
+      </div>
+    </div>
+
+    <!-- LOYALITEIT BEHEER -->
+    <div class="admin-section" id="admin-loyalty">
+      <div class="admin-card">
+        <h3>[ PUNTEN AANPASSEN ]</h3>
+        <div class="admin-success" id="loyalty-success">Punten aangepast!</div>
+        <input class="admin-input" id="loyaltyUID" placeholder="Firebase UID van de gebruiker">
+        <div class="admin-row">
+          <input class="admin-input" id="loyaltyPts" type="number" placeholder="Punten toevoegen (bijv. 50 of -10)">
+          <input class="admin-input" id="loyaltyReason" placeholder="Reden (bijv: winnaar quiz)">
+        </div>
+        <button class="admin-save-btn" onclick="window.adminAwardPoints()">Punten toewijzen</button>
+      </div>
+      <div class="admin-card">
+        <h3>[ TOP 20 LEADERBOARD ]</h3>
+        <div id="adminLoyaltyList"></div>
+      </div>
+    </div>
+
+    <!-- GEBRUIKERS BEHEER -->
+    <div class="admin-section" id="admin-users">
+      <div class="admin-card">
+        <h3>[ GASTENBOEK MODERATIE ]</h3>
+        <p style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);margin-bottom:16px;">Verwijder ongepaste berichten direct via het gastenboek op de pagina. Klik op het ✕ naast een bericht.</p>
+      </div>
+      <div class="admin-card">
+        <h3>[ GEREGISTREERDE GEBRUIKERS ]</h3>
+        <div class="admin-success" id="users-success">Klaar!</div>
+        <div id="adminUsersList"><div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">Klik laden om gebruikers te zien.</div></div>
+        <button class="admin-save-btn" style="margin-top:12px;" onclick="window.loadAdminUsers()">Gebruikers laden</button>
       </div>
     </div>
 
@@ -3832,6 +4581,620 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     const formInner = document.getElementById('guestbookFormInner');
     if (formInner && formInner.innerHTML === '') loadGuestbook();
   }, 1000);
+</script>
+
+
+<script>
+  // ── MERCH BEHEER ──
+  window.saveMerchItem = async function() {
+    const name  = document.getElementById('merchName').value.trim();
+    const price = document.getElementById('merchPrice').value.trim();
+    const emoji = document.getElementById('merchEmoji').value.trim() || '&#128230;';
+    const link  = document.getElementById('merchLink').value.trim();
+    const img   = document.getElementById('merchImg').value.trim();
+    if (!name || !price) return;
+    try {
+      const { addDoc, collection } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      await addDoc(collection(window._db, 'merch'), { name, price, emoji, link, img });
+      showAdminSuccess('merch-success');
+      document.getElementById('merchName').value = '';
+      document.getElementById('merchPrice').value = '';
+      document.getElementById('merchLink').value = '';
+      document.getElementById('merchImg').value = '';
+      loadAdminMerch();
+      renderMerch();
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  async function loadAdminMerch() {
+    if (!window._db) return;
+    const list = document.getElementById('adminMerchList');
+    if (!list) return;
+    try {
+      const snap = await window._getDocs(window._collection(window._db, 'merch'));
+      if (snap.empty) {
+        list.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">Nog geen producten.</div>';
+        return;
+      }
+      list.innerHTML = '';
+      snap.forEach(d => {
+        const data = d.data();
+        list.innerHTML += '<div class="admin-list-item">'
+          + '<div class="admin-list-item-info">'
+          + '<div class="admin-list-item-name">' + (data.emoji||'') + ' ' + data.name + '</div>'
+          + '<div class="admin-list-item-desc">' + data.price + '</div>'
+          + '</div>'
+          + '<button class="admin-delete-btn" onclick="window.deleteMerchItem('' + d.id + '', this)">Verwijderen</button>'
+          + '</div>';
+      });
+    } catch(e) { console.error(e); }
+  }
+
+  window.deleteMerchItem = async function(id, btn) {
+    try {
+      await window._deleteDoc(window._doc(window._db, 'merch', id));
+      btn.closest('.admin-list-item').remove();
+      renderMerch();
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  async function renderMerch() {
+    if (!window._db) return;
+    const grid = document.getElementById('merchGrid');
+    if (!grid) return;
+    try {
+      const snap = await window._getDocs(window._collection(window._db, 'merch'));
+      if (snap.empty) {
+        grid.innerHTML = '<div class="merch-coming-soon">&#128230; Merch komt eraan!<br><br><span style="font-size:0.75rem;">Volg de stream voor aankondigingen.</span></div>';
+        return;
+      }
+      grid.innerHTML = '';
+      snap.forEach(d => {
+        const data = d.data();
+        const card = document.createElement('a');
+        card.className = 'merch-card';
+        card.href = data.link || '#';
+        card.target = '_blank';
+        const imgHtml = data.img
+          ? '<img src="' + data.img + '" alt="' + data.name + '" style="width:100%;aspect-ratio:1;object-fit:cover;">'
+          : '<div class="merch-img">' + (data.emoji || '&#128230;') + '</div>';
+        card.innerHTML = imgHtml
+          + '<div class="merch-info">'
+          + '<div class="merch-name">' + data.name + '</div>'
+          + '<div class="merch-price">' + data.price + '</div>'
+          + '<div class="merch-btn">Bestellen</div>'
+          + '</div>';
+        grid.appendChild(card);
+      });
+    } catch(e) {}
+  }
+
+  // ── LOYALITEIT ADMIN ──
+  window.adminAwardPoints = async function() {
+    const uid    = document.getElementById('loyaltyUID').value.trim();
+    const pts    = parseInt(document.getElementById('loyaltyPts').value) || 0;
+    const reason = document.getElementById('loyaltyReason').value.trim() || 'admin aanpassing';
+    if (!uid || pts === 0) return;
+    try {
+      const ref  = window._doc(window._db, 'loyalty', uid);
+      const snap = await window._getDoc(ref);
+      const current = snap.exists() ? (snap.data().pts || 0) : 0;
+      const data = snap.exists() ? snap.data() : {};
+      await window._setDoc(ref, { ...data, pts: Math.max(0, current + pts) });
+      showAdminSuccess('loyalty-success');
+      loadAdminLoyalty();
+      loadLoyalty && loadLoyalty();
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  async function loadAdminLoyalty() {
+    if (!window._db) return;
+    const list = document.getElementById('adminLoyaltyList');
+    if (!list) return;
+    try {
+      const snap = await window._getDocs(window._collection(window._db, 'loyalty'));
+      const users = [];
+      snap.forEach(d => users.push({ id: d.id, ...d.data() }));
+      users.sort((a,b) => (b.pts||0) - (a.pts||0));
+      if (users.length === 0) {
+        list.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">Geen gebruikers.</div>';
+        return;
+      }
+      list.innerHTML = users.slice(0,20).map((u,i) => {
+        return '<div class="admin-list-item">'
+          + '<div class="admin-list-item-info">'
+          + '<div class="admin-list-item-name">#' + (i+1) + ' ' + (u.name||'Anon') + '</div>'
+          + '<div class="admin-list-item-desc">' + (u.pts||0) + ' punten — UID: ' + u.id + '</div>'
+          + '</div>'
+          + '<button class="admin-delete-btn" onclick="window.resetLoyalty('' + u.id + '', this)">Reset</button>'
+          + '</div>';
+      }).join('');
+    } catch(e) { console.error(e); }
+  }
+
+  window.resetLoyalty = async function(uid, btn) {
+    if (!confirm('Punten resetten voor deze gebruiker?')) return;
+    try {
+      const ref  = window._doc(window._db, 'loyalty', uid);
+      const snap = await window._getDoc(ref);
+      const data = snap.exists() ? snap.data() : {};
+      await window._setDoc(ref, { ...data, pts: 0 });
+      btn.closest('.admin-list-item').querySelector('.admin-list-item-desc').textContent = '0 punten — UID: ' + uid;
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  // ── GEBRUIKERS LADEN ──
+  window.loadAdminUsers = async function() {
+    if (!window._db) return;
+    const list = document.getElementById('adminUsersList');
+    if (!list) return;
+    list.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">Laden...</div>';
+    try {
+      const snap = await window._getDocs(window._collection(window._db, 'loyalty'));
+      const users = [];
+      snap.forEach(d => users.push({ id: d.id, ...d.data() }));
+      users.sort((a,b) => (b.lastUpdated||'') > (a.lastUpdated||'') ? -1 : 1);
+      if (users.length === 0) {
+        list.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">Geen gebruikers gevonden.</div>';
+        return;
+      }
+      list.innerHTML = users.map(u => {
+        const lastVisit = u.lastVisit || 'onbekend';
+        return '<div class="admin-list-item">'
+          + '<div class="admin-list-item-info">'
+          + '<div class="admin-list-item-name">' + (u.name||'Anon') + '</div>'
+          + '<div class="admin-list-item-desc">UID: ' + u.id + ' | ' + (u.pts||0) + ' punten | Laatste bezoek: ' + lastVisit + '</div>'
+          + '</div>'
+          + '<button class="admin-delete-btn" onclick="window.deleteUser('' + u.id + '', this)">Verwijder data</button>'
+          + '</div>';
+      }).join('');
+      showAdminSuccess('users-success');
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  window.deleteUser = async function(uid, btn) {
+    if (!confirm('Alle data van deze gebruiker verwijderen?')) return;
+    try {
+      await window._deleteDoc(window._doc(window._db, 'loyalty', uid));
+      btn.closest('.admin-list-item').remove();
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  // ── EXTEND loadAdminData ──
+  const _origLoadAdminData = window.loadAdminData;
+  window.loadAdminData = async function() {
+    if (_origLoadAdminData) await _origLoadAdminData();
+    loadAdminMerch();
+    loadAdminLoyalty();
+  };
+
+  // Load merch on page init
+  document.addEventListener('DOMContentLoaded', function() {
+    const waitDb = setInterval(() => {
+      if (window._db) {
+        clearInterval(waitDb);
+        renderMerch();
+      }
+    }, 200);
+  });
+</script>
+
+
+<script>
+  // ── TAAL SYSTEEM ──
+  let currentLang = localStorage.getItem('lang') || 'nl';
+
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.getElementById('btnNL').classList.toggle('active', lang === 'nl');
+    document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+    document.querySelectorAll('[data-nl]').forEach(el => {
+      el.textContent = lang === 'nl' ? el.dataset.nl : el.dataset.en;
+    });
+    // Update placeholders
+    const cmdSearch = document.getElementById('cmdSearch');
+    if (cmdSearch) cmdSearch.placeholder = lang === 'nl' ? '// Zoek command...' : '// Search command...';
+  }
+
+  // Apply lang on load
+  document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
+
+  // ── THEMA SCHAKELAAR ──
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-mode');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeBtn').textContent = isLight ? '☀' : '☾';
+  }
+
+  // Apply saved theme
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('themeBtn');
+      if (btn) btn.textContent = '☀';
+    });
+  }
+
+  // ── COMMAND ZOEKFUNCTIE ──
+  function searchCommands(query) {
+    const q = query.toLowerCase().trim();
+    const cards = document.querySelectorAll('.cmd-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const name = card.querySelector('.cmd-name') ? card.querySelector('.cmd-name').textContent.toLowerCase() : '';
+      const desc = card.querySelector('.cmd-desc') ? card.querySelector('.cmd-desc').textContent.toLowerCase() : '';
+      const match = !q || name.includes(q) || desc.includes(q);
+      card.style.display = match ? 'flex' : 'none';
+      if (match) visible++;
+    });
+    const countEl = document.getElementById('cmdCount');
+    if (countEl) countEl.textContent = q ? visible + ' resultaten voor "' + query + '"' : '';
+  }
+
+  // ── FAQ ACCORDION ──
+  window.toggleFaq = function(questionEl) {
+    const item = questionEl.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    // Open clicked if it was closed
+    if (!isOpen) item.classList.add('open');
+  };
+
+  // ── STAR CITIZEN CODE KOPIEREN ──
+  window.copySCCode = function() {
+    const code = 'STAR-DFRX-TQ4Z';
+    navigator.clipboard.writeText(code).then(() => {
+      const copied = document.getElementById('scCopied');
+      if (copied) {
+        copied.classList.add('show');
+        setTimeout(() => copied.classList.remove('show'), 2500);
+      }
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const copied = document.getElementById('scCopied');
+      if (copied) {
+        copied.classList.add('show');
+        setTimeout(() => copied.classList.remove('show'), 2500);
+      }
+    });
+  };
+
+  // ── CLIP ZOEKFUNCTIE ──
+  function addClipSearch() {
+    const clipsSection = document.getElementById('clips');
+    if (!clipsSection) return;
+    const header = clipsSection.querySelector('.section-header');
+    if (!header || clipsSection.querySelector('.search-wrap')) return;
+    const searchHtml = '<div class="search-wrap" style="margin-top:20px;">'
+      + '<input class="search-input" id="clipSearch" placeholder="// Zoek clip..." oninput="searchClips(this.value)">'
+      + '<span class="search-icon">&#128269;</span>'
+      + '</div>'
+      + '<div class="search-count" id="clipCount"></div>';
+    header.insertAdjacentHTML('afterend', searchHtml);
+  }
+
+  function searchClips(query) {
+    const q = query.toLowerCase().trim();
+    const cards = document.querySelectorAll('.clip-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const title = card.querySelector('.clip-title') ? card.querySelector('.clip-title').textContent.toLowerCase() : '';
+      const match = !q || title.includes(q);
+      card.style.display = match ? 'block' : 'none';
+      if (match) visible++;
+    });
+    const countEl = document.getElementById('clipCount');
+    if (countEl) countEl.textContent = q ? visible + ' clips gevonden' : '';
+  }
+
+  // Add clip search after clips load
+  const clipSearchObserver = new MutationObserver(() => {
+    const grid = document.getElementById('clipsGrid');
+    if (grid && grid.querySelector('.clip-card')) {
+      addClipSearch();
+      clipSearchObserver.disconnect();
+    }
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('clipsGrid');
+    if (grid) clipSearchObserver.observe(grid, { childList: true });
+  });
+</script>
+
+
+<script>
+  // ── SERVICE WORKER ──
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('SW geregistreerd:', reg.scope))
+        .catch(err => console.log('SW fout:', err));
+    });
+  }
+
+  // ── PWA INSTALL PROMPT ──
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallBanner();
+  });
+
+  function showInstallBanner() {
+    // Don't show if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) return;
+
+    const banner = document.createElement('div');
+    banner.id = 'installBanner';
+    banner.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;'
+      + 'background:rgba(6,13,26,0.95);border:1px solid rgba(249,168,37,0.5);'
+      + 'backdrop-filter:blur(12px);padding:14px 20px;display:flex;align-items:center;'
+      + 'gap:14px;border-radius:2px;max-width:360px;width:calc(100% - 40px);'
+      + 'box-shadow:0 8px 32px rgba(0,0,0,0.3);animation:fadeInDown 0.4s ease;';
+    banner.innerHTML = '<img src="icons/icon-72.png" style="width:40px;height:40px;border-radius:4px;">'
+      + '<div style="flex:1;">'
+      + '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--amber);margin-bottom:2px;">App installeren</div>'
+      + '<div style="font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);">Voeg TheGamersCubeNL toe aan je beginscherm</div>'
+      + '</div>'
+      + '<button onclick="installPWA()" style="font-family:var(--mono);font-size:0.7rem;padding:8px 14px;'
+      + 'background:var(--amber);color:var(--navy);border:none;cursor:pointer;white-space:nowrap;">Installeren</button>'
+      + '<button onclick="dismissInstall()" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:1.2rem;padding:0 4px;">&#x2715;</button>';
+    document.body.appendChild(banner);
+  }
+
+  window.installPWA = async function() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log('PWA install:', outcome);
+    deferredPrompt = null;
+    dismissInstall();
+  };
+
+  window.dismissInstall = function() {
+    const banner = document.getElementById('installBanner');
+    if (banner) banner.remove();
+    localStorage.setItem('pwaInstallDismissed', Date.now());
+  };
+
+  // iOS install hint (iOS doesn't support beforeinstallprompt)
+  function checkiOSInstall() {
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const dismissed = localStorage.getItem('iosInstallDismissed');
+    if (isIOS && !isStandalone && !dismissed) {
+      const banner = document.createElement('div');
+      banner.id = 'iosBanner';
+      banner.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:1000;'
+        + 'background:rgba(6,13,26,0.95);border:1px solid rgba(79,195,247,0.4);'
+        + 'backdrop-filter:blur(12px);padding:16px 20px;text-align:center;'
+        + 'max-width:320px;width:calc(100% - 40px);animation:fadeInDown 0.4s ease;';
+      banner.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);margin-bottom:8px;">Installeer als app op iPhone</div>'
+        + '<div style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);line-height:1.6;">'
+        + 'Tik op &#128257; (Delen) en dan op<br>"Zet op beginscherm"</div>'
+        + '<button onclick="localStorage.setItem('iosInstallDismissed',1);this.parentElement.remove()" '
+        + 'style="margin-top:12px;font-family:var(--mono);font-size:0.7rem;padding:6px 16px;'
+        + 'background:transparent;border:1px solid rgba(79,195,247,0.4);color:var(--cyan);cursor:pointer;">Sluiten</button>';
+      document.body.appendChild(banner);
+    }
+  }
+  setTimeout(checkiOSInstall, 3000);
+</script>
+
+
+<script>
+  // ── TWITCH LIVE STATUS + KIJKERS ──
+  const TWITCH_ID  = "rslqdwlaavll6tw4k03j5vke3ff7hh";
+  const TWITCH_SEC = "0fsubu181o1r9ytjgwtgrnczntxvjp";
+  let isLiveNow = false;
+  let liveCheckInterval = null;
+
+  async function getTwitchToken() {
+    try {
+      const cached = sessionStorage.getItem('twitch_token');
+      const cachedExp = sessionStorage.getItem('twitch_token_exp');
+      if (cached && cachedExp && Date.now() < parseInt(cachedExp)) return cached;
+
+      const res = await fetch('https://id.twitch.tv/oauth2/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'client_id=' + TWITCH_ID + '&client_secret=' + TWITCH_SEC + '&grant_type=client_credentials'
+      });
+      const data = await res.json();
+      sessionStorage.setItem('twitch_token', data.access_token);
+      sessionStorage.setItem('twitch_token_exp', Date.now() + (data.expires_in - 300) * 1000);
+      return data.access_token;
+    } catch(e) { return null; }
+  }
+
+  async function checkLiveStatus() {
+    try {
+      const token = await getTwitchToken();
+      if (!token) return;
+
+      const res = await fetch('https://api.twitch.tv/helix/streams?user_login=TheGamersCubeNL', {
+        headers: { 'Client-ID': TWITCH_ID, 'Authorization': 'Bearer ' + token }
+      });
+      const data = await res.json();
+      const stream = data.data && data.data[0];
+      const wasLive = isLiveNow;
+      isLiveNow = !!stream;
+
+      // Update live status bar
+      const bar = document.getElementById('liveStatusBar');
+      const badge = document.getElementById('liveBadge');
+
+      if (isLiveNow) {
+        // Show live bar
+        if (bar) bar.classList.add('show');
+        document.body.classList.add('is-live');
+
+        // Update viewer count
+        const viewers = stream.viewer_count || 0;
+        const viewEl = document.getElementById('liveViewerCount');
+        if (viewEl) viewEl.textContent = viewers.toLocaleString('nl-NL');
+
+        // Update game tag
+        const gameEl = document.getElementById('liveGameTag');
+        if (gameEl && stream.game_name) gameEl.textContent = stream.game_name;
+
+        // Update live badge in section header
+        if (badge) badge.innerHTML = '<span class="live-badge"><span class="live-dot"></span> LIVE</span>';
+
+        // Send push notification if just went live
+        if (!wasLive && window.Notification && Notification.permission === 'granted') {
+          sendLiveNotification(stream);
+        }
+
+        // Update stat
+        const statSubs = document.getElementById('statSubscribers');
+        if (statSubs) statSubs.textContent = viewers.toLocaleString('nl-NL') + ' nu';
+
+      } else {
+        if (bar) bar.classList.remove('show');
+        document.body.classList.remove('is-live');
+        if (badge) badge.innerHTML = '';
+      }
+
+    } catch(e) { console.error('Live check error:', e); }
+  }
+
+  function sendLiveNotification(stream) {
+    if (!('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.ready.then(reg => {
+      reg.showNotification('TheGamersCubeNL is LIVE! &#128640;', {
+        body: stream.title || 'Stream is gestart — kijk mee!',
+        icon: '/thegamerscubenl-website/icons/icon-192.png',
+        badge: '/thegamerscubenl-website/icons/icon-72.png',
+        vibrate: [200, 100, 200],
+        tag: 'live-notification',
+        data: { url: 'https://twitch.tv/TheGamersCubeNL' }
+      });
+    });
+  }
+
+  // ── PUSH NOTIFICATIES ──
+  function checkNotifBanner() {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'granted') return;
+    if (Notification.permission === 'denied') return;
+    if (localStorage.getItem('notifDismissed')) return;
+    setTimeout(() => {
+      const banner = document.getElementById('notifBanner');
+      if (banner) banner.style.display = 'flex';
+    }, 5000);
+  }
+
+  window.requestPushPermission = async function() {
+    try {
+      const permission = await Notification.requestPermission();
+      const banner = document.getElementById('notifBanner');
+      if (banner) banner.style.display = 'none';
+      if (permission === 'granted') {
+        // Test notification
+        if ('serviceWorker' in navigator) {
+          const reg = await navigator.serviceWorker.ready;
+          reg.showNotification('Notificaties ingeschakeld! &#10003;', {
+            body: 'Je krijgt een melding als TheGamersCubeNL live gaat.',
+            icon: '/thegamerscubenl-website/icons/icon-192.png',
+            tag: 'notif-test'
+          });
+        }
+        // Award loyalty points
+        if (window.awardPoints) awardPoints(20, 'push notificaties ingeschakeld');
+      }
+    } catch(e) { console.error('Push permission error:', e); }
+  };
+
+  window.dismissNotifBanner = function() {
+    const banner = document.getElementById('notifBanner');
+    if (banner) banner.style.display = 'none';
+    localStorage.setItem('notifDismissed', '1');
+  };
+
+  // ── INIT LIVE CHECK ──
+  document.addEventListener('DOMContentLoaded', function() {
+    // Check live status immediately and then every 60 seconds
+    checkLiveStatus();
+    liveCheckInterval = setInterval(checkLiveStatus, 60000);
+    checkNotifBanner();
+  });
+</script>
+
+
+<script>
+  // ── STREAMERBOT → FIREBASE REALTIME KOPPELING ──
+  async function initStreamerbotListener() {
+    if (!window._db) { setTimeout(initStreamerbotListener, 500); return; }
+
+    const { onSnapshot, doc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+
+    // Luister naar stream/status (geschreven door Streamerbot)
+    onSnapshot(doc(window._db, 'stream', 'status'), snap => {
+      if (!snap.exists()) return;
+      const data = snap.data();
+
+      const bar    = document.getElementById('liveStatusBar');
+      const badge  = document.getElementById('liveBadge');
+      const gameEl = document.getElementById('liveGameTag');
+
+      if (data.isLive) {
+        // Stream is live via Streamerbot
+        if (bar) bar.classList.add('show');
+        document.body.classList.add('is-live');
+        if (gameEl && data.gameName) gameEl.textContent = data.gameName;
+        if (badge) badge.innerHTML = '<span class="live-badge"><span class="live-dot"></span> LIVE</span>';
+
+        // Update stream titel in countdown sectie
+        const cdName = document.getElementById('countdownName');
+        if (cdName && data.streamTitle) cdName.textContent = data.streamTitle;
+
+        // Push notificatie als net live gegaan
+        const lastLive = sessionStorage.getItem('lastLiveStatus');
+        if (lastLive !== 'true' && window.Notification && Notification.permission === 'granted') {
+          navigator.serviceWorker.ready.then(reg => {
+            reg.showNotification('TheGamersCubeNL is LIVE! 🚀', {
+              body: data.streamTitle || 'Stream is gestart — kijk mee!',
+              icon: 'icons/icon-192.png',
+              badge: 'icons/icon-72.png',
+              vibrate: [200, 100, 200],
+              tag: 'live-notification',
+              data: { url: 'https://twitch.tv/TheGamersCubeNL' }
+            });
+          }).catch(() => {});
+        }
+        sessionStorage.setItem('lastLiveStatus', 'true');
+
+      } else {
+        // Stream offline
+        if (bar) bar.classList.remove('show');
+        document.body.classList.remove('is-live');
+        if (badge) badge.innerHTML = '';
+        sessionStorage.setItem('lastLiveStatus', 'false');
+      }
+    });
+
+    // Luister naar stream/stats (viewers realtime)
+    onSnapshot(doc(window._db, 'stream', 'stats'), snap => {
+      if (!snap.exists()) return;
+      const data = snap.data();
+      const viewEl = document.getElementById('liveViewerCount');
+      if (viewEl && data.viewers) viewEl.textContent = parseInt(data.viewers).toLocaleString('nl-NL');
+      const gameEl = document.getElementById('liveGameTag');
+      if (gameEl && data.gameName) gameEl.textContent = data.gameName;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initStreamerbotListener);
 </script>
 
 </body>
