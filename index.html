@@ -1661,6 +1661,391 @@
     .community-grid { grid-template-columns: 1fr; }
   }
 
+
+  /* ── COUNTDOWN ── */
+  .countdown-wrap {
+    background: var(--navy2);
+    border: 1px solid rgba(249,168,37,0.2);
+    padding: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .countdown-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--amber), var(--cyan));
+  }
+  .countdown-title {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .countdown-stream-name {
+    font-family: var(--sans);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 24px;
+  }
+  .countdown-digits {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .countdown-num {
+    font-family: var(--mono);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--cyan);
+    background: var(--navy);
+    border: 1px solid rgba(79,195,247,0.2);
+    padding: 12px 20px;
+    min-width: 80px;
+    line-height: 1;
+  }
+  .countdown-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .countdown-sep {
+    font-family: var(--mono);
+    font-size: 2.5rem;
+    color: rgba(249,168,37,0.4);
+    align-self: center;
+    padding-bottom: 24px;
+  }
+  .countdown-live {
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    color: #ef4444;
+    animation: pulse 1s infinite;
+  }
+  .countdown-none {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    padding: 16px 0;
+  }
+
+  /* ── STATS ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  .stat-card {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.12);
+    padding: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); border-color: rgba(249,168,37,0.3); }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--amber), var(--cyan));
+    opacity: 0.5;
+  }
+  .stat-card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .stat-card-num {
+    font-family: var(--mono);
+    font-size: 1.8rem;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+  .stat-card-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ── CLIPS ── */
+  .clips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .clip-card {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.12);
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .clip-card:hover { transform: translateY(-3px); border-color: rgba(249,168,37,0.4); }
+  .clip-thumb-wrap { position: relative; aspect-ratio: 16/9; overflow: hidden; }
+  .clip-thumb {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    background: var(--navy3);
+  }
+  .clip-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    transition: background 0.2s;
+  }
+  .clip-card:hover .clip-play { background: rgba(0,0,0,0.5); }
+  .clip-duration {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 2px 6px;
+  }
+  .clip-info { padding: 14px 16px; }
+  .clip-title {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .clip-meta {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ── MERCH ── */
+  .merch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .merch-card {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.12);
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+    text-decoration: none;
+    display: block;
+  }
+  .merch-card:hover { transform: translateY(-3px); border-color: rgba(249,168,37,0.4); }
+  .merch-img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--navy3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+  .merch-info { padding: 16px; }
+  .merch-name {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+  .merch-price {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--cyan);
+    margin-bottom: 12px;
+  }
+  .merch-btn {
+    display: block;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 8px;
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    transition: all 0.2s;
+    letter-spacing: 0.08em;
+  }
+  .merch-card:hover .merch-btn { background: var(--amber); color: var(--navy); }
+  .merch-coming-soon {
+    text-align: center;
+    padding: 60px 20px;
+    font-family: var(--mono);
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    border: 1px dashed rgba(79,195,247,0.2);
+  }
+
+  /* ── GASTENBOEK ── */
+  .guestbook-form {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.15);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .guestbook-form h3 {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--cyan);
+    margin-bottom: 16px;
+    letter-spacing: 0.08em;
+  }
+  .guestbook-input {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid rgba(79,195,247,0.2);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    outline: none;
+    margin-bottom: 10px;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.2s;
+  }
+  .guestbook-input:focus { border-color: var(--amber); }
+  .guestbook-submit {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 10px 24px;
+    background: var(--amber);
+    color: var(--navy);
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    transition: opacity 0.2s;
+  }
+  .guestbook-submit:hover { opacity: 0.85; }
+  .guestbook-login-msg {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding: 12px 0;
+  }
+  .guestbook-entries { display: flex; flex-direction: column; gap: 12px; }
+  .guestbook-entry {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.1);
+    padding: 16px 20px;
+    position: relative;
+  }
+  .guestbook-entry-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .guestbook-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--amber);
+    background: var(--navy3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--amber);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .guestbook-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .guestbook-name {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--amber);
+  }
+  .guestbook-date {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+  .guestbook-msg {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .guestbook-delete {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: none;
+    border: none;
+    color: rgba(239,68,68,0.4);
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: none;
+    transition: color 0.2s;
+  }
+  .guestbook-delete:hover { color: #ef4444; }
+  .guestbook-delete.visible { display: block; }
+
+  /* ── EASTER EGG ── */
+  .easter-egg-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(6,13,26,0.97);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .easter-egg-overlay.open { display: flex; }
+  .easter-egg-content { text-align: center; animation: fadeInDown 0.5s ease; }
+  .easter-egg-emoji { font-size: 5rem; margin-bottom: 16px; }
+  .easter-egg-title {
+    font-family: var(--mono);
+    font-size: 1.5rem;
+    color: var(--amber);
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+  }
+  .easter-egg-sub {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+  .easter-egg-close {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 10px 24px;
+    border: 1px solid var(--amber);
+    background: transparent;
+    color: var(--amber);
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+  }
+  .easter-egg-close:hover { background: var(--amber); color: var(--navy); }
+
 </style>
 </head>
 <body>
@@ -1679,6 +2064,8 @@
     <li><a href="#videos">Video's</a></li>
     <li><a href="#community">Community</a></li>
     <li><a href="#loyaliteit">Loyaliteit</a></li>
+    <li><a href="#gastenboek">Gastenboek</a></li>
+    <li><a href="#merch">Merch</a></li>
   </ul>
   <div class="nav-auth"><div id="navUserInfo"></div><button id="navAuthBtn" onclick="openAuthModal('login')">Inloggen</button></div>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -1977,6 +2364,123 @@
     <div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">// Leaderboard laden...</div>
   </div>
 </section>
+
+
+<!-- COUNTDOWN -->
+<section id="countdown" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 11</span>
+    <h2 class="section-title">Volgende Stream</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="countdown-wrap" id="countdownWrap">
+    <div class="countdown-title">// COUNTDOWN</div>
+    <div class="countdown-stream-name" id="countdownName">Laden...</div>
+    <div class="countdown-digits" id="countdownDigits">
+      <div class="countdown-unit"><div class="countdown-num" id="cdDays">--</div><div class="countdown-label">Dagen</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cdHours">--</div><div class="countdown-label">Uren</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cdMins">--</div><div class="countdown-label">Minuten</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cdSecs">--</div><div class="countdown-label">Seconden</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 12</span>
+    <h2 class="section-title">Stream Statistieken</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card-icon">&#128246;</div>
+      <div class="stat-card-num" id="statFollowers">-</div>
+      <div class="stat-card-label">Twitch Volgers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">&#9989;</div>
+      <div class="stat-card-num" id="statSubscribers">-</div>
+      <div class="stat-card-label">Subscribers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">&#127909;</div>
+      <div class="stat-card-num" id="statVideos">-</div>
+      <div class="stat-card-label">YouTube Videos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">&#128065;</div>
+      <div class="stat-card-num" id="statViews">-</div>
+      <div class="stat-card-label">YouTube Views</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">&#128293;</div>
+      <div class="stat-card-num" id="statClips">-</div>
+      <div class="stat-card-label">Twitch Clips</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">&#127942;</div>
+      <div class="stat-card-num" id="statLoyalty">-</div>
+      <div class="stat-card-label">Community Leden</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIPS -->
+<section id="clips" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 13</span>
+    <h2 class="section-title">Beste Clips</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="clips-grid" id="clipsGrid">
+    <div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">// Clips laden...</div>
+  </div>
+</section>
+
+<!-- MERCH -->
+<section id="merch" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 14</span>
+    <h2 class="section-title">Merch</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="merch-grid" id="merchGrid">
+    <div class="merch-coming-soon">
+      &#128230; Merch komt eraan!<br><br>
+      <span style="font-size:0.75rem;">Volg de stream voor aankondigingen.</span>
+    </div>
+  </div>
+</section>
+
+<!-- GASTENBOEK -->
+<section id="gastenboek" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 15</span>
+    <h2 class="section-title">Gastenboek</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="guestbook-form" id="guestbookForm">
+    <h3>[ LAAT EEN BERICHT ACHTER ]</h3>
+    <div id="guestbookFormInner"></div>
+  </div>
+  <div class="guestbook-entries" id="guestbookEntries">
+    <div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">// Berichten laden...</div>
+  </div>
+</section>
+
+<!-- EASTER EGG -->
+<div class="easter-egg-overlay" id="easterEgg">
+  <div class="easter-egg-content">
+    <div class="easter-egg-emoji">&#128640;</div>
+    <div class="easter-egg-title">[ EASTER EGG GEVONDEN! ]</div>
+    <div class="easter-egg-sub">Jij bent een echte TheGamersCube fan!<br>+50 loyaliteitspunten voor jou! &#127881;</div>
+    <button class="easter-egg-close" onclick="closeEasterEgg()">Bedankt! Sluiten</button>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -2295,7 +2799,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     const offline = document.getElementById('twitchOffline');
     if (offline) offline.style.display = 'none';
     const iframe = document.createElement('iframe');
-    iframe.src = 'https://player.twitch.tv/?channel=TheGamersCubeNL&parent=thegamerscubenl.github.io';
+    iframe.src = 'https://player.twitch.tv/?channel=TheGamersCubeNL&parent=thegamerscube.nl&parent=thegamerscubenl.github.io';
     iframe.allowFullscreen = true;
     iframe.allow = 'autoplay; fullscreen';
     iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
@@ -3018,6 +3522,316 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       loadLoyalty();
     }
   }, 300);
+</script>
+
+
+<script>
+  const TWITCH_CLIENT_ID = "rslqdwlaavll6tw4k03j5vke3ff7hh";
+  const TWITCH_CHANNEL   = "TheGamersCubeNL";
+  const YT_KEY2          = "AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU";
+  const YT_CH_ID2        = "UCJapCi1J_QZgCcA89J8dPTQ";
+
+  // ── COUNTDOWN ──
+  let countdownInterval = null;
+
+  async function loadCountdown() {
+    if (!window._db) { setTimeout(loadCountdown, 300); return; }
+    try {
+      const snap = await window._getDoc(window._doc(window._db, 'settings', 'nextStream'));
+      const wrap = document.getElementById('countdownWrap');
+      if (!snap.exists() || !snap.data().date) {
+        if (wrap) wrap.innerHTML = '<div class="countdown-title">// VOLGENDE STREAM</div>'
+          + '<div class="countdown-none">Nog geen stream gepland. Volg de agenda of Discord!</div>';
+        return;
+      }
+      const data = snap.data();
+      const nameEl = document.getElementById('countdownName');
+      if (nameEl) nameEl.textContent = data.title || 'Livestream';
+
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const now  = new Date();
+        const then = new Date(data.date);
+        const diff = then - now;
+        if (diff <= 0) {
+          clearInterval(countdownInterval);
+          const digits = document.getElementById('countdownDigits');
+          if (digits) digits.innerHTML = '<div class="countdown-live">● NU LIVE!</div>';
+          return;
+        }
+        const days  = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins  = Math.floor((diff % 3600000)  / 60000);
+        const secs  = Math.floor((diff % 60000)    / 1000);
+        const pad = n => String(n).padStart(2, '0');
+        const dEl = document.getElementById('cdDays');
+        const hEl = document.getElementById('cdHours');
+        const mEl = document.getElementById('cdMins');
+        const sEl = document.getElementById('cdSecs');
+        if (dEl) dEl.textContent = pad(days);
+        if (hEl) hEl.textContent = pad(hours);
+        if (mEl) mEl.textContent = pad(mins);
+        if (sEl) sEl.textContent = pad(secs);
+      }, 1000);
+    } catch(e) { console.error('Countdown error:', e); }
+  }
+
+  // ── TWITCH CLIPS (via Twitch API) ──
+  async function loadClips() {
+    const grid = document.getElementById('clipsGrid');
+    try {
+      // Get access token (app credentials flow via public proxy)
+      const tokenRes = await fetch('https://id.twitch.tv/oauth2/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'client_id=' + TWITCH_CLIENT_ID + '&client_secret=0fsubu181o1r9ytjgwtgrnczntxvjp&grant_type=client_credentials'
+      });
+      if (!tokenRes.ok) throw new Error('Token ophalen mislukt');
+      const tokenData = await tokenRes.json();
+      const token = tokenData.access_token;
+
+      // Get broadcaster ID
+      const userRes = await fetch('https://api.twitch.tv/helix/users?login=' + TWITCH_CHANNEL, {
+        headers: { 'Client-ID': TWITCH_CLIENT_ID, 'Authorization': 'Bearer ' + token }
+      });
+      const userData = await userRes.json();
+      const broadcasterId = userData.data && userData.data[0] && userData.data[0].id;
+      if (!broadcasterId) throw new Error('Broadcaster niet gevonden');
+
+      // Get follower count for stats
+      const followRes = await fetch('https://api.twitch.tv/helix/channels/followers?broadcaster_id=' + broadcasterId, {
+        headers: { 'Client-ID': TWITCH_CLIENT_ID, 'Authorization': 'Bearer ' + token }
+      });
+      const followData = await followRes.json();
+      const followers = followData.total || 0;
+      const fEl = document.getElementById('statFollowers');
+      if (fEl) fEl.textContent = followers >= 1000 ? (followers/1000).toFixed(1) + 'K' : followers;
+
+      // Get clips
+      const clipsRes = await fetch('https://api.twitch.tv/helix/clips?broadcaster_id=' + broadcasterId + '&first=6', {
+        headers: { 'Client-ID': TWITCH_CLIENT_ID, 'Authorization': 'Bearer ' + token }
+      });
+      const clipsData = await clipsRes.json();
+      const clips = clipsData.data || [];
+
+      const cEl = document.getElementById('statClips');
+      if (cEl) cEl.textContent = clips.length + '+';
+
+      if (!grid) return;
+      if (clips.length === 0) {
+        grid.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">// Nog geen clips beschikbaar.</div>';
+        return;
+      }
+
+      function fmtDuration(s) {
+        const m = Math.floor(s/60);
+        const sec = s % 60;
+        return m + ':' + String(sec).padStart(2,'0');
+      }
+      function timeAgoClip(dateStr) {
+        const diff = (Date.now() - new Date(dateStr)) / 1000;
+        if (diff < 86400)   return Math.floor(diff/3600) + ' uur geleden';
+        if (diff < 2592000) return Math.floor(diff/86400) + ' dagen geleden';
+        return Math.floor(diff/2592000) + ' maanden geleden';
+      }
+
+      grid.innerHTML = clips.map(c => {
+        const thumb = c.thumbnail_url || '';
+        const title = (c.title || 'Clip').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const views = c.view_count >= 1000 ? (c.view_count/1000).toFixed(1)+'K' : c.view_count;
+        const dur   = fmtDuration(c.duration || 0);
+        const ago   = timeAgoClip(c.created_at);
+        return '<div class="clip-card">'
+          + '<a href="' + c.url + '" target="_blank">'
+          + '<div class="clip-thumb-wrap">'
+          + '<img class="clip-thumb" src="' + thumb + '" alt="" loading="lazy">'
+          + '<div class="clip-play"><svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="rgba(249,168,37,0.85)"/><polygon points="19,15 37,24 19,33" fill="#060d1a"/></svg></div>'
+          + '<div class="clip-duration">' + dur + '</div>'
+          + '</div>'
+          + '<div class="clip-info">'
+          + '<div class="clip-title">' + title + '</div>'
+          + '<div class="clip-meta"><span>' + views + ' views</span><span>' + ago + '</span></div>'
+          + '</div>'
+          + '</a>'
+          + '</div>';
+      }).join('');
+
+    } catch(e) {
+      console.error('Clips error:', e);
+      if (grid) grid.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">// Clips konden niet worden geladen.</div>';
+    }
+  }
+
+  // ── STATS (YouTube) ──
+  async function loadYTStats() {
+    try {
+      const res = await fetch('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + YT_CH_ID2 + '&key=' + YT_KEY2);
+      if (!res.ok) return;
+      const data = await res.json();
+      const stats = data.items && data.items[0] && data.items[0].statistics;
+      if (!stats) return;
+      const vEl  = document.getElementById('statViews');
+      const vidEl = document.getElementById('statVideos');
+      const subEl = document.getElementById('statSubscribers');
+      const views = parseInt(stats.viewCount || 0);
+      const vids  = parseInt(stats.videoCount || 0);
+      const subs  = parseInt(stats.subscriberCount || 0);
+      if (vEl)   vEl.textContent  = views >= 1000 ? (views/1000).toFixed(1)+'K' : views;
+      if (vidEl) vidEl.textContent = vids;
+      if (subEl) subEl.textContent = subs >= 1000 ? (subs/1000).toFixed(1)+'K' : subs;
+    } catch(e) { console.error('YT stats error:', e); }
+  }
+
+  // ── LOYALTY COUNT FOR STATS ──
+  async function loadLoyaltyCount() {
+    if (!window._db) return;
+    try {
+      const snap = await window._getDocs(window._collection(window._db, 'loyalty'));
+      const el = document.getElementById('statLoyalty');
+      if (el) el.textContent = snap.size;
+    } catch(e) {}
+  }
+
+  // ── GASTENBOEK ──
+  async function loadGuestbook() {
+    if (!window._db) { setTimeout(loadGuestbook, 300); return; }
+
+    // Render form
+    const formInner = document.getElementById('guestbookFormInner');
+    if (formInner) {
+      if (window.currentUser) {
+        formInner.innerHTML = '<textarea class="guestbook-input" id="gbMessage" placeholder="Schrijf een berichtje voor Cornelis en de community..."></textarea>'
+          + '<button class="guestbook-submit" onclick="window.submitGuestbook()">Bericht plaatsen</button>';
+      } else {
+        formInner.innerHTML = '<div class="guestbook-login-msg">'
+          + '<span onclick="openAuthModal('login')" style="cursor:pointer;color:var(--cyan);text-decoration:underline;">Log in</span>'
+          + ' om een bericht achter te laten.</div>';
+      }
+    }
+
+    // Load entries
+    try {
+      const { getDocs, collection, orderBy, query, limit } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      const q = query(collection(window._db, 'guestbook'), orderBy('timestamp', 'desc'), limit(20));
+      const snap = await getDocs(q);
+      const entriesEl = document.getElementById('guestbookEntries');
+      if (!entriesEl) return;
+      if (snap.empty) {
+        entriesEl.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);padding:16px 0;">// Nog geen berichten. Wees de eerste!</div>';
+        return;
+      }
+      entriesEl.innerHTML = '';
+      snap.forEach(d => {
+        const data = d.data();
+        const name = data.name || 'Anon';
+        const msg  = (data.message || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const date = data.timestamp ? new Date(data.timestamp).toLocaleDateString('nl-NL') : '';
+        const isAdmin = window.isAdmin;
+        const isOwn   = window.currentUser && window.currentUser.uid === data.uid;
+        const avatar  = data.photoURL
+          ? '<img src="' + data.photoURL + '">'
+          : name[0].toUpperCase();
+        const entry = document.createElement('div');
+        entry.className = 'guestbook-entry';
+        entry.innerHTML = '<div class="guestbook-entry-header">'
+          + '<div class="guestbook-avatar">' + avatar + '</div>'
+          + '<div class="guestbook-name">' + name + '</div>'
+          + '<div class="guestbook-date">' + date + '</div>'
+          + '</div>'
+          + '<div class="guestbook-msg">' + msg + '</div>'
+          + '<button class="guestbook-delete' + ((isAdmin||isOwn) ? ' visible' : '') + '" onclick="window.deleteGBEntry('' + d.id + '', this)">&#x2715;</button>';
+        entriesEl.appendChild(entry);
+      });
+    } catch(e) { console.error('Guestbook load error:', e); }
+  }
+
+  window.submitGuestbook = async function() {
+    if (!window.currentUser || !window._db) return;
+    const msgEl = document.getElementById('gbMessage');
+    const msg   = msgEl ? msgEl.value.trim() : '';
+    if (!msg || msg.length < 2) return;
+    if (msg.length > 500) { alert('Bericht mag max 500 tekens zijn.'); return; }
+    try {
+      const { addDoc, collection, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      await addDoc(collection(window._db, 'guestbook'), {
+        uid:       window.currentUser.uid,
+        name:      window.currentUser.displayName || window.currentUser.email.split('@')[0],
+        photoURL:  window.currentUser.photoURL || null,
+        message:   msg,
+        timestamp: Date.now()
+      });
+      if (msgEl) msgEl.value = '';
+      await awardPoints(15, 'gastenboek bericht');
+      loadGuestbook();
+    } catch(e) { alert('Fout bij plaatsen: ' + e.message); }
+  };
+
+  window.deleteGBEntry = async function(id, btn) {
+    if (!window._db) return;
+    try {
+      await window._deleteDoc(window._doc(window._db, 'guestbook', id));
+      btn.closest('.guestbook-entry').remove();
+    } catch(e) { alert('Verwijderen mislukt: ' + e.message); }
+  };
+
+  // ── EASTER EGG ──
+  let easterEggFound = false;
+  let konamiProgress = 0;
+  const konamiCode = [38,38,40,40,37,39,37,39,66,65]; // ↑↑↓↓←→←→BA
+
+  document.addEventListener('keydown', function(e) {
+    if (e.keyCode === konamiCode[konamiProgress]) {
+      konamiProgress++;
+      if (konamiProgress === konamiCode.length) {
+        konamiProgress = 0;
+        triggerEasterEgg();
+      }
+    } else {
+      konamiProgress = 0;
+    }
+  });
+
+  // Also: click logo 5 times
+  let logoClicks = 0;
+  document.addEventListener('click', function(e) {
+    if (e.target.id === 'heroLogo' || e.target.id === 'navLogo') {
+      logoClicks++;
+      if (logoClicks >= 5) { logoClicks = 0; triggerEasterEgg(); }
+    }
+  });
+
+  function triggerEasterEgg() {
+    if (easterEggFound) return;
+    easterEggFound = true;
+    document.getElementById('easterEgg').classList.add('open');
+    if (window.currentUser && window.awardPoints) {
+      awardPoints(50, 'easter egg gevonden!');
+    }
+  }
+
+  window.closeEasterEgg = function() {
+    document.getElementById('easterEgg').classList.remove('open');
+  };
+
+  // ── INIT ──
+  document.addEventListener('DOMContentLoaded', function() {
+    const waitDb = setInterval(() => {
+      if (window._db) {
+        clearInterval(waitDb);
+        loadCountdown();
+        loadGuestbook();
+        loadYTStats();
+        loadLoyaltyCount();
+        loadClips();
+      }
+    }, 200);
+  });
+
+  // Re-render guestbook form when auth state changes
+  setInterval(() => {
+    const formInner = document.getElementById('guestbookFormInner');
+    if (formInner && formInner.innerHTML === '') loadGuestbook();
+  }, 1000);
 </script>
 
 </body>
