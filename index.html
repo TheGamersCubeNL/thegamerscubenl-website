@@ -1779,7 +1779,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       info.style.display = 'flex';
       btn.textContent = 'Uitloggen';
       btn.onclick = () => signOut(auth);
-      if (isAdmin) loadAdminData();
+      if (isAdmin) { if (window.loadAdminData) window.loadAdminData(); else setTimeout(() => window.loadAdminData && window.loadAdminData(), 500); }
     } else {
       window.isAdmin = false;
       info.style.display = 'none';
@@ -2208,17 +2208,17 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
 <script>
   // ── ADMIN FUNCTIONS ──
-  function openAdmin() {
+  window.openAdmin = function() {
     if (!window.isAdmin) return;
     document.getElementById('adminPanel').classList.add('open');
     loadAdminData();
   }
 
-  function closeAdmin() {
+  window.closeAdmin = function() {
     document.getElementById('adminPanel').classList.remove('open');
   }
 
-  function adminTab(name, btn) {
+  window.adminTab = function(name, btn) {
     document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
@@ -2237,7 +2237,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   });
 
   // ── ANNOUNCEMENT ──
-  async function saveAnnouncement() {
+  window.saveAnnouncement = async function() {
     const text = document.getElementById('annText').value.trim();
     if (!text) return;
     try {
@@ -2246,7 +2246,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     } catch(e) { alert('Fout: ' + e.message); }
   }
 
-  async function clearAnnouncement() {
+  window.clearAnnouncement = async function() {
     try {
       await window._setDoc(window._doc(window._db, 'settings', 'announcement'), { text: '' });
       document.getElementById('annText').value = '';
@@ -2255,7 +2255,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   }
 
   // ── COMMANDS ──
-  async function saveCommand() {
+  window.saveCommand = async function() {
     const name = document.getElementById('cmdName').value.trim();
     const desc = document.getElementById('cmdDesc').value.trim();
     const cat  = document.getElementById('cmdCat').value;
@@ -2271,7 +2271,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     } catch(e) { alert('Fout: ' + e.message); }
   }
 
-  async function deleteCommand(id) {
+  window.deleteCommand = async function(id) {
     try {
       await window._deleteDoc(window._doc(window._db, 'commands', id));
       loadAdminData();
@@ -2297,7 +2297,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   }
 
   // ── SCHEDULE NOTE ──
-  async function saveSchedNote() {
+  window.saveSchedNote = async function() {
     const text = document.getElementById('schedNote').value.trim();
     if (!text) return;
     try {
@@ -2306,7 +2306,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     } catch(e) { alert('Fout: ' + e.message); }
   }
 
-  async function clearSchedNote() {
+  window.clearSchedNote = async function() {
     try {
       await window._setDoc(window._doc(window._db, 'settings', 'scheduleNote'), { text: '' });
       document.getElementById('schedNote').value = '';
@@ -2317,7 +2317,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   }
 
   // ── NEXT STREAM PIN ──
-  async function saveNextStream() {
+  window.saveNextStream = async function() {
     const title = document.getElementById('nextStreamTitle').value.trim();
     const date  = document.getElementById('nextStreamDate').value;
     if (!title || !date) return;
@@ -2343,7 +2343,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   }
 
   // ── LOAD ADMIN DATA ──
-  async function loadAdminData() {
+  window.loadAdminData = async function() {
     if (!window._db) return;
     try {
       // Load existing commands into admin list
@@ -2361,7 +2361,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
             + '<div class="admin-list-item-name">' + data.name + '</div>'
             + '<div class="admin-list-item-desc">' + data.desc + ' [' + data.cat + ']</div>'
             + '</div>'
-            + '<button class="admin-delete-btn" onclick="deleteCommand('' + d.id + '')">Verwijderen</button>'
+            + '<button class="admin-delete-btn" onclick="window.deleteCommand(this.dataset.id)" data-id="' + d.id + '">Verwijderen</button>'
             + '</div>';
         });
       }
