@@ -1408,6 +1408,259 @@
     .admin-row { grid-template-columns: 1fr; }
   }
 
+
+  /* ── DISCORD WIDGET ── */
+  .discord-wrap {
+    background: #36393f;
+    border: 1px solid rgba(79,195,247,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+  }
+  .discord-wrap iframe { display: block; width: 100%; border: none; }
+
+  /* ── DONATIE BALK ── */
+  .donatie-wrap {
+    background: var(--navy2);
+    border: 1px solid rgba(249,168,37,0.2);
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  .donatie-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .donatie-title {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+  }
+  .donatie-bedragen {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .donatie-bedragen span { color: var(--amber); }
+  .donatie-bar-wrap {
+    background: var(--navy);
+    border: 1px solid rgba(249,168,37,0.15);
+    height: 24px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .donatie-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--amber-dim), var(--amber));
+    transition: width 1s ease;
+    position: relative;
+  }
+  .donatie-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: white;
+    opacity: 0.5;
+    animation: pulse 1.2s infinite;
+  }
+  .donatie-pct {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-align: right;
+  }
+  .donatie-pct span { color: var(--amber); }
+
+  /* ── COMMUNITY POLL ── */
+  .poll-wrap {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.15);
+    padding: 28px 32px;
+  }
+  .poll-question {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--amber);
+    margin-bottom: 20px;
+    letter-spacing: 0.05em;
+  }
+  .poll-option {
+    position: relative;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .poll-option-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: rgba(79,195,247,0.12);
+    border-radius: 0;
+    transition: width 0.6s ease;
+    z-index: 0;
+  }
+  .poll-option-bar.voted { background: rgba(249,168,37,0.15); }
+  .poll-option-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border: 1px solid rgba(79,195,247,0.2);
+    transition: border-color 0.2s;
+  }
+  .poll-option:hover .poll-option-inner { border-color: rgba(249,168,37,0.4); }
+  .poll-option.voted-for .poll-option-inner { border-color: var(--amber); }
+  .poll-option-label {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .poll-option-pct {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+  .poll-option.voted-for .poll-option-pct { color: var(--amber); }
+  .poll-meta {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .poll-login-msg {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding: 12px 0;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .poll-login-msg:hover { color: var(--cyan); }
+
+  /* ── LOYALITEIT ── */
+  .loyalty-section { }
+  .loyalty-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .loyalty-card {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.12);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .loyalty-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--amber), var(--cyan));
+  }
+  .loyalty-rank {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .loyalty-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--amber);
+    margin: 0 auto 10px;
+    background: var(--navy3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    color: var(--amber);
+  }
+  .loyalty-name {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .loyalty-pts {
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    color: var(--amber);
+    margin-bottom: 2px;
+  }
+  .loyalty-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+  .loyalty-badge {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    letter-spacing: 0.08em;
+  }
+  .badge-bronze  { background: rgba(205,127,50,0.15);  border: 1px solid #cd7f32; color: #cd7f32; }
+  .badge-silver  { background: rgba(192,192,192,0.15); border: 1px solid #c0c0c0; color: #c0c0c0; }
+  .badge-gold    { background: rgba(255,215,0,0.15);   border: 1px solid #ffd700; color: #ffd700; }
+  .badge-diamond { background: rgba(79,195,247,0.15);  border: 1px solid var(--cyan); color: var(--cyan); }
+
+  .my-loyalty-card {
+    background: var(--navy2);
+    border: 1px solid rgba(249,168,37,0.3);
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .my-loyalty-pts {
+    font-family: var(--mono);
+    font-size: 2rem;
+    color: var(--amber);
+  }
+  .my-loyalty-info { flex: 1; }
+  .my-loyalty-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .my-loyalty-name {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* Community + Discord layout */
+  .community-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .community-grid { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
@@ -1424,6 +1677,8 @@
     <li><a href="#support">Support</a></li>
     <li><a href="#live">Live</a></li>
     <li><a href="#videos">Video's</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#loyaliteit">Loyaliteit</a></li>
   </ul>
   <div class="nav-auth"><div id="navUserInfo"></div><button id="navAuthBtn" onclick="openAuthModal('login')">Inloggen</button></div>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -1643,6 +1898,83 @@
   </div>
   <div class="yt-grid" id="ytGrid">
     <div class="yt-loading">// Videos worden geladen...</div>
+  </div>
+</section>
+
+
+<!-- COMMUNITY (Poll + Discord) -->
+<section id="community" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 08</span>
+    <h2 class="section-title">Community</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="community-grid">
+    <!-- Poll -->
+    <div>
+      <div class="poll-wrap" id="pollWrap">
+        <div class="poll-question" id="pollQuestion">// Laden...</div>
+        <div id="pollOptions"></div>
+        <div class="poll-meta">
+          <span id="pollVotes">0 stemmen</span>
+          <span id="pollExpiry"></span>
+        </div>
+      </div>
+    </div>
+    <!-- Discord -->
+    <div>
+      <div style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:12px;">// DISCORD SERVER</div>
+      <div class="discord-wrap">
+        <iframe src="https://discord.com/widget?id=763883078723960834&theme=dark" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATIE DOEL -->
+<section id="donatie" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 09</span>
+    <h2 class="section-title">Donatie Doel</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="donatie-wrap">
+    <div class="donatie-header">
+      <div class="donatie-title" id="donatieTitle">// Laden...</div>
+      <div class="donatie-bedragen"><span id="donatieHuidige">0</span> / <span id="donatieDoelBedrag">100</span> euro</div>
+    </div>
+    <div class="donatie-bar-wrap">
+      <div class="donatie-bar-fill" id="donatieBar" style="width:0%"></div>
+    </div>
+    <div class="donatie-pct" id="donatiePct">0% bereikt</div>
+  </div>
+  <div style="text-align:center;margin-top:20px;">
+    <a class="btn-support" href="#" target="_blank" id="donatieBtn">Doneren &#9829;</a>
+  </div>
+</section>
+
+<!-- LOYALITEIT LEADERBOARD -->
+<section id="loyaliteit" class="fade-in loyalty-section">
+  <div class="section-header">
+    <span class="section-tag">// 10</span>
+    <h2 class="section-title">Loyaliteit</h2>
+    <div class="divider"></div>
+  </div>
+  <div id="myLoyaltyWrap" style="display:none;">
+    <div class="my-loyalty-card">
+      <div class="my-loyalty-pts" id="myPts">0</div>
+      <div class="my-loyalty-info">
+        <div class="my-loyalty-label">Jouw punten</div>
+        <div class="my-loyalty-name" id="myLoyaltyName">-</div>
+      </div>
+      <div id="myBadge"></div>
+    </div>
+  </div>
+  <div id="loyaltyNotLoggedIn" style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);margin-bottom:20px;">
+    <span onclick="openAuthModal('login')" style="cursor:pointer;text-decoration:underline;color:var(--cyan);">Log in</span> om punten te verdienen en op het leaderboard te verschijnen.
+  </div>
+  <div class="loyalty-grid" id="loyaltyGrid">
+    <div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">// Leaderboard laden...</div>
   </div>
 </section>
 
@@ -2134,6 +2466,8 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       <button class="admin-tab active" onclick="adminTab('aankondiging', this)">&#128226; Aankondiging</button>
       <button class="admin-tab" onclick="adminTab('commands', this)">&#128203; Commands</button>
       <button class="admin-tab" onclick="adminTab('schedule', this)">&#128197; Schedule</button>
+      <button class="admin-tab" onclick="adminTab('poll', this)">&#128202; Poll</button>
+      <button class="admin-tab" onclick="adminTab('donatie', this)">&#128155; Donatie</button>
     </div>
 
     <!-- AANKONDIGING -->
@@ -2176,6 +2510,38 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       <div class="admin-card">
         <h3>[ HUIDIGE COMMANDS ]</h3>
         <div id="adminCmdList"></div>
+      </div>
+    </div>
+
+    <!-- POLL -->
+    <div class="admin-section" id="admin-poll">
+      <div class="admin-card">
+        <h3>[ COMMUNITY POLL INSTELLEN ]</h3>
+        <div class="admin-success" id="poll-success">Poll opgeslagen!</div>
+        <input class="admin-input" id="pollAdminQuestion" placeholder="Vraag, bijv: Welk spel vanavond?">
+        <div id="pollAdminOptions">
+          <input class="admin-input" id="pollOpt0" placeholder="Optie 1, bijv: Star Citizen">
+          <input class="admin-input" id="pollOpt1" placeholder="Optie 2, bijv: Fortnite">
+          <input class="admin-input" id="pollOpt2" placeholder="Optie 3 (optioneel)">
+          <input class="admin-input" id="pollOpt3" placeholder="Optie 4 (optioneel)">
+        </div>
+        <button class="admin-save-btn" onclick="window.savePoll()" style="margin-top:8px;">Poll publiceren</button>
+        <button class="admin-delete-btn" onclick="window.clearPoll()" style="margin-left:12px;">Poll verwijderen</button>
+      </div>
+    </div>
+
+    <!-- DONATIE -->
+    <div class="admin-section" id="admin-donatie">
+      <div class="admin-card">
+        <h3>[ DONATIE DOEL INSTELLEN ]</h3>
+        <div class="admin-success" id="don-success">Opgeslagen!</div>
+        <input class="admin-input" id="donTitel" placeholder="Titel, bijv: Nieuwe microfoon!">
+        <div class="admin-row">
+          <input class="admin-input" id="donHuidig" type="number" placeholder="Huidig bedrag (euro)">
+          <input class="admin-input" id="donDoel" type="number" placeholder="Doelbedrag (euro)">
+        </div>
+        <input class="admin-input" id="donLink" placeholder="Donatie link (bijv. streamlabs URL)">
+        <button class="admin-save-btn" onclick="window.saveDonatie()">Opslaan</button>
       </div>
     </div>
 
@@ -2389,6 +2755,269 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   document.addEventListener('click', function(e) {
     if (e.target.id === 'adminPanel') closeAdmin();
   });
+</script>
+
+
+<script>
+  // ── HELPERS ──
+  function getBadge(pts) {
+    if (pts >= 1000) return { label: 'DIAMOND', cls: 'badge-diamond' };
+    if (pts >= 500)  return { label: 'GOLD',    cls: 'badge-gold' };
+    if (pts >= 100)  return { label: 'SILVER',  cls: 'badge-silver' };
+    return { label: 'BRONZE', cls: 'badge-bronze' };
+  }
+
+  // ── LOYALITEIT ──
+  async function loadLoyalty() {
+    if (!window._db) { setTimeout(loadLoyalty, 500); return; }
+    try {
+      const snap = await window._getDocs(window._collection(window._db, 'loyalty'));
+      const users = [];
+      snap.forEach(d => users.push({ id: d.id, ...d.data() }));
+      users.sort((a,b) => (b.pts||0) - (a.pts||0));
+
+      const grid = document.getElementById('loyaltyGrid');
+      if (!grid) return;
+
+      if (users.length === 0) {
+        grid.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">Nog geen spelers op het leaderboard.</div>';
+        return;
+      }
+
+      const medals = ['&#127947;', '&#129352;', '&#129353;'];
+      grid.innerHTML = users.slice(0, 12).map((u, i) => {
+        const badge = getBadge(u.pts || 0);
+        const initial = (u.name || '?')[0].toUpperCase();
+        const avatar = u.photoURL
+          ? '<img src="' + u.photoURL + '" style="width:48px;height:48px;border-radius:50%;border:2px solid var(--amber);">'
+          : '<div class="loyalty-avatar">' + initial + '</div>';
+        return '<div class="loyalty-card">'
+          + '<div class="loyalty-rank">' + (i < 3 ? medals[i] : '#' + (i+1)) + '</div>'
+          + avatar
+          + '<div class="loyalty-name">' + (u.name || 'Anon') + '</div>'
+          + '<div class="loyalty-pts">' + (u.pts || 0) + '</div>'
+          + '<div class="loyalty-label">punten</div>'
+          + '<div><span class="loyalty-badge ' + badge.cls + '">' + badge.label + '</span></div>'
+          + '</div>';
+      }).join('');
+
+      // Show current user card
+      if (window.currentUser) {
+        const me = users.find(u => u.id === window.currentUser.uid);
+        if (me) {
+          const myWrap = document.getElementById('myLoyaltyWrap');
+          const myPts  = document.getElementById('myPts');
+          const myName = document.getElementById('myLoyaltyName');
+          const myBadge = document.getElementById('myBadge');
+          const badge = getBadge(me.pts || 0);
+          if (myWrap) myWrap.style.display = 'block';
+          if (myPts)  myPts.textContent = me.pts || 0;
+          if (myName) myName.textContent = me.name || window.currentUser.displayName || 'Jij';
+          if (myBadge) myBadge.innerHTML = '<span class="loyalty-badge ' + badge.cls + '">' + badge.label + '</span>';
+          document.getElementById('loyaltyNotLoggedIn').style.display = 'none';
+        }
+      }
+    } catch(e) { console.error('Loyalty error:', e); }
+  }
+
+  // Award points to current user
+  async function awardPoints(pts, reason) {
+    if (!window.currentUser || !window._db) return;
+    try {
+      const uid  = window.currentUser.uid;
+      const ref  = window._doc(window._db, 'loyalty', uid);
+      const snap = await window._getDoc(ref);
+      const current = snap.exists() ? (snap.data().pts || 0) : 0;
+      await window._setDoc(ref, {
+        pts: current + pts,
+        name: window.currentUser.displayName || window.currentUser.email.split('@')[0],
+        photoURL: window.currentUser.photoURL || null,
+        lastUpdated: new Date().toISOString()
+      });
+      console.log('Punten toegekend:', pts, reason);
+      loadLoyalty();
+    } catch(e) { console.error('Award points error:', e); }
+  }
+
+  // Award daily visit points
+  async function checkDailyVisit() {
+    if (!window.currentUser || !window._db) return;
+    try {
+      const uid = window.currentUser.uid;
+      const ref = window._doc(window._db, 'loyalty', uid);
+      const snap = await window._getDoc(ref);
+      const data = snap.exists() ? snap.data() : {};
+      const today = new Date().toDateString();
+      if (data.lastVisit !== today) {
+        await window._setDoc(ref, { ...data, lastVisit: today });
+        await awardPoints(10, 'dagelijks bezoek');
+      }
+    } catch(e) {}
+  }
+
+  // ── POLL ──
+  async function loadPoll() {
+    if (!window._db) { setTimeout(loadPoll, 500); return; }
+    try {
+      const snap = await window._getDoc(window._doc(window._db, 'settings', 'poll'));
+      if (!snap.exists() || !snap.data().question) {
+        document.getElementById('pollWrap').innerHTML =
+          '<div style="font-family:var(--mono);font-size:0.85rem;color:var(--text-dim);padding:12px 0;">// Geen actieve poll op dit moment.</div>';
+        return;
+      }
+      const poll = snap.data();
+      renderPoll(poll);
+    } catch(e) { console.error('Poll error:', e); }
+  }
+
+  function renderPoll(poll) {
+    const qEl = document.getElementById('pollQuestion');
+    const oEl = document.getElementById('pollOptions');
+    const vEl = document.getElementById('pollVotes');
+    if (!qEl || !oEl) return;
+
+    qEl.textContent = '// ' + poll.question;
+
+    const options = poll.options || [];
+    const votes   = poll.votes   || {};
+    const total   = Object.values(votes).reduce((a,b) => a + (b||0), 0);
+
+    // Check if user voted
+    const myVote = window.currentUser
+      ? (poll.userVotes && poll.userVotes[window.currentUser.uid])
+      : null;
+
+    if (!window.currentUser) {
+      oEl.innerHTML = '<div class="poll-login-msg" onclick="openAuthModal('login')">'
+        + '// Log in om te stemmen op de poll'
+        + '</div>';
+      if (vEl) vEl.textContent = total + ' stemmen';
+      return;
+    }
+
+    oEl.innerHTML = options.map((opt, i) => {
+      const optVotes = votes[i] || 0;
+      const pct = total > 0 ? Math.round(optVotes / total * 100) : 0;
+      const isVoted = myVote === i;
+      return '<div class="poll-option' + (isVoted ? ' voted-for' : '') + '" onclick="window.castVote(' + i + ')">'
+        + '<div class="poll-option-bar' + (myVote !== null ? ' voted' : '') + '" style="width:' + (myVote !== null ? pct : 0) + '%"></div>'
+        + '<div class="poll-option-inner">'
+        + '<span class="poll-option-label">' + opt + (isVoted ? ' &#10003;' : '') + '</span>'
+        + '<span class="poll-option-pct">' + (myVote !== null ? pct + '%' : '') + '</span>'
+        + '</div>'
+        + '</div>';
+    }).join('');
+
+    if (vEl) vEl.textContent = total + ' stemmen';
+  }
+
+  window.castVote = async function(optIndex) {
+    if (!window.currentUser || !window._db) { openAuthModal('login'); return; }
+    try {
+      const ref  = window._doc(window._db, 'settings', 'poll');
+      const snap = await window._getDoc(ref);
+      const poll = snap.data();
+      const uid  = window.currentUser.uid;
+
+      if (poll.userVotes && poll.userVotes[uid] !== undefined) return; // al gestemd
+
+      const votes = poll.votes || {};
+      votes[optIndex] = (votes[optIndex] || 0) + 1;
+      const userVotes = poll.userVotes || {};
+      userVotes[uid] = optIndex;
+
+      await window._setDoc(ref, { ...poll, votes, userVotes });
+      await awardPoints(5, 'poll stem');
+      renderPoll({ ...poll, votes, userVotes });
+    } catch(e) { console.error('Vote error:', e); }
+  };
+
+  window.savePoll = async function() {
+    const q = document.getElementById('pollAdminQuestion').value.trim();
+    if (!q) return;
+    const options = [0,1,2,3].map(i => document.getElementById('pollOpt'+i).value.trim()).filter(Boolean);
+    if (options.length < 2) { alert('Minimaal 2 opties nodig.'); return; }
+    try {
+      await window._setDoc(window._doc(window._db, 'settings', 'poll'), {
+        question: q, options, votes: {}, userVotes: {}
+      });
+      showAdminSuccess('poll-success');
+      loadPoll();
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  window.clearPoll = async function() {
+    try {
+      await window._setDoc(window._doc(window._db, 'settings', 'poll'), { question: '', options: [] });
+      showAdminSuccess('poll-success');
+      loadPoll();
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  // ── DONATIE ──
+  async function loadDonatie() {
+    if (!window._db) { setTimeout(loadDonatie, 500); return; }
+    try {
+      const snap = await window._getDoc(window._doc(window._db, 'settings', 'donatie'));
+      if (!snap.exists()) return;
+      const d = snap.data();
+      const titel  = document.getElementById('donatieTitle');
+      const huid   = document.getElementById('donatieHuidige');
+      const doel   = document.getElementById('donatieDoelBedrag');
+      const bar    = document.getElementById('donatieBar');
+      const pct    = document.getElementById('donatiePct');
+      const btn    = document.getElementById('donatieBtn');
+      if (!titel) return;
+      const pctVal = d.doel > 0 ? Math.min(100, Math.round(d.huidig / d.doel * 100)) : 0;
+      titel.textContent = '// ' + (d.titel || 'Donatie doel');
+      if (huid) huid.textContent = d.huidig || 0;
+      if (doel) doel.textContent = d.doel || 100;
+      if (bar)  bar.style.width = pctVal + '%';
+      if (pct)  pct.innerHTML = '<span>' + pctVal + '%</span> bereikt — help mee!';
+      if (btn && d.link) btn.href = d.link;
+    } catch(e) { console.error('Donatie error:', e); }
+  }
+
+  window.saveDonatie = async function() {
+    const titel  = document.getElementById('donTitel').value.trim();
+    const huidig = parseFloat(document.getElementById('donHuidig').value) || 0;
+    const doel   = parseFloat(document.getElementById('donDoel').value) || 100;
+    const link   = document.getElementById('donLink').value.trim();
+    try {
+      await window._setDoc(window._doc(window._db, 'settings', 'donatie'), { titel, huidig, doel, link });
+      showAdminSuccess('don-success');
+      loadDonatie();
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  // ── INIT COMMUNITY FEATURES ──
+  document.addEventListener('DOMContentLoaded', function() {
+    // Wait for Firebase to be ready
+    const waitForDb = setInterval(() => {
+      if (window._db) {
+        clearInterval(waitForDb);
+        loadPoll();
+        loadDonatie();
+        loadLoyalty();
+      }
+    }, 200);
+  });
+
+  // Award points when user logs in
+  const origOnAuth = window._onAuthCallback;
+  document.addEventListener('userLoggedIn', function() {
+    checkDailyVisit();
+    loadLoyalty();
+  });
+
+  // Hook into auth state — check daily visit when logged in
+  const loyaltyAuthCheck = setInterval(() => {
+    if (window.currentUser && window._db) {
+      clearInterval(loyaltyAuthCheck);
+      checkDailyVisit();
+      loadLoyalty();
+    }
+  }, 300);
 </script>
 
 </body>
