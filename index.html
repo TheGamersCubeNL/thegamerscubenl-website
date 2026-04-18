@@ -1471,7 +1471,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 </script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAmkDflYji7bT8ai8gyiONhStJ2rQIuIN0",
@@ -1485,7 +1485,13 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
-  getRedirectResult(auth).catch(e => console.error('Redirect:', e));
+  getRedirectResult(auth).then(result => {
+    if (result && result.user) {
+      console.log('Google redirect success:', result.user.email);
+      const am = document.getElementById('authModal');
+      if (am) am.classList.remove('open');
+    }
+  }).catch(e => console.error('Redirect error:', e.code, e.message));
 
   onAuthStateChanged(auth, user => {
     window.currentUser = user;
@@ -1512,7 +1518,19 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   window._auth = auth;
   window._signInWithEmailAndPassword = (e,p) => signInWithEmailAndPassword(auth, e, p);
   window._createUser = (e,p) => createUserWithEmailAndPassword(auth, e, p);
-  window._googleSignIn = () => signInWithRedirect(auth, provider);
+  window._googleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log('Google popup success:', result.user.email);
+      const am = document.getElementById('authModal');
+      if (am) am.classList.remove('open');
+    } catch(e) {
+      if (e.code !== 'auth/popup-closed-by-user') {
+        console.error('Popup failed, trying redirect:', e.code);
+        signInWithRedirect(auth, provider);
+      }
+    }
+  };
   window._updateProfile = (u,d) => updateProfile(u, d);
   window._signOut = () => signOut(auth);
 </script>
