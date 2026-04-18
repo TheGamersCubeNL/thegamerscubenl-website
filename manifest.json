@@ -2,8 +2,8 @@
   "name": "TheGamersCubeNL",
   "short_name": "GamersCube",
   "description": "De officiële app van TheGamersCubeNL — Star Citizen & Fortnite streamer",
-  "start_url": "/thegamerscubenl-website/",
-  "scope": "/thegamerscubenl-website/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#060d1a",
@@ -25,24 +25,23 @@
       "name": "Live Stream",
       "short_name": "Live",
       "description": "Bekijk de live stream",
-      "url": "/thegamerscubenl-website/#live",
+      "url": "/#live",
       "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Schedule",
       "short_name": "Schedule",
       "description": "Stream schedule bekijken",
-      "url": "/thegamerscubenl-website/#schedule",
+      "url": "/#schedule",
       "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Community",
       "short_name": "Community",
       "description": "Community en loyaliteit",
-      "url": "/thegamerscubenl-website/#community",
+      "url": "/#community",
       "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
     }
   ],
-  "screenshots": [],
   "prefer_related_applications": false
 }

@@ -1,11 +1,11 @@
 // TheGamersCubeNL Service Worker
 const CACHE_NAME = 'tgcnl-v1';
 const STATIC_ASSETS = [
-  '/thegamerscubenl-website/',
-  '/thegamerscubenl-website/index.html',
-  '/thegamerscubenl-website/manifest.json',
-  '/thegamerscubenl-website/icons/icon-192.png',
-  '/thegamerscubenl-website/icons/icon-512.png',
+  '',
+  'index.html',
+  'manifest.json',
+  'icons/icon-192.png',
+  'icons/icon-512.png',
   'https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap'
 ];
 
@@ -58,7 +58,7 @@ self.addEventListener('fetch', event => {
     }).catch(() => {
       // Offline fallback
       if (event.request.destination === 'document') {
-        return caches.match('/thegamerscubenl-website/index.html');
+        return caches.match('index.html');
       }
     })
   );
@@ -70,10 +70,10 @@ self.addEventListener('push', event => {
   const data = event.data.json();
   self.registration.showNotification(data.title || 'TheGamersCubeNL', {
     body: data.body || 'Check de stream!',
-    icon: '/thegamerscubenl-website/icons/icon-192.png',
-    badge: '/thegamerscubenl-website/icons/icon-72.png',
+    icon: 'icons/icon-192.png',
+    badge: 'icons/icon-72.png',
     vibrate: [200, 100, 200],
-    data: { url: data.url || '/thegamerscubenl-website/' }
+    data: { url: data.url || '' }
   });
 });
 
