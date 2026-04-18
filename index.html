@@ -1188,7 +1188,7 @@
 <!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAmkDflYji7bT8ai8gyiONhStJ2rQIuIN0",
@@ -1251,7 +1251,14 @@
   window._provider = provider;
   window._signInWithEmailAndPassword = (e,p) => signInWithEmailAndPassword(auth, e, p);
   window._createUser = (e,p) => createUserWithEmailAndPassword(auth, e, p);
-  window._googleSignIn = () => signInWithPopup(auth, provider);
+  // Handle redirect result on page load
+  getRedirectResult(auth).then(result => {
+    if (result && result.user) {
+      closeAuthModal && closeAuthModal();
+    }
+  }).catch(e => console.error('Redirect error:', e));
+
+  window._googleSignIn = () => signInWithRedirect(auth, provider);
   window._updateProfile = (u, d) => updateProfile(u, d);
   window._signOut  = () => signOut(auth);
   window._renderProfile = renderProfile;
@@ -1724,7 +1731,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     const offline = document.getElementById('twitchOffline');
     offline.style.display = 'none';
     const iframe = document.createElement('iframe');
-    iframe.src = 'https://player.twitch.tv/?channel=TheGamersCubeNL&parent=' + location.hostname;
+    iframe.src = 'https://player.twitch.tv/?channel=TheGamersCubeNL&parent=thegamerscubenl.github.io';
     iframe.allowFullscreen = true;
     iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
     wrap.appendChild(iframe);
