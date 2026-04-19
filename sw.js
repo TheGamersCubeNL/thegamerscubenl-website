@@ -1,6 +1,12 @@
 // TheGamersCubeNL Service Worker
-const CACHE_NAME = 'tgcnl-v1';
+const CACHE_NAME = 'tgcnl-v2';
 const STATIC_ASSETS = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/sw.js',
   '',
   'index.html',
   'manifest.json',

@@ -2674,7 +2674,7 @@
   <img id="heroLogo" src="" alt="TheGamersCubeNL" style="height:120px;margin-bottom:24px;display:none;filter:drop-shadow(0 0 24px rgba(249,168,37,0.4));animation:fadeInDown 0.5s ease both;">
   <div class="hero-badge">// NL STREAMER — TWITCH &amp; YOUTUBE</div>
   <h1>The<span class="shimmer-text">Gamerscube</span>NL</h1>
-  <p class="hero-sub">Star Citizen-piloot. Fortnite-speler. Elke stream een avontuur in de ruimte en op aarde.</p>
+  <p class="hero-sub"><span data-nl="Star Citizen-piloot. Fortnite-speler. Elke stream een avontuur in de ruimte en op aarde." data-en="Star Citizen pilot. Fortnite player. Every stream an adventure in space and on earth.">Star Citizen-piloot. Fortnite-speler. Elke stream een avontuur in de ruimte en op aarde.</span></p>
   <div class="hero-socials">
     <a class="btn btn-twitch" href="https://twitch.tv/TheGamersCubeNL" target="_blank">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
@@ -2845,7 +2845,7 @@
     <div>
       <div style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:12px;">// TWITCH CHAT</div>
       <div class="twitch-chat-embed">
-        <iframe src="https://www.twitch.tv/embed/TheGamersCubeNL/chat?parent=thegamerscube.nl&parent=thegamerscubenl.github.io&darkpopout" allowfullscreen></iframe>
+        <iframe src="https://www.twitch.tv/embed/TheGamersCubeNL/chat?parent=thegamerscube.nl&darkpopout" allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -2969,7 +2969,7 @@
     <div>
       <div style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);letter-spacing:0.1em;margin-bottom:12px;">// DISCORD SERVER</div>
       <div class="discord-wrap">
-        <iframe src="https://discord.com/widget?id=763883078723960834&theme=dark" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        <iframe src="https://discord.com/widget?id=763883078723960834&theme=dark" height="400" allowtransparency="true" frameborder="0" allow="clipboard-write" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
       </div>
     </div>
   </div>
@@ -3235,7 +3235,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc, onSnapshot, addDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAmkDflYji7bT8ai8gyiONhStJ2rQIuIN0",
@@ -3259,6 +3259,10 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   window._collection = collection;
   window._getDocs = getDocs;
   window._deleteDoc = deleteDoc;
+  window._addDoc = addDoc;
+  window._query = query;
+  window._orderBy = orderBy;
+  window._limit = limit;
 
   // Load announcement from Firestore on startup
   onSnapshot(doc(db, 'settings', 'announcement'), snap => {
@@ -3337,6 +3341,12 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   };
   window._updateProfile = (u,d) => updateProfile(u, d);
   window._signOut = () => signOut(auth);
+
+  // Extra Firestore functies voor gastenboek en community
+  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(fs => {
+    
+    console.log('[Firebase] Extra Firestore functies geladen');
+  });
 </script>
 <script>
   const CAL_API_KEY = 'AIzaSyAJ8gVAbin4IC6RvjilrG2xS5XcqfFK1bM';
@@ -3493,7 +3503,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     const offline = document.getElementById('twitchOffline');
     if (offline) offline.style.display = 'none';
     const iframe = document.createElement('iframe');
-    iframe.src = 'https://player.twitch.tv/?channel=TheGamersCubeNL&parent=thegamerscube.nl&parent=thegamerscubenl.github.io';
+    iframe.src = 'https://player.twitch.tv/?channel=TheGamersCubeNL&parent=thegamerscube.nl';
     iframe.allowFullscreen = true;
     iframe.allow = 'autoplay; fullscreen';
     iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
@@ -4114,8 +4124,8 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     try {
       const snap = await window._getDoc(window._doc(window._db, 'settings', 'poll'));
       if (!snap.exists() || !snap.data().question) {
-        document.getElementById('pollWrap').innerHTML =
-          '<div style="font-family:var(--mono);font-size:0.85rem;color:var(--text-dim);padding:12px 0;">// Geen actieve poll op dit moment.</div>';
+        const pw = document.getElementById('pollWrap');
+        if (pw) pw.innerHTML = '<div style="font-family:var(--mono);font-size:0.85rem;color:var(--text-dim);padding:12px 0;">// Geen actieve poll op dit moment.</div>';
         return;
       }
       const poll = snap.data();
@@ -4244,17 +4254,19 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   };
 
   // ── INIT COMMUNITY FEATURES ──
-  document.addEventListener('DOMContentLoaded', function() {
-    // Wait for Firebase to be ready
-    const waitForDb = setInterval(() => {
-      if (window._db) {
-        clearInterval(waitForDb);
-        loadPoll();
-        loadDonatie();
-        loadLoyalty();
-      }
-    }, 200);
-  });
+  // Wait for Firebase - module scripts load after regular scripts
+  function initCommunity() {
+    if (window._db && window._query && window._orderBy && window._limit) {
+      loadPoll();
+      loadDonatie();
+      loadLoyalty();
+      loadGuestbook();
+    } else {
+      setTimeout(initCommunity, 300);
+    }
+  }
+  // Start after page load with delay to ensure module script ran
+  setTimeout(initCommunity, 500);
 
   // Award points when user logs in
   const origOnAuth = window._onAuthCallback;
@@ -4449,20 +4461,25 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     const formInner = document.getElementById('guestbookFormInner');
     if (formInner) {
       if (window.currentUser) {
-        formInner.innerHTML = '<textarea class="guestbook-input" id="gbMessage" placeholder="Schrijf een berichtje voor Cornelis en de community..."></textarea>'
+        formInner.innerHTML = '<textarea class="guestbook-input" id="gbMessage" placeholder="Schrijf een berichtje voor Cornelis en de community..." data-nl-placeholder="Schrijf een berichtje voor Cornelis en de community..." data-en-placeholder="Write a message for Cornelis and the community..."></textarea>'
           + '<button class="guestbook-submit" onclick="window.submitGuestbook()">Bericht plaatsen</button>';
       } else {
-        formInner.innerHTML = '<div class="guestbook-login-msg">'
-          + '<span onclick="openAuthModal('login')" style="cursor:pointer;color:var(--cyan);text-decoration:underline;">Log in</span>'
-          + ' om een bericht achter te laten.</div>';
+        formInner.innerHTML = '<div class="guestbook-login-msg"><span onclick="window.openAuthModal(\'login\')"; style="cursor:pointer;color:var(--cyan);text-decoration:underline;">Log in</span> om een bericht achter te laten.</div>';
       }
     }
 
     // Load entries
     try {
-      const { getDocs, collection, orderBy, query, limit } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-      const q = query(collection(window._db, 'guestbook'), orderBy('timestamp', 'desc'), limit(20));
-      const snap = await getDocs(q);
+      if (!window._query || !window._orderBy || !window._limit) {
+        setTimeout(loadGuestbook, 300);
+        return;
+      }
+      const q = window._query(
+        window._collection(window._db, 'guestbook'),
+        window._orderBy('timestamp', 'desc'),
+        window._limit(20)
+      );
+      const snap = await window._getDocs(q);
       const entriesEl = document.getElementById('guestbookEntries');
       if (!entriesEl) return;
       if (snap.empty) {
@@ -4501,8 +4518,9 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     if (!msg || msg.length < 2) return;
     if (msg.length > 500) { alert('Bericht mag max 500 tekens zijn.'); return; }
     try {
-      const { addDoc, collection, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-      await addDoc(collection(window._db, 'guestbook'), {
+      const addDoc = window._addDoc;
+      if (!addDoc) { alert('Even geduld, probeer opnieuw.'); return; }
+      await addDoc(window._collection(window._db, 'guestbook'), {
         uid:       window.currentUser.uid,
         name:      window.currentUser.displayName || window.currentUser.email.split('@')[0],
         photoURL:  window.currentUser.photoURL || null,
@@ -4563,24 +4581,33 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   };
 
   // ── INIT ──
-  document.addEventListener('DOMContentLoaded', function() {
-    const waitDb = setInterval(() => {
-      if (window._db) {
-        clearInterval(waitDb);
-        loadCountdown();
-        loadGuestbook();
-        loadYTStats();
-        loadLoyaltyCount();
-        loadClips();
-      }
-    }, 200);
-  });
+  function initExtra() {
+    if (window._db) {
+      loadCountdown();
+      loadYTStats();
+      loadLoyaltyCount();
+      loadClips();
+    } else {
+      setTimeout(initExtra, 400);
+    }
+  }
+  setTimeout(initExtra, 800);
 
   // Re-render guestbook form when auth state changes
   setInterval(() => {
     const formInner = document.getElementById('guestbookFormInner');
-    if (formInner && formInner.innerHTML === '') loadGuestbook();
+    if (formInner && formInner.innerHTML === '' && window._db) loadGuestbook();
   }, 1000);
+
+  // Also reload guestbook when user logs in/out
+  let lastAuthState = null;
+  setInterval(() => {
+    const currentState = !!window.currentUser;
+    if (currentState !== lastAuthState) {
+      lastAuthState = currentState;
+      if (window._db) loadGuestbook();
+    }
+  }, 500);
 </script>
 
 
@@ -4594,8 +4621,8 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     const img   = document.getElementById('merchImg').value.trim();
     if (!name || !price) return;
     try {
-      const { addDoc, collection } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-      await addDoc(collection(window._db, 'merch'), { name, price, emoji, link, img });
+      
+      await window._addDoc(window._collection(window._db, 'merch'), { name, price, emoji, link, img });
       showAdminSuccess('merch-success');
       document.getElementById('merchName').value = '';
       document.getElementById('merchPrice').value = '';
@@ -4795,6 +4822,15 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     // Update placeholders
     const cmdSearch = document.getElementById('cmdSearch');
     if (cmdSearch) cmdSearch.placeholder = lang === 'nl' ? '// Zoek command...' : '// Search command...';
+    // Update placeholders with data attributes
+    document.querySelectorAll('[data-nl-placeholder]').forEach(el => {
+      el.placeholder = lang === 'nl' ? el.dataset.nlPlaceholder : el.dataset.enPlaceholder;
+    });
+    // Update button texts
+    const loginBtn = document.getElementById('navAuthBtn');
+    if (loginBtn && !window.currentUser) {
+      loginBtn.textContent = lang === 'nl' ? 'Inloggen' : 'Login';
+    }
   }
 
   // Apply lang on load
@@ -5073,8 +5109,8 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     navigator.serviceWorker.ready.then(reg => {
       reg.showNotification('TheGamersCubeNL is LIVE! &#128640;', {
         body: stream.title || 'Stream is gestart — kijk mee!',
-        icon: '/thegamerscubenl-website/icons/icon-192.png',
-        badge: '/thegamerscubenl-website/icons/icon-72.png',
+        icon: '/icons/icon-192.png',
+        badge: '/icons/icon-72.png',
         vibrate: [200, 100, 200],
         tag: 'live-notification',
         data: { url: 'https://twitch.tv/TheGamersCubeNL' }
@@ -5105,7 +5141,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           const reg = await navigator.serviceWorker.ready;
           reg.showNotification('Notificaties ingeschakeld! &#10003;', {
             body: 'Je krijgt een melding als TheGamersCubeNL live gaat.',
-            icon: '/thegamerscubenl-website/icons/icon-192.png',
+            icon: '/icons/icon-192.png',
             tag: 'notif-test'
           });
         }
