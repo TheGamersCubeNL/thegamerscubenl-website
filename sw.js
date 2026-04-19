@@ -1,85 +1,85 @@
-// TheGamersCubeNL Service Worker
-const CACHE_NAME = 'tgcnl-v2';
+const CACHE_NAME = 'tgcnl-v3';
+
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
-  '/sw.js',
-  '',
-  'index.html',
-  'manifest.json',
-  'icons/icon-192.png',
-  'icons/icon-512.png',
-  'https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap'
+  '/sw.js'
 ];
 
-// Install: cache static assets
+// INSTALL
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(STATIC_ASSETS);
-    }).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Activate: clear old caches
+// ACTIVATE
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+      Promise.all(
+        keys.filter(k => k !== CACHE_NAME)
+            .map(k => caches.delete(k))
+      )
     ).then(() => self.clients.claim())
   );
 });
 
-// Fetch: cache-first for static, network-first for API calls
+// FETCH
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Skip non-GET requests
   if (event.request.method !== 'GET') return;
 
-  // Skip Firebase, Google APIs, Twitch (always need fresh data)
+  // Skip API / Firebase
   if (
     url.hostname.includes('firebase') ||
     url.hostname.includes('googleapis') ||
+    url.hostname.includes('firestore') ||
     url.hostname.includes('twitch') ||
-    url.hostname.includes('youtube') ||
-    url.hostname.includes('firestore')
+    url.hostname.includes('youtube')
   ) {
     return;
   }
 
-  // Cache-first strategy for static assets
+  // CACHE FIRST
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
+
       return fetch(event.request).then(response => {
         if (!response || response.status !== 200) return response;
+
         const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        caches.open(CACHE_NAME)
+          .then(cache => cache.put(event.request, clone));
+
         return response;
       });
     }).catch(() => {
-      // Offline fallback
       if (event.request.destination === 'document') {
-        return caches.match('index.html');
+        return caches.match('/index.html');
       }
     })
   );
 });
 
-// Push notifications (voor toekomstige stream alerts)
+// PUSH
 self.addEventListener('push', event => {
   if (!event.data) return;
+
   const data = event.data.json();
+
   self.registration.showNotification(data.title || 'TheGamersCubeNL', {
     body: data.body || 'Check de stream!',
-    icon: 'icons/icon-192.png',
-    badge: 'icons/icon-72.png',
-    vibrate: [200, 100, 200],
-    data: { url: data.url || '' }
+    icon: '/icons/icon-192.png',
+    badge: '/icons/icon-72.png',
+    data: { url: data.url || '/' }
   });
 });
 

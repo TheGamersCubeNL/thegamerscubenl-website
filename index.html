@@ -90,57 +90,164 @@
     top: 0; left: 0; right: 0;
     z-index: 100;
     background: rgba(6,13,26,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(79,195,247,0.2);
-    padding: 0 24px;
-    height: 60px;
-    display: flex;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(249,168,37,0.2);
+    height: 64px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
-    justify-content: space-between;
+    padding: 0 20px;
+    gap: 12px;
+  }
+
+  /* Amber accent line */
+  nav::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amber), var(--cyan), transparent);
+    opacity: 0.5;
   }
 
   .nav-logo {
     font-family: var(--mono);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--amber);
     letter-spacing: 0.05em;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
   }
   .nav-logo span { color: var(--cyan); }
 
-  .nav-links {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-  }
+  /* nav-links base removed */
+  .nav-links::-webkit-scrollbar { display: none; }
 
   .nav-links a {
     font-family: var(--mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-dim);
     text-decoration: none;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    transition: color 0.2s;
+    padding: 6px 10px;
+    border-radius: 0;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+    position: relative;
   }
-  .nav-links a:hover { color: var(--cyan); }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; right: 50%;
+    height: 1px;
+    background: var(--amber);
+    transition: left 0.2s, right 0.2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-links a:hover::after { left: 10%; right: 10%; }
+
+  .nav-links a.active-link { color: var(--amber); }
+  .nav-links a.active-link::after { left: 10%; right: 10%; }
 
   .hamburger {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
     padding: 4px;
+    flex-shrink: 0;
   }
   .hamburger span {
     display: block;
-    width: 24px;
+    width: 22px;
     height: 2px;
     background: var(--amber);
     transition: all 0.3s;
   }
 
-  /* ── HERO ── */
+  /* Nav auth area */
+  .nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  #navUserInfo {
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  #navAuthBtn {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 6px 14px;
+    border: 1px solid rgba(249,168,37,0.4);
+    background: transparent;
+    color: var(--amber);
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  #navAuthBtn:hover { background: var(--amber); color: var(--navy); }
+
+  /* Mobile nav */
+  @media (max-width: 900px) {
+    .nav-links {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 64px; left: 0; right: 0; bottom: 0;
+    background: rgba(6,13,26,1) !important;
+    padding: 0 0 80px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    z-index: 201;
+  }
+  .nav-links.open { display: flex !important; }
+  .nav-links li { list-style: none; }
+  .nav-links li a {
+    display: block;
+    padding: 18px 32px;
+    font-size: 1rem;
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+    color: var(--text-dim) !important;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-links li a:hover { color: var(--amber) !important; background: rgba(249,168,37,0.05); }
+  .nav-links li a::after { display: none !important; }
+    .nav-links.open { display: flex; }
+    .nav-links.open li a {
+      font-size: 1.05rem;
+      padding: 18px 32px;
+    }
+    .nav-links.open li { list-style: none; }
+    .nav-links.open li a {
+      display: block;
+      padding: 18px 32px;
+      font-size: 1.05rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text-dim);
+      font-family: var(--mono);
+      letter-spacing: 0.05em;
+    }
+    .nav-links.open li a:hover { color: var(--amber); }
+    .nav-links.open li a::after { display: none; }
+    .lang-switch { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .drnl-banner { flex-direction: column; text-align: center; }
+  }
+
+/* ── HERO ── */
   .hero {
     position: relative;
     z-index: 1;
@@ -953,18 +1060,9 @@
 
   /* ── MOBILE ── */
   @media (max-width: 768px) {
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 60px; left: 0; right: 0;
-      background: rgba(6,13,26,0.97);
-      border-bottom: 1px solid rgba(79,195,247,0.2);
-      padding: 20px 24px;
-      gap: 16px;
-    }
+    /* old nav removed */
     .nav-links.open { display: flex; }
-    .hamburger { display: flex; }
+
 
     .about-grid { grid-template-columns: 1fr; }
     .schedule-grid { grid-template-columns: repeat(4, 1fr); }
@@ -2817,6 +2915,181 @@
     padding: 32px 0;
   }
 
+
+  /* ── HAMBURGER MENU EXTRAS ── */
+  .nav-menu-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(249,168,37,0.3), transparent);
+    margin: 8px 20px;
+  }
+
+  .nav-menu-section {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 20px 32px 8px;
+  }
+
+  .nav-menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 18px 32px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.2s, background 0.2s;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    letter-spacing: 0.04em;
+  }
+  .nav-menu-btn:hover { color: var(--amber); background: rgba(249,168,37,0.05); }
+  .nav-menu-btn .btn-icon { font-size: 1rem; width: 20px; text-align: center; }
+
+  .nav-menu-user {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 24px 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(249,168,37,0.04);
+  }
+  .nav-menu-user-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--amber);
+    background: var(--navy3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--amber);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .nav-menu-user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .nav-menu-user-info { flex: 1; }
+  .nav-menu-user-name {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--amber);
+    margin-bottom: 2px;
+  }
+  .nav-menu-user-email {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .nav-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-menu-toggle:hover { background: rgba(255,255,255,0.03); }
+  .nav-menu-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .nav-menu-toggle-label .btn-icon { font-size: 1rem; width: 20px; text-align: center; }
+
+  .toggle-switch {
+    width: 40px; height: 22px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 11px;
+    position: relative;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  .toggle-switch.on { background: var(--amber); }
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: white;
+    top: 3px; left: 3px;
+    transition: transform 0.3s;
+  }
+  .toggle-switch.on::after { transform: translateX(18px); }
+
+  .lang-toggle-wrap {
+    display: flex;
+    gap: 0;
+    margin: 2px 0;
+  }
+  .lang-toggle-btn {
+    flex: 1;
+    padding: 14px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .lang-toggle-btn.active {
+    color: var(--amber);
+    background: rgba(249,168,37,0.08);
+  }
+
+  /* Always show these items in hamburger regardless of screen size */
+  .nav-menu-extra { display: block !important; }
+
+  @media (min-width: 901px) {
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      bottom: 0;
+      width: 100%;
+      background: rgba(6,13,26,1);
+      backdrop-filter: blur(20px);
+      padding: 8px 0 60px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      z-index: 99;
+      -webkit-overflow-scrolling: touch;
+    }
+    .nav-links.open li a {
+      font-size: 1.05rem;
+      padding: 18px 32px;
+    }
+    .nav-links.open li { list-style: none; }
+    .nav-links.open li a {
+      display: block;
+      padding: 18px 32px;
+      font-size: 1.05rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text-dim);
+      text-decoration: none;
+      font-family: var(--mono);
+      letter-spacing: 0.05em;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links.open li a:hover { color: var(--amber); background: rgba(249,168,37,0.05); }
+    .nav-links.open li a::after { display: none; }
+  }
+
 </style>
 </head>
 <body>
@@ -2827,6 +3100,7 @@
   <a class="nav-logo" href="#top"><img id="navLogo" src="" alt="TheGamersCubeNL" style="height:36px;display:none;"> <span id="navLogoText">TheGamers<span>CubeNL</span></span></a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#over">Over</a></li>
+    <li><a href="#giveaway">&#127873; Giveaway</a></li>
     <li><a href="#countdown">Stream</a></li>
     <li><a href="#live">Live</a></li>
     <li><a href="#schedule">Schedule</a></li>
@@ -2835,18 +3109,62 @@
     <li><a href="#games">Games</a></li>
     <li><a href="#community">Community</a></li>
     <li><a href="#loyaliteit">Loyaliteit</a></li>
-    <li><a href="#merch">Merch</a></li>
-    <li><a href="#gastenboek">Gastenboek</a></li>
     <li><a href="#starcitizen">Star Citizen</a></li>
+    <li><a href="#gastenboek">Gastenboek</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#giveaway">Giveaway</a></li>
+
+    <!-- MENU EXTRAS (zichtbaar in hamburger) -->
+    <div class="nav-menu-divider"></div>
+    <div class="nav-menu-section">Profiel</div>
+    <div class="nav-menu-user" id="menuUserInfo" style="display:none;">
+      <div class="nav-menu-user-avatar" id="menuAvatar"></div>
+      <div class="nav-menu-user-info">
+        <div class="nav-menu-user-name" id="menuUserName">-</div>
+        <div class="nav-menu-user-email" id="menuUserEmail">-</div>
+      </div>
+    </div>
+    <button class="nav-menu-btn" id="menuLoginBtn" onclick="window.openAuthModal('login');closeMenuOnMobile();">
+      <span class="btn-icon">&#128274;</span> Inloggen
+    </button>
+    <button class="nav-menu-btn" id="menuLogoutBtn" style="display:none;" onclick="window._signOut && window._signOut();closeMenuOnMobile();">
+      <span class="btn-icon">&#128275;</span> Uitloggen
+    </button>
+    <button class="nav-menu-btn" id="menuProfileBtn" style="display:none;" onclick="window.openAuthModal('profile');closeMenuOnMobile();">
+      <span class="btn-icon">&#128100;</span> Mijn profiel
+    </button>
+    <button class="nav-menu-btn" id="menuAdminBtn" style="display:none;" onclick="window.openAdmin && window.openAdmin();closeMenuOnMobile();">
+      <span class="btn-icon">&#9881;</span> Admin panel
+    </button>
+
+    <div class="nav-menu-divider"></div>
+    <div class="nav-menu-section">Instellingen</div>
+
+    <div class="nav-menu-toggle" onclick="window.toggleThemeMenu()">
+      <div class="nav-menu-toggle-label">
+        <span class="btn-icon" id="menuThemeIcon">&#9790;</span>
+        <span id="menuThemeLabel">Donkere modus</span>
+      </div>
+      <div class="toggle-switch" id="menuThemeSwitch"></div>
+    </div>
+
+    <div class="lang-toggle-wrap">
+      <button class="lang-toggle-btn" id="menuBtnNL" onclick="setLang('nl');updateMenuLang();">&#127475;&#127473; Nederlands</button>
+      <button class="lang-toggle-btn" id="menuBtnEN" onclick="setLang('en');updateMenuLang();">&#127468;&#127463; English</button>
+    </div>
+
+    <div class="nav-menu-divider"></div>
+    <div class="nav-menu-section">Links</div>
+    <button class="nav-menu-btn" onclick="window.open('https://twitch.tv/TheGamersCubeNL','_blank');closeMenuOnMobile();">
+      <span class="btn-icon">&#128246;</span> Twitch
+    </button>
+    <button class="nav-menu-btn" onclick="window.open('https://youtube.com/@TheGamersCubeNL','_blank');closeMenuOnMobile();">
+      <span class="btn-icon">&#127909;</span> YouTube
+    </button>
+    <button class="nav-menu-btn" onclick="window.open('https://www.tipeeestream.com/tgcnl/','_blank');closeMenuOnMobile();">
+      <span class="btn-icon">&#10084;</span> Doneren
+    </button>
   </ul>
-  <div class="lang-switch">
-    <button class="lang-btn active" id="btnNL" onclick="setLang('nl')">NL</button>
-    <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
-  </div>
-  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Thema wisselen">&#9790;</button>
-  <div class="nav-auth"><div id="navUserInfo"></div><button id="navAuthBtn" onclick="openAuthModal('login')">Inloggen</button></div>
+  <div class="nav-auth"><button id="navAuthBtn" onclick="openAuthModal('login')">Inloggen</button></div>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
@@ -2854,6 +3172,8 @@
 
 
 
+<!-- MENU OVERLAY -->
+<div id="menuOverlay" onclick="toggleMenu()" style="display:none;position:fixed;inset:0;top:64px;background:rgba(0,0,0,0.85);z-index:200;"></div>
 <!-- ALERT CONTAINER -->
 <div class="alert-container" id="alertContainer"></div>
 
@@ -2939,10 +3259,35 @@
   </div>
 </section>
 
+<!-- GIVEAWAY -->
+<section id="giveaway" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 02</span>
+    <h2 class="section-title">Giveaway</h2>
+    <div class="divider"></div>
+  </div>
+  <div id="giveawayWrap">
+    <div class="giveaway-none" id="giveawayNone">// Geen actieve giveaway op dit moment. Volg de stream voor aankondigingen!</div>
+    <div class="giveaway-wrap" id="giveawayActive" style="display:none;">
+      <div class="giveaway-title">// GIVEAWAY ACTIEF</div>
+      <div class="giveaway-prize" id="giveawayPrize">Prijs</div>
+      <div class="giveaway-desc" id="giveawayDesc"></div>
+      <div class="giveaway-entered" id="giveawayEntered">&#10003; Je doet al mee!</div>
+      <button class="giveaway-enter-btn" id="giveawayBtn" onclick="window.enterGiveaway()">&#127873; Meedoen!</button>
+      <div class="giveaway-count">&#128101; <span id="giveawayCount">0</span> deelnemers</div>
+      <div class="giveaway-winner-box" id="giveawayWinnerBox">
+        <div class="giveaway-winner-label">// WINNAAR</div>
+        <div class="giveaway-winner-name" id="giveawayWinner"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- STATS -->
 <section id="stats" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 02</span>
+    <span class="section-tag">// 03</span>
     <h2 class="section-title">Stream Statistieken</h2>
     <div class="divider"></div>
   </div>
@@ -2983,7 +3328,7 @@
 <!-- COUNTDOWN -->
 <section id="countdown" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 03</span>
+    <span class="section-tag">// 04</span>
     <h2 class="section-title">Volgende Stream</h2>
     <div class="divider"></div>
   </div>
@@ -3005,7 +3350,7 @@
 <!-- SCHEDULE -->
 <section id="schedule" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 04</span>
+    <span class="section-tag">// 05</span>
     <h2 class="section-title">Stream Schedule</h2>
     <div class="divider"></div>
   </div>
@@ -3030,7 +3375,7 @@
 <!-- TWITCH LIVE -->
 <section id="live" class="fade-in twitch-section">
   <div class="section-header">
-    <span class="section-tag">// 05</span>
+    <span class="section-tag">// 06</span>
     <h2 class="section-title">Live Stream <span id="liveBadge"></span></h2>
     <div class="divider"></div>
   </div>
@@ -3063,7 +3408,7 @@
 <!-- YOUTUBE VIDEOS -->
 <section id="videos" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 06</span>
+    <span class="section-tag">// 07</span>
     <h2 class="section-title">Nieuwste Videos</h2>
     <div class="divider"></div>
   </div>
@@ -3076,7 +3421,7 @@
 <!-- CLIPS -->
 <section id="clips" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 07</span>
+    <span class="section-tag">// 08</span>
     <h2 class="section-title">Beste Clips</h2>
     <div class="divider"></div>
   </div>
@@ -3088,7 +3433,7 @@
 <!-- GAMES -->
 <section id="games" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 08</span>
+    <span class="section-tag">// 09</span>
     <h2 class="section-title">Games</h2>
     <div class="divider"></div>
   </div>
@@ -3123,7 +3468,7 @@
 <!-- COMMANDS -->
 <section id="commands" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 09</span>
+    <span class="section-tag">// 10</span>
     <h2 class="section-title">Chat Commands</h2>
     <div class="divider"></div>
   </div>
@@ -3158,7 +3503,7 @@
 <!-- COMMUNITY (Poll + Discord) -->
 <section id="community" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 10</span>
+    <span class="section-tag">// 11</span>
     <h2 class="section-title">Community</h2>
     <div class="divider"></div>
   </div>
@@ -3187,7 +3532,7 @@
 <!-- LOYALITEIT LEADERBOARD -->
 <section id="loyaliteit" class="fade-in loyalty-section">
   <div class="section-header">
-    <span class="section-tag">// 11</span>
+    <span class="section-tag">// 12</span>
     <h2 class="section-title">Loyaliteit</h2>
     <div class="divider"></div>
   </div>
@@ -3213,7 +3558,7 @@
 <!-- DONATIE DOEL -->
 <section id="donatie" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 12</span>
+    <span class="section-tag">// 13</span>
     <h2 class="section-title">Donatie Doel</h2>
     <div class="divider"></div>
   </div>
@@ -3238,7 +3583,7 @@
 <!-- MERCH -->
 <section id="merch" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 13</span>
+    <span class="section-tag">// 14</span>
     <h2 class="section-title">Merch</h2>
     <div class="divider"></div>
   </div>
@@ -3253,7 +3598,7 @@
 <!-- SUPPORT -->
 <section id="support" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 14</span>
+    <span class="section-tag">// 15</span>
     <h2 class="section-title">Steun de Stream</h2>
     <div class="divider"></div>
   </div>
@@ -3282,7 +3627,7 @@
 <!-- GASTENBOEK -->
 <section id="gastenboek" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 15</span>
+    <span class="section-tag">// 16</span>
     <h2 class="section-title">Gastenboek</h2>
     <div class="divider"></div>
   </div>
@@ -3310,7 +3655,7 @@
 <!-- STAR CITIZEN -->
 <section id="starcitizen" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 16</span>
+    <span class="section-tag">// 17</span>
     <h2 class="section-title">Star Citizen</h2>
     <div class="divider"></div>
   </div>
@@ -3335,7 +3680,7 @@
 <!-- FAQ -->
 <section id="faq" class="fade-in">
   <div class="section-header">
-    <span class="section-tag">// 17</span>
+    <span class="section-tag">// 18</span>
     <h2 class="section-title">FAQ</h2>
     <div class="divider"></div>
   </div>
@@ -3386,29 +3731,6 @@
 </section>
 
 
-<!-- GIVEAWAY -->
-<section id="giveaway" class="fade-in">
-  <div class="section-header">
-    <span class="section-tag">// 18</span>
-    <h2 class="section-title">Giveaway</h2>
-    <div class="divider"></div>
-  </div>
-  <div id="giveawayWrap">
-    <div class="giveaway-none" id="giveawayNone">// Geen actieve giveaway op dit moment. Volg de stream voor aankondigingen!</div>
-    <div class="giveaway-wrap" id="giveawayActive" style="display:none;">
-      <div class="giveaway-title">// GIVEAWAY ACTIEF</div>
-      <div class="giveaway-prize" id="giveawayPrize">Prijs</div>
-      <div class="giveaway-desc" id="giveawayDesc"></div>
-      <div class="giveaway-entered" id="giveawayEntered">&#10003; Je doet al mee!</div>
-      <button class="giveaway-enter-btn" id="giveawayBtn" onclick="window.enterGiveaway()">&#127873; Meedoen!</button>
-      <div class="giveaway-count">&#128101; <span id="giveawayCount">0</span> deelnemers</div>
-      <div class="giveaway-winner-box" id="giveawayWinnerBox">
-        <div class="giveaway-winner-label">// WINNAAR</div>
-        <div class="giveaway-winner-name" id="giveawayWinner"></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- FOOTER -->
 <footer>
@@ -3592,13 +3914,22 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   let weekOffset = 0;
 
   function toggleMenu() {
-    document.getElementById('navLinks').classList.toggle('open');
-    document.getElementById('hamburger').classList.toggle('open');
+    const nav = document.getElementById('navLinks');
+    const ham = document.getElementById('hamburger');
+    const overlay = document.getElementById('menuOverlay');
+    const isOpen = nav.classList.toggle('open');
+    ham.classList.toggle('open', isOpen);
+    if (overlay) overlay.style.display = isOpen ? 'block' : 'none';
+    // Prevent body scroll when menu open
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
   document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
       document.getElementById('navLinks').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
+      const overlay = document.getElementById('menuOverlay');
+      if (overlay) overlay.style.display = 'none';
+      document.body.style.overflow = '';
     });
   });
 
@@ -5107,19 +5438,16 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
 
   // ── THEMA SCHAKELAAR ──
-  function toggleTheme() {
+  window.toggleTheme = function() {
     const isLight = document.body.classList.toggle('light-mode');
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    document.getElementById('themeBtn').textContent = isLight ? '☀' : '☾';
-  }
+    // Update menu toggle
+    if (window.updateMenuTheme) window.updateMenuTheme();
+  };
 
-  // Apply saved theme
+  // Apply saved theme on load
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('themeBtn');
-      if (btn) btn.textContent = '☀';
-    });
   }
 
   // ── COMMAND ZOEKFUNCTIE ──
@@ -5718,6 +6046,276 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     loadGiveaway();
   }, 1000);
 </script>
+
+
+<script>
+  // ── ACTIVE NAV LINK ON SCROLL ──
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const sections = document.querySelectorAll('section[id], div[id="top"]');
+
+  function updateActiveLink() {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.getBoundingClientRect().top;
+      if (top <= 100) current = section.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active-link', a.getAttribute('href') === '#' + current);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveLink, { passive: true });
+  updateActiveLink();
+</script>
+
+
+<script>
+  // ── HAMBURGER MENU LOGIC ──
+  function closeMenuOnMobile() {
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    const overlay = document.getElementById('menuOverlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function updateMenuUser(user) {
+    const userInfo   = document.getElementById('menuUserInfo');
+    const loginBtn   = document.getElementById('menuLoginBtn');
+    const logoutBtn  = document.getElementById('menuLogoutBtn');
+    const profileBtn = document.getElementById('menuProfileBtn');
+    const adminBtn   = document.getElementById('menuAdminBtn');
+    const avatar     = document.getElementById('menuAvatar');
+    const nameEl     = document.getElementById('menuUserName');
+    const emailEl    = document.getElementById('menuUserEmail');
+
+    if (user) {
+      const name = user.displayName || user.email.split('@')[0];
+      if (userInfo)  userInfo.style.display  = 'flex';
+      if (loginBtn)  loginBtn.style.display  = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'flex';
+      if (profileBtn) profileBtn.style.display = 'flex';
+      if (nameEl)  nameEl.textContent  = name;
+      if (emailEl) emailEl.textContent = user.email || '';
+      if (avatar) {
+        avatar.innerHTML = user.photoURL
+          ? '<img src="' + user.photoURL + '" alt="">'
+          : name[0].toUpperCase();
+      }
+      // Show admin button if admin
+      if (adminBtn) adminBtn.style.display = window.isAdmin ? 'flex' : 'none';
+    } else {
+      if (userInfo)   userInfo.style.display   = 'none';
+      if (loginBtn)   loginBtn.style.display   = 'flex';
+      if (logoutBtn)  logoutBtn.style.display  = 'none';
+      if (profileBtn) profileBtn.style.display = 'none';
+      if (adminBtn)   adminBtn.style.display   = 'none';
+    }
+  }
+
+  window.toggleThemeMenu = function() {
+    window.toggleTheme();
+    window.updateMenuTheme();
+  };
+
+  window.updateMenuTheme = function updateMenuTheme() {
+    const isLight  = document.body.classList.contains('light-mode');
+    const sw       = document.getElementById('menuThemeSwitch');
+    const icon     = document.getElementById('menuThemeIcon');
+    const label    = document.getElementById('menuThemeLabel');
+    if (sw)    sw.classList.toggle('on', isLight);
+    if (icon)  icon.textContent = isLight ? '☀' : '☾';
+    if (label) label.textContent = isLight ? 'Lichte modus' : 'Donkere modus';
+  };
+
+  function updateMenuLang() {
+    const lang = localStorage.getItem('lang') || 'nl';
+    const nlBtn = document.getElementById('menuBtnNL');
+    const enBtn = document.getElementById('menuBtnEN');
+    if (nlBtn) nlBtn.classList.toggle('active', lang === 'nl');
+    if (enBtn) enBtn.classList.toggle('active', lang === 'en');
+    // Sync top nav buttons too
+    const topNL = document.getElementById('btnNL');
+    const topEN = document.getElementById('btnEN');
+    if (topNL) topNL.classList.toggle('active', lang === 'nl');
+    if (topEN) topEN.classList.toggle('active', lang === 'en');
+  }
+
+  // Hook into auth state changes to update menu
+  const _origMenuAuth = setInterval(() => {
+    if (window._auth) {
+      clearInterval(_origMenuAuth);
+      // Watch auth state
+      const checkUser = setInterval(() => {
+        updateMenuUser(window.currentUser);
+        updateMenuTheme();
+        updateMenuLang();
+      }, 500);
+      // Stop checking after 10s
+      setTimeout(() => clearInterval(checkUser), 10000);
+    }
+  }, 200);
+
+  // Update on auth change
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.updateMenuTheme) window.updateMenuTheme();
+    updateMenuLang();
+
+    // Poll for user state changes
+    let lastUser = null;
+    setInterval(() => {
+      const user = window.currentUser;
+      if (user !== lastUser) {
+        lastUser = user;
+        updateMenuUser(user);
+        // Update admin button
+        const adminBtn = document.getElementById('menuAdminBtn');
+        if (adminBtn) adminBtn.style.display = window.isAdmin ? 'flex' : 'none';
+      }
+    }, 1000);
+  });
+</script>
+
+
+<style id="menuOverride">
+  /* ── MENU OVERRIDE ── */
+  #navLinks {
+    display: none !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 64px !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: calc(100vh - 64px) !important;
+    background: #060d1a !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    z-index: 9999 !important;
+    padding: 0 0 80px 0 !important;
+    margin: 0 !important;
+    list-style: none !important;
+  }
+  #navLinks.open {
+    display: flex !important;
+  }
+  #navLinks li {
+    list-style: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  #navLinks li a {
+    display: block !important;
+    width: 100% !important;
+    padding: 20px 32px !important;
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 1rem !important;
+    color: #7a99bb !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    letter-spacing: 0.05em !important;
+    box-sizing: border-box !important;
+    white-space: normal !important;
+    position: static !important;
+  }
+  #navLinks li a:hover {
+    color: #f9a825 !important;
+    background: rgba(249,168,37,0.06) !important;
+  }
+  #navLinks li a::after,
+  #navLinks li a::before {
+    display: none !important;
+  }
+  #navLinks .nav-menu-divider {
+    display: block !important;
+    height: 1px !important;
+    background: linear-gradient(to right, transparent, rgba(249,168,37,0.3), transparent) !important;
+    margin: 8px 20px !important;
+    width: auto !important;
+  }
+  #navLinks .nav-menu-section {
+    display: block !important;
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 0.65rem !important;
+    color: #4a5a78 !important;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase !important;
+    padding: 16px 32px 6px !important;
+    width: 100% !important;
+  }
+  #navLinks .nav-menu-btn {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    width: 100% !important;
+    padding: 20px 32px !important;
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    color: #7a99bb !important;
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+  }
+  #navLinks .nav-menu-btn:hover {
+    color: #f9a825 !important;
+    background: rgba(249,168,37,0.06) !important;
+  }
+  #navLinks .nav-menu-user {
+    display: none;
+    align-items: center !important;
+    gap: 14px !important;
+    padding: 20px 32px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    background: rgba(249,168,37,0.04) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  #navLinks .nav-menu-toggle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 20px 32px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    cursor: pointer !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  #navLinks .nav-menu-toggle-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 1rem !important;
+    color: #7a99bb !important;
+  }
+  #navLinks .lang-toggle-wrap {
+    display: flex !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  #navLinks .lang-toggle-btn {
+    flex: 1 !important;
+    padding: 18px !important;
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    color: #7a99bb !important;
+    font-family: 'Share Tech Mono', monospace !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    text-align: center !important;
+  }
+  #navLinks .lang-toggle-btn.active {
+    color: #f9a825 !important;
+    background: rgba(249,168,37,0.08) !important;
+  }
+  #menuOverlay {
+    z-index: 9998 !important;
+  }
+</style>
 
 </body>
 </html>
