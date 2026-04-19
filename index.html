@@ -2612,6 +2612,211 @@
   /* Live mode aanpassing voor body padding */
   body.is-live { padding-top: 36px; }
 
+
+  /* ── STREAM ALERTS ── */
+  .alert-container {
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    z-index: 400;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 12px;
+    pointer-events: none;
+  }
+
+  .stream-alert {
+    background: rgba(6,13,26,0.95);
+    border: 1px solid rgba(249,168,37,0.5);
+    backdrop-filter: blur(12px);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 280px;
+    max-width: 340px;
+    animation: alertSlideIn 0.4s ease, alertFadeOut 0.4s ease 4.6s forwards;
+    pointer-events: all;
+  }
+
+  .stream-alert.alert-sub    { border-color: rgba(145,71,255,0.6); }
+  .stream-alert.alert-follow { border-color: rgba(79,195,247,0.6); }
+  .stream-alert.alert-donate { border-color: rgba(249,168,37,0.6); }
+  .stream-alert.alert-raid   { border-color: rgba(52,211,153,0.6); }
+
+  .alert-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .alert-body { flex: 1; }
+  .alert-title {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .alert-sub .alert-title  { color: #9147ff; }
+  .alert-follow .alert-title { color: var(--cyan); }
+  .alert-donate .alert-title { color: var(--amber); }
+  .alert-raid .alert-title   { color: #34d399; }
+  .alert-msg {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  @keyframes alertSlideIn {
+    from { opacity: 0; transform: translateX(60px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes alertFadeOut {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(60px); }
+  }
+
+  /* ── CLIP VAN DE WEEK ── */
+  .clip-week-wrap {
+    background: var(--navy2);
+    border: 1px solid rgba(249,168,37,0.3);
+    overflow: hidden;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .clip-week-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    z-index: 2;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    background: var(--amber);
+    color: var(--navy);
+    padding: 4px 10px;
+    letter-spacing: 0.1em;
+  }
+  .clip-week-embed {
+    position: relative;
+    padding-bottom: 56.25%;
+    background: var(--navy3);
+  }
+  .clip-week-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .clip-week-info {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .clip-week-title {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--amber);
+  }
+  .clip-week-views {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  /* ── GIVEAWAY ── */
+  .giveaway-wrap {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.2);
+    padding: 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .giveaway-wrap::before {
+    content: '🎁';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.04;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .giveaway-title {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    color: var(--amber);
+    margin-bottom: 8px;
+    letter-spacing: 0.08em;
+  }
+  .giveaway-prize {
+    font-family: var(--sans);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .giveaway-desc {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .giveaway-enter-btn {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 12px 32px;
+    background: linear-gradient(135deg, var(--amber), var(--amber-dim));
+    color: var(--navy);
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+  }
+  .giveaway-enter-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .giveaway-enter-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .giveaway-count {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+  .giveaway-count span { color: var(--cyan); }
+  .giveaway-entered {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: #34d399;
+    padding: 10px 20px;
+    border: 1px solid rgba(52,211,153,0.3);
+    display: none;
+    margin-bottom: 16px;
+  }
+  .giveaway-winner-box {
+    background: linear-gradient(135deg, rgba(249,168,37,0.1), rgba(79,195,247,0.1));
+    border: 1px solid rgba(249,168,37,0.4);
+    padding: 20px;
+    margin-top: 20px;
+    display: none;
+  }
+  .giveaway-winner-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .giveaway-winner-name {
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    color: var(--amber);
+  }
+  .giveaway-none {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    padding: 32px 0;
+  }
+
 </style>
 </head>
 <body>
@@ -2634,6 +2839,7 @@
     <li><a href="#gastenboek">Gastenboek</a></li>
     <li><a href="#starcitizen">Star Citizen</a></li>
     <li><a href="#faq">FAQ</a></li>
+    <li><a href="#giveaway">Giveaway</a></li>
   </ul>
   <div class="lang-switch">
     <button class="lang-btn active" id="btnNL" onclick="setLang('nl')">NL</button>
@@ -2647,6 +2853,9 @@
 </nav>
 
 
+
+<!-- ALERT CONTAINER -->
+<div class="alert-container" id="alertContainer"></div>
 
 <!-- LIVE STATUS BAR -->
 <div class="live-status-bar" id="liveStatusBar">
@@ -3176,6 +3385,31 @@
   </div>
 </section>
 
+
+<!-- GIVEAWAY -->
+<section id="giveaway" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 18</span>
+    <h2 class="section-title">Giveaway</h2>
+    <div class="divider"></div>
+  </div>
+  <div id="giveawayWrap">
+    <div class="giveaway-none" id="giveawayNone">// Geen actieve giveaway op dit moment. Volg de stream voor aankondigingen!</div>
+    <div class="giveaway-wrap" id="giveawayActive" style="display:none;">
+      <div class="giveaway-title">// GIVEAWAY ACTIEF</div>
+      <div class="giveaway-prize" id="giveawayPrize">Prijs</div>
+      <div class="giveaway-desc" id="giveawayDesc"></div>
+      <div class="giveaway-entered" id="giveawayEntered">&#10003; Je doet al mee!</div>
+      <button class="giveaway-enter-btn" id="giveawayBtn" onclick="window.enterGiveaway()">&#127873; Meedoen!</button>
+      <div class="giveaway-count">&#128101; <span id="giveawayCount">0</span> deelnemers</div>
+      <div class="giveaway-winner-box" id="giveawayWinnerBox">
+        <div class="giveaway-winner-label">// WINNAAR</div>
+        <div class="giveaway-winner-name" id="giveawayWinner"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">TheGamersCubeNL</div>
@@ -3679,6 +3913,8 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       <button class="admin-tab" onclick="adminTab('merch', this)">&#128230; Merch</button>
       <button class="admin-tab" onclick="adminTab('loyalty', this)">&#127942; Loyaliteit</button>
       <button class="admin-tab" onclick="adminTab('users', this)">&#128101; Gebruikers</button>
+      <button class="admin-tab" onclick="adminTab('clipweek', this)">&#127942; Clip Week</button>
+      <button class="admin-tab" onclick="adminTab('giveaway', this)">&#127873; Giveaway</button>
     </div>
 
     <!-- AANKONDIGING -->
@@ -3805,6 +4041,40 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         <div class="admin-success" id="users-success">Klaar!</div>
         <div id="adminUsersList"><div style="font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);">Klik laden om gebruikers te zien.</div></div>
         <button class="admin-save-btn" style="margin-top:12px;" onclick="window.loadAdminUsers()">Gebruikers laden</button>
+      </div>
+    </div>
+
+    <!-- CLIP VAN DE WEEK -->
+    <div class="admin-section" id="admin-clipweek">
+      <div class="admin-card">
+        <h3>[ CLIP VAN DE WEEK INSTELLEN ]</h3>
+        <div class="admin-success" id="clipweek-success">Clip opgeslagen!</div>
+        <input class="admin-input" id="cwSlug" placeholder="Clip slug/ID (uit Twitch URL, bijv: TheGamersCubeNL-abc123)">
+        <input class="admin-input" id="cwTitle" placeholder="Clip titel">
+        <input class="admin-input" id="cwViews" placeholder="Aantal views (bijv: 1.2K)">
+        <div style="display:flex;gap:10px;">
+          <button class="admin-save-btn" onclick="window.saveClipWeek()">Opslaan</button>
+          <button class="admin-delete-btn" onclick="window.clearClipWeek()">Verwijderen</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIVEAWAY BEHEER -->
+    <div class="admin-section" id="admin-giveaway">
+      <div class="admin-card">
+        <h3>[ GIVEAWAY INSTELLEN ]</h3>
+        <div class="admin-success" id="giveaway-success">Opgeslagen!</div>
+        <input class="admin-input" id="gwPrize" placeholder="Prijs, bijv: Star Citizen Starter Pack">
+        <input class="admin-input" id="gwDesc" placeholder="Beschrijving, bijv: Log in en klik op meedoen!">
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="admin-save-btn" onclick="window.startGiveaway()">Giveaway starten</button>
+          <button class="admin-delete-btn" onclick="window.endGiveaway()">Beeindigen</button>
+        </div>
+      </div>
+      <div class="admin-card">
+        <h3>[ WINNAAR TREKKEN ]</h3>
+        <button class="admin-save-btn" onclick="window.drawGiveawayWinner()">&#127922; Trek winnaar!</button>
+        <div style="margin-top:12px;font-family:var(--mono);font-size:0.8rem;color:var(--text-dim);" id="adminGwResult"></div>
       </div>
     </div>
 
@@ -5231,6 +5501,222 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   }
 
   document.addEventListener('DOMContentLoaded', initStreamerbotListener);
+</script>
+
+
+<script>
+  // ── STREAM ALERTS ──
+  function showAlert(type, icon, title, msg) {
+    const container = document.getElementById('alertContainer');
+    if (!container) return;
+
+    const alert = document.createElement('div');
+    alert.className = 'stream-alert alert-' + type;
+    alert.innerHTML = '<div class="alert-icon">' + icon + '</div>'
+      + '<div class="alert-body">'
+      + '<div class="alert-title">' + title + '</div>'
+      + '<div class="alert-msg">' + msg + '</div>'
+      + '</div>';
+    container.appendChild(alert);
+
+    // Remove after 5 seconds
+    setTimeout(() => {
+      alert.style.animation = 'alertFadeOut 0.4s ease forwards';
+      setTimeout(() => alert.remove(), 400);
+    }, 5000);
+  }
+
+  // Listen to Firestore for stream alerts from Streamerbot
+  async function initAlertListener() {
+    if (!window._db) { setTimeout(initAlertListener, 500); return; }
+    try {
+      const { onSnapshot, doc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      onSnapshot(doc(window._db, 'stream', 'alert'), snap => {
+        if (!snap.exists()) return;
+        const data = snap.data();
+        if (!data.type || !data.timestamp) return;
+
+        // Only show alerts from last 10 seconds (not old ones on page load)
+        const age = Date.now() - (data.timestamp || 0);
+        if (age > 10000) return;
+
+        const lastShown = sessionStorage.getItem('lastAlert');
+        if (lastShown === data.timestamp + data.type) return;
+        sessionStorage.setItem('lastAlert', data.timestamp + data.type);
+
+        switch(data.type) {
+          case 'follow':
+            showAlert('follow', '&#128065;', 'NIEUWE VOLGER!', data.user + ' volgt nu TheGamersCubeNL!');
+            break;
+          case 'sub':
+            showAlert('sub', '&#11088;', 'NIEUWE SUB!', data.user + ' heeft gesubscribed!' + (data.msg ? ' "' + data.msg + '"' : ''));
+            break;
+          case 'donate':
+            showAlert('donate', '&#10084;', 'DONATIE! €' + data.amount, data.user + ' heeft €' + data.amount + ' gedoneerd!' + (data.msg ? ' "' + data.msg + '"' : ''));
+            break;
+          case 'raid':
+            showAlert('raid', '&#128640;', 'RAID!', data.user + ' raidt met ' + data.viewers + ' kijkers!');
+            break;
+          case 'cheer':
+            showAlert('donate', '&#127881;', data.amount + ' BITS!', data.user + ' heeft ' + data.amount + ' bits gegeven!');
+            break;
+        }
+      });
+    } catch(e) { console.error('Alert listener error:', e); }
+  }
+
+  // ── CLIP VAN DE WEEK ──
+  async function loadClipWeek() {
+    if (!window._db) { setTimeout(loadClipWeek, 500); return; }
+    try {
+      const snap = await window._getDoc(window._doc(window._db, 'settings', 'clipWeek'));
+      if (!snap.exists() || !snap.data().slug) return;
+      const data = snap.data();
+      const wrap  = document.getElementById('clipWeekWrap');
+      const embed = document.getElementById('clipWeekEmbed');
+      const title = document.getElementById('clipWeekTitle');
+      const views = document.getElementById('clipWeekViews');
+      if (!wrap || !embed) return;
+      embed.innerHTML = '<iframe src="https://clips.twitch.tv/embed?clip=' + data.slug
+        + '&parent=thegamerscube.nl&autoplay=false" allowfullscreen></iframe>';
+      if (title) title.textContent = data.title || 'Clip van de week';
+      if (views) views.textContent = (data.views || '') + ' views';
+      wrap.style.display = 'block';
+    } catch(e) { console.error('Clip week error:', e); }
+  }
+
+  window.saveClipWeek = async function() {
+    const slug  = document.getElementById('cwSlug').value.trim();
+    const title = document.getElementById('cwTitle').value.trim();
+    const views = document.getElementById('cwViews').value.trim();
+    if (!slug) return;
+    try {
+      await window._setDoc(window._doc(window._db, 'settings', 'clipWeek'), { slug, title, views });
+      showAdminSuccess('clipweek-success');
+      loadClipWeek();
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  window.clearClipWeek = async function() {
+    try {
+      await window._setDoc(window._doc(window._db, 'settings', 'clipWeek'), { slug: '' });
+      document.getElementById('clipWeekWrap').style.display = 'none';
+      showAdminSuccess('clipweek-success');
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  // ── GIVEAWAY ──
+  async function loadGiveaway() {
+    if (!window._db) { setTimeout(loadGiveaway, 500); return; }
+    try {
+      const { onSnapshot, doc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      onSnapshot(doc(window._db, 'settings', 'giveaway'), snap => {
+        if (!snap.exists()) return;
+        const data = snap.data();
+        const noneEl   = document.getElementById('giveawayNone');
+        const activeEl = document.getElementById('giveawayActive');
+        const prizeEl  = document.getElementById('giveawayPrize');
+        const descEl   = document.getElementById('giveawayDesc');
+        const countEl  = document.getElementById('giveawayCount');
+        const winnerBox = document.getElementById('giveawayWinnerBox');
+        const winnerEl  = document.getElementById('giveawayWinner');
+        const enteredEl = document.getElementById('giveawayEntered');
+        const btn       = document.getElementById('giveawayBtn');
+
+        if (!data.active) {
+          if (noneEl) noneEl.style.display = 'block';
+          if (activeEl) activeEl.style.display = 'none';
+          return;
+        }
+
+        if (noneEl) noneEl.style.display = 'none';
+        if (activeEl) activeEl.style.display = 'block';
+        if (prizeEl) prizeEl.textContent = data.prize || 'Verrassing!';
+        if (descEl) descEl.textContent = data.desc || '';
+
+        const entries = data.entries || [];
+        if (countEl) countEl.textContent = entries.length;
+
+        // Check if current user entered
+        const uid = window.currentUser ? window.currentUser.uid : null;
+        const hasEntered = uid && entries.includes(uid);
+        if (enteredEl) enteredEl.style.display = hasEntered ? 'block' : 'none';
+        if (btn) {
+          btn.disabled = hasEntered || !window.currentUser;
+          btn.textContent = !window.currentUser ? '🔐 Log in om mee te doen' : (hasEntered ? '✓ Je doet al mee!' : '🎁 Meedoen!');
+        }
+
+        // Show winner if drawn
+        if (data.winner) {
+          if (winnerBox) winnerBox.style.display = 'block';
+          if (winnerEl) winnerEl.textContent = data.winnerName || data.winner;
+        } else {
+          if (winnerBox) winnerBox.style.display = 'none';
+        }
+      });
+    } catch(e) { console.error('Giveaway error:', e); }
+  }
+
+  window.enterGiveaway = async function() {
+    if (!window.currentUser || !window._db) { window.openAuthModal('login'); return; }
+    try {
+      const { getDoc, doc, updateDoc, arrayUnion } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+      const ref = doc(window._db, 'settings', 'giveaway');
+      await updateDoc(ref, { entries: arrayUnion(window.currentUser.uid) });
+      await awardPoints(25, 'giveaway deelname');
+    } catch(e) { alert('Fout bij deelnemen: ' + e.message); }
+  };
+
+  window.startGiveaway = async function() {
+    const prize = document.getElementById('gwPrize').value.trim();
+    const desc  = document.getElementById('gwDesc').value.trim();
+    if (!prize) return;
+    try {
+      await window._setDoc(window._doc(window._db, 'settings', 'giveaway'), {
+        active: true, prize, desc, entries: [], winner: null, winnerName: null
+      });
+      showAdminSuccess('giveaway-success');
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  window.endGiveaway = async function() {
+    try {
+      await window._setDoc(window._doc(window._db, 'settings', 'giveaway'), { active: false });
+      showAdminSuccess('giveaway-success');
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  window.drawGiveawayWinner = async function() {
+    if (!window._db) return;
+    const resultEl = document.getElementById('adminGwResult');
+    try {
+      const snap = await window._getDoc(window._doc(window._db, 'settings', 'giveaway'));
+      const data = snap.data();
+      const entries = data.entries || [];
+      if (entries.length === 0) { if (resultEl) resultEl.textContent = 'Geen deelnemers!'; return; }
+
+      // Pick random winner
+      const winnerUid = entries[Math.floor(Math.random() * entries.length)];
+
+      // Get winner name from loyalty
+      const loySnap = await window._getDoc(window._doc(window._db, 'loyalty', winnerUid));
+      const winnerName = loySnap.exists() ? (loySnap.data().name || winnerUid) : winnerUid;
+
+      await window._setDoc(window._doc(window._db, 'settings', 'giveaway'), {
+        ...data, winner: winnerUid, winnerName
+      });
+
+      if (resultEl) resultEl.textContent = '🎉 Winnaar: ' + winnerName;
+      showAdminSuccess('giveaway-success');
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
+  // ── INIT ──
+  setTimeout(() => {
+    initAlertListener();
+    loadClipWeek();
+    loadGiveaway();
+  }, 1000);
 </script>
 
 </body>
