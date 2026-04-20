@@ -134,7 +134,16 @@
   }
   .nav-logo span { color: var(--cyan); }
 
-  /* nav-links base removed */
+  /* nav-links desktop */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
   .nav-links::-webkit-scrollbar { display: none; }
 
   .nav-links a {
@@ -3908,11 +3917,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   window._updateProfile = (u,d) => updateProfile(u, d);
   window._signOut = () => signOut(auth);
 
-  // Extra Firestore functies voor gastenboek en community
-  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(fs => {
-    
-    console.log('[Firebase] Extra Firestore functies geladen');
-  });
+  // Firestore functies zijn al geëxposed via window._* hierboven
 </script>
 <script>
   const CAL_API_KEY = 'AIzaSyAJ8gVAbin4IC6RvjilrG2xS5XcqfFK1bM';
@@ -4676,7 +4681,10 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       }).join('');
 
       // Show current user card
+      const notLoggedIn = document.getElementById('loyaltyNotLoggedIn');
       if (window.currentUser) {
+        // Verberg "Log in" bericht altijd als gebruiker ingelogd is
+        if (notLoggedIn) notLoggedIn.style.display = 'none';
         const me = users.find(u => u.id === window.currentUser.uid);
         if (me) {
           const myWrap = document.getElementById('myLoyaltyWrap');
@@ -4688,8 +4696,9 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           if (myPts)  myPts.textContent = me.pts || 0;
           if (myName) myName.textContent = me.name || window.currentUser.displayName || 'Jij';
           if (myBadge) myBadge.innerHTML = '<span class="loyalty-badge ' + badge.cls + '">' + badge.label + '</span>';
-          document.getElementById('loyaltyNotLoggedIn').style.display = 'none';
         }
+      } else {
+        if (notLoggedIn) notLoggedIn.style.display = 'block';
       }
     } catch(e) { console.error('Loyalty error:', e); }
   }
@@ -4872,6 +4881,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       loadDonatie();
       loadLoyalty();
       loadGuestbook();
+      loadCountdown(); // ← was vergeten
     } else {
       setTimeout(initCommunity, 300);
     }
@@ -4880,25 +4890,36 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   setTimeout(initCommunity, 500);
 
   // Award points when user logs in
-  const origOnAuth = window._onAuthCallback;
   document.addEventListener('userLoggedIn', function() {
     checkDailyVisit();
     loadLoyalty();
   });
 
-  // Hook into auth state — check daily visit when logged in
+  // Wacht op auth + db zonder tijdslimiet
+  let _loyaltyReady = false;
   const loyaltyAuthCheck = setInterval(() => {
-    if (window.currentUser && window._db) {
+    if (window.currentUser && window._db && !_loyaltyReady) {
+      _loyaltyReady = true;
       clearInterval(loyaltyAuthCheck);
       checkDailyVisit();
       loadLoyalty();
     }
   }, 300);
+
+  // Herlaad loyaliteit bij uitloggen/inloggen
+  let _loyaltyLastUser = undefined;
+  setInterval(() => {
+    const uid = window.currentUser ? window.currentUser.uid : null;
+    if (uid !== _loyaltyLastUser) {
+      _loyaltyLastUser = uid;
+      if (window._db) loadLoyalty();
+    }
+  }, 800);
 </script>
 
 
 <script>
-  const TWITCH_CLIENT_ID = "rslqdwlaavll6tw4k03j5vke3ff7hh";
+  const TWITCH_PROXY     = "https://twitch-proxy.www-cornelis.workers.dev/"; // ← vervang na deploy
   const TWITCH_CHANNEL   = "TheGamersCubeNL";
   const YT_KEY2          = "AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU";
   const YT_CH_ID2        = "UCJapCi1J_QZgCcA89J8dPTQ";
@@ -4952,37 +4973,22 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   async function loadClips() {
     const grid = document.getElementById('clipsGrid');
     try {
-      // Get access token (app credentials flow via public proxy)
-      const tokenRes = await fetch('https://id.twitch.tv/oauth2/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'client_id=' + TWITCH_CLIENT_ID + '&client_secret=0fsubu181o1r9ytjgwtgrnczntxvjp&grant_type=client_credentials'
-      });
-      if (!tokenRes.ok) throw new Error('Token ophalen mislukt');
-      const tokenData = await tokenRes.json();
-      const token = tokenData.access_token;
-
-      // Get broadcaster ID
-      const userRes = await fetch('https://api.twitch.tv/helix/users?login=' + TWITCH_CHANNEL, {
-        headers: { 'Client-ID': TWITCH_CLIENT_ID, 'Authorization': 'Bearer ' + token }
-      });
+      // Stap 1: broadcaster ID ophalen via proxy
+      const userRes = await fetch(TWITCH_PROXY + '/user?login=' + TWITCH_CHANNEL);
+      if (!userRes.ok) throw new Error('Gebruiker niet gevonden');
       const userData = await userRes.json();
       const broadcasterId = userData.data && userData.data[0] && userData.data[0].id;
       if (!broadcasterId) throw new Error('Broadcaster niet gevonden');
 
-      // Get follower count for stats
-      const followRes = await fetch('https://api.twitch.tv/helix/channels/followers?broadcaster_id=' + broadcasterId, {
-        headers: { 'Client-ID': TWITCH_CLIENT_ID, 'Authorization': 'Bearer ' + token }
-      });
+      // Stap 2: followers ophalen via proxy
+      const followRes = await fetch(TWITCH_PROXY + '/followers?broadcaster_id=' + broadcasterId);
       const followData = await followRes.json();
       const followers = followData.total || 0;
       const fEl = document.getElementById('statFollowers');
       if (fEl) fEl.textContent = followers >= 1000 ? (followers/1000).toFixed(1) + 'K' : followers;
 
-      // Get clips
-      const clipsRes = await fetch('https://api.twitch.tv/helix/clips?broadcaster_id=' + broadcasterId + '&first=6', {
-        headers: { 'Client-ID': TWITCH_CLIENT_ID, 'Authorization': 'Bearer ' + token }
-      });
+      // Stap 3: clips ophalen via proxy
+      const clipsRes = await fetch(TWITCH_PROXY + '/clips?broadcaster_id=' + broadcasterId + '&first=6');
       const clipsData = await clipsRes.json();
       const clips = clipsData.data || [];
 
@@ -5638,36 +5644,12 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 <script>
   // ── TWITCH LIVE STATUS + KIJKERS ──
   const TWITCH_ID  = "rslqdwlaavll6tw4k03j5vke3ff7hh";
-  const TWITCH_SEC = "0fsubu181o1r9ytjgwtgrnczntxvjp";
   let isLiveNow = false;
   let liveCheckInterval = null;
 
-  async function getTwitchToken() {
-    try {
-      const cached = sessionStorage.getItem('twitch_token');
-      const cachedExp = sessionStorage.getItem('twitch_token_exp');
-      if (cached && cachedExp && Date.now() < parseInt(cachedExp)) return cached;
-
-      const res = await fetch('https://id.twitch.tv/oauth2/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'client_id=' + TWITCH_ID + '&client_secret=' + TWITCH_SEC + '&grant_type=client_credentials'
-      });
-      const data = await res.json();
-      sessionStorage.setItem('twitch_token', data.access_token);
-      sessionStorage.setItem('twitch_token_exp', Date.now() + (data.expires_in - 300) * 1000);
-      return data.access_token;
-    } catch(e) { return null; }
-  }
-
   async function checkLiveStatus() {
     try {
-      const token = await getTwitchToken();
-      if (!token) return;
-
-      const res = await fetch('https://api.twitch.tv/helix/streams?user_login=TheGamersCubeNL', {
-        headers: { 'Client-ID': TWITCH_ID, 'Authorization': 'Bearer ' + token }
-      });
+      const res = await fetch(TWITCH_PROXY + '/stream?channel=TheGamersCubeNL');
       const data = await res.json();
       const stream = data.data && data.data[0];
       const wasLive = isLiveNow;
