@@ -3109,6 +3109,163 @@
     .nav-links.open li a::after { display: none; }
   }
 
+  /* ── CONTACT ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
+
+  .contact-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 0.18em;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  .contact-field-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) { .contact-field-group { grid-template-columns: 1fr; } }
+
+  .contact-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .contact-field-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .contact-input {
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.2);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .contact-input:focus { border-color: var(--cyan); }
+  .contact-textarea { min-height: 130px; resize: vertical; }
+  .contact-select { cursor: pointer; }
+  .contact-select option { background: var(--navy2); }
+
+  .contact-btn {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    padding: 12px 32px;
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .contact-btn:hover { background: var(--cyan); color: var(--navy); }
+  .contact-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .contact-btn-zakelijk { border-color: var(--amber); color: var(--amber); }
+  .contact-btn-zakelijk:hover { background: var(--amber); color: var(--navy); }
+
+  .contact-feedback {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    margin-top: 12px;
+    min-height: 20px;
+  }
+  .contact-feedback.success { color: #4caf50; }
+  .contact-feedback.error   { color: #ef5350; }
+
+  .contact-info-wrap { display: flex; flex-direction: column; gap: 16px; }
+  .contact-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--navy2);
+    border: 1px solid rgba(79,195,247,0.12);
+    padding: 18px 20px;
+  }
+  .contact-info-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .contact-info-title {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .contact-info-val { font-family: var(--sans); font-size: 0.95rem; color: var(--text); margin-bottom: 6px; }
+  .contact-info-link {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--cyan);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+  }
+  .contact-info-link:hover { text-decoration: underline; }
+  .contact-response-note {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    opacity: 0.6;
+  }
+
+  /* ── ZAKELIJK ── */
+  .zakelijk-intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .zakelijk-intro-text {
+    flex: 1;
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.7;
+    min-width: 200px;
+  }
+  .zakelijk-stats {
+    display: flex;
+    gap: 28px;
+    flex-shrink: 0;
+  }
+  .zakelijk-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .zakelijk-stat-val {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    color: var(--amber);
+  }
+  .zakelijk-stat-label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .zakelijk-form-wrap { max-width: 780px; }
+  .zakelijk-disclaimer {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-top: 14px;
+    opacity: 0.6;
+  }
+
 </style>
 </head>
 <body>
@@ -3131,6 +3288,8 @@
     <li><a href="#starcitizen">Star Citizen</a></li>
     <li><a href="#gastenboek">Gastenboek</a></li>
     <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#zakelijk">Zakelijk</a></li>
 
     <!-- MENU EXTRAS (zichtbaar in hamburger) -->
     <div class="nav-menu-divider"></div>
@@ -3750,6 +3909,124 @@
 </section>
 
 
+
+<!-- CONTACT -->
+<section id="contact" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 19</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-form-wrap">
+      <div class="contact-label">// STUUR EEN BERICHT</div>
+      <div class="contact-field-group">
+        <div class="contact-field">
+          <label class="contact-field-label">Naam</label>
+          <input class="contact-input" type="text" id="contactNaam" placeholder="Jouw naam">
+        </div>
+        <div class="contact-field">
+          <label class="contact-field-label">E-mailadres</label>
+          <input class="contact-input" type="email" id="contactEmail" placeholder="jouw@email.nl">
+        </div>
+      </div>
+      <div class="contact-field">
+        <label class="contact-field-label">Bericht</label>
+        <textarea class="contact-input contact-textarea" id="contactBericht" placeholder="Schrijf hier je bericht..."></textarea>
+      </div>
+      <button class="contact-btn" onclick="window.submitContact()" id="contactBtn">
+        <span id="contactBtnText">Versturen</span>
+      </button>
+      <div class="contact-feedback" id="contactFeedback"></div>
+    </div>
+    <div class="contact-info-wrap">
+      <div class="contact-label">// DIRECT CONTACT</div>
+      <div class="contact-info-card">
+        <div class="contact-info-icon">✉</div>
+        <div>
+          <div class="contact-info-title">E-mail</div>
+          <div class="contact-info-val">contact@thegamerscube.nl</div>
+        </div>
+      </div>
+      <div class="contact-info-card">
+        <div class="contact-info-icon">💬</div>
+        <div>
+          <div class="contact-info-title">Discord</div>
+          <div class="contact-info-val">Snelste reactie via onze Discord server</div>
+          <a class="contact-info-link" href="https://discord.gg/TheGamersCubeNL" target="_blank">Naar Discord →</a>
+        </div>
+      </div>
+      <div class="contact-info-card">
+        <div class="contact-info-icon">🎮</div>
+        <div>
+          <div class="contact-info-title">Twitch</div>
+          <div class="contact-info-val">Stuur een DM via Twitch</div>
+          <a class="contact-info-link" href="https://twitch.tv/TheGamersCubeNL" target="_blank">Naar Twitch →</a>
+        </div>
+      </div>
+      <div class="contact-response-note">// Reactietijd: binnen 48 uur</div>
+    </div>
+  </div>
+</section>
+
+<!-- ZAKELIJK CONTACT -->
+<section id="zakelijk" class="fade-in">
+  <div class="section-header">
+    <span class="section-tag">// 20</span>
+    <h2 class="section-title">Zakelijk Contact</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="zakelijk-intro">
+    <div class="zakelijk-intro-text">
+      Interesse in een samenwerking, sponsoring of branded content? Vul het formulier in en ik neem zo snel mogelijk contact op.
+    </div>
+    <div class="zakelijk-stats">
+      <div class="zakelijk-stat"><span class="zakelijk-stat-val" id="statFollowers2">—</span><span class="zakelijk-stat-label">Twitch volgers</span></div>
+      <div class="zakelijk-stat"><span class="zakelijk-stat-val" id="statSubscribers2">—</span><span class="zakelijk-stat-label">YouTube abonnees</span></div>
+      <div class="zakelijk-stat"><span class="zakelijk-stat-val">NL</span><span class="zakelijk-stat-label">Primair publiek</span></div>
+    </div>
+  </div>
+  <div class="contact-form-wrap zakelijk-form-wrap">
+    <div class="contact-label">// ZAKELIJKE AANVRAAG</div>
+    <div class="contact-field-group">
+      <div class="contact-field">
+        <label class="contact-field-label">Bedrijfsnaam</label>
+        <input class="contact-input" type="text" id="zakelijkBedrijf" placeholder="Jouw bedrijf">
+      </div>
+      <div class="contact-field">
+        <label class="contact-field-label">Contactpersoon</label>
+        <input class="contact-input" type="text" id="zakelijkContact" placeholder="Naam contactpersoon">
+      </div>
+    </div>
+    <div class="contact-field-group">
+      <div class="contact-field">
+        <label class="contact-field-label">E-mailadres</label>
+        <input class="contact-input" type="email" id="zakelijkEmail" placeholder="zakelijk@bedrijf.nl">
+      </div>
+      <div class="contact-field">
+        <label class="contact-field-label">Type samenwerking</label>
+        <select class="contact-input contact-select" id="zakelijkType">
+          <option value="">Selecteer type...</option>
+          <option value="Sponsoring">Sponsoring</option>
+          <option value="Product review">Product review</option>
+          <option value="Branded content">Branded content</option>
+          <option value="Affiliate">Affiliate samenwerking</option>
+          <option value="Event">Event / Toernooi</option>
+          <option value="Anders">Anders</option>
+        </select>
+      </div>
+    </div>
+    <div class="contact-field">
+      <label class="contact-field-label">Omschrijving</label>
+      <textarea class="contact-input contact-textarea" id="zakelijkBericht" placeholder="Beschrijf je voorstel, budget, tijdlijn en wat je verwacht..."></textarea>
+    </div>
+    <button class="contact-btn contact-btn-zakelijk" onclick="window.submitZakelijk()" id="zakelijkBtn">
+      <span id="zakelijkBtnText">Aanvraag versturen</span>
+    </button>
+    <div class="contact-feedback" id="zakelijkFeedback"></div>
+    <div class="zakelijk-disclaimer">// Reactietijd: binnen 2 werkdagen · info@thegamerscube.nl</div>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -4881,7 +5158,6 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       loadDonatie();
       loadLoyalty();
       loadGuestbook();
-      loadCountdown(); // ← was vergeten
     } else {
       setTimeout(initCommunity, 300);
     }
@@ -4924,39 +5200,67 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   const YT_KEY2          = "AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU";
   const YT_CH_ID2        = "UCJapCi1J_QZgCcA89J8dPTQ";
 
-  // ── COUNTDOWN ──
+  // ── COUNTDOWN (via Google Calendar) ──
   let countdownInterval = null;
 
   async function loadCountdown() {
-    if (!window._db) { setTimeout(loadCountdown, 300); return; }
+    const wrap = document.getElementById('countdownWrap');
     try {
-      const snap = await window._getDoc(window._doc(window._db, 'settings', 'nextStream'));
-      const wrap = document.getElementById('countdownWrap');
-      if (!snap.exists() || !snap.data().date) {
+      const now    = new Date();
+      const tMin   = now.toISOString();
+      const tMax   = new Date(now.getTime() + 60 * 24 * 3600 * 1000).toISOString(); // 60 dagen vooruit
+      const url    = 'https://www.googleapis.com/calendar/v3/calendars/'
+        + encodeURIComponent(CAL_ID) + '/events?key=' + CAL_API_KEY
+        + '&timeMin=' + encodeURIComponent(tMin)
+        + '&timeMax=' + encodeURIComponent(tMax)
+        + '&singleEvents=true&orderBy=startTime&maxResults=10';
+
+      const res    = await fetch(url);
+      if (!res.ok) throw new Error('Calendar HTTP ' + res.status);
+      const events = (await res.json()).items || [];
+
+      // Pak het eerste toekomstige event
+      const next = events.find(ev => {
+        const start = new Date(ev.start.dateTime || ev.start.date);
+        return start > now;
+      });
+
+      if (!next) {
         if (wrap) wrap.innerHTML = '<div class="countdown-title">// VOLGENDE STREAM</div>'
           + '<div class="countdown-none">Nog geen stream gepland. Volg de agenda of Discord!</div>';
         return;
       }
-      const data = snap.data();
-      const nameEl = document.getElementById('countdownName');
-      if (nameEl) nameEl.textContent = data.title || 'Livestream';
 
+      // Zet de naam
+      const nameEl = document.getElementById('countdownName');
+      if (nameEl) nameEl.textContent = next.summary || 'Livestream';
+
+      const targetDate = new Date(next.start.dateTime || next.start.date);
+
+      // Start de afteller
       if (countdownInterval) clearInterval(countdownInterval);
       countdownInterval = setInterval(() => {
-        const now  = new Date();
-        const then = new Date(data.date);
-        const diff = then - now;
+        const diff = targetDate - new Date();
         if (diff <= 0) {
           clearInterval(countdownInterval);
-          const digits = document.getElementById('countdownDigits');
-          if (digits) digits.innerHTML = '<div class="countdown-live">● NU LIVE!</div>';
+          // Controleer of stream al voorbij is (end time)
+          const endDate = next.end && next.end.dateTime ? new Date(next.end.dateTime) : null;
+          const digits  = document.getElementById('countdownDigits');
+          if (digits) {
+            if (!endDate || new Date() < endDate) {
+              digits.innerHTML = '<div class="countdown-live">● NU LIVE!</div>';
+            } else {
+              // Stream voorbij — herlaad voor volgend event
+              loadCountdown();
+            }
+          }
           return;
         }
         const days  = Math.floor(diff / 86400000);
         const hours = Math.floor((diff % 86400000) / 3600000);
         const mins  = Math.floor((diff % 3600000)  / 60000);
         const secs  = Math.floor((diff % 60000)    / 1000);
-        const pad = n => String(n).padStart(2, '0');
+        const pad   = n => String(n).padStart(2, '0');
         const dEl = document.getElementById('cdDays');
         const hEl = document.getElementById('cdHours');
         const mEl = document.getElementById('cdMins');
@@ -4966,7 +5270,12 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         if (mEl) mEl.textContent = pad(mins);
         if (sEl) sEl.textContent = pad(secs);
       }, 1000);
-    } catch(e) { console.error('Countdown error:', e); }
+
+    } catch(e) {
+      console.error('Countdown error:', e);
+      if (wrap) wrap.innerHTML = '<div class="countdown-title">// VOLGENDE STREAM</div>'
+        + '<div class="countdown-none">Agenda kon niet worden geladen.</div>';
+    }
   }
 
   // ── TWITCH CLIPS (via Twitch API) ──
@@ -5200,7 +5509,6 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   // ── INIT ──
   function initExtra() {
     if (window._db) {
-      loadCountdown();
       loadYTStats();
       loadLoyaltyCount();
       loadClips();
@@ -5209,6 +5517,11 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     }
   }
   setTimeout(initExtra, 800);
+
+  // Countdown via Google Calendar — geen Firebase nodig
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(loadCountdown, 500);
+  });
 
   // Re-render guestbook form when auth state changes
   setInterval(() => {
@@ -5558,6 +5871,133 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('clipsGrid');
     if (grid) clipSearchObserver.observe(grid, { childList: true });
+  });
+</script>
+
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // ── EMAILJS INIT ──
+  emailjs.init('pobGxagrxGVyHstfS');
+
+  const EJS_SERVICE  = 'service_t8584q5';
+  const EJS_CONTACT  = 'template_8i7uwhq';
+  const EJS_ZAKELIJK = 'template_ccad10p';
+
+  // ── CONTACTFORMULIER ──
+  window.submitContact = async function() {
+    const naam    = document.getElementById('contactNaam').value.trim();
+    const email   = document.getElementById('contactEmail').value.trim();
+    const bericht = document.getElementById('contactBericht').value.trim();
+    const feedback = document.getElementById('contactFeedback');
+    const btn     = document.getElementById('contactBtn');
+    const btnText = document.getElementById('contactBtnText');
+
+    if (!naam || !email || !bericht) {
+      feedback.className = 'contact-feedback error';
+      feedback.textContent = '// Vul alle velden in.';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      feedback.className = 'contact-feedback error';
+      feedback.textContent = '// Ongeldig e-mailadres.';
+      return;
+    }
+
+    btn.disabled = true;
+    btnText.textContent = 'Versturen...';
+    feedback.textContent = '';
+
+    try {
+      await emailjs.send(EJS_SERVICE, EJS_CONTACT, {
+        from_name:  naam,
+        from_email: email,
+        message:    bericht,
+        to_email:   'contact@thegamerscube.nl'
+      });
+      feedback.className = 'contact-feedback success';
+      feedback.textContent = '// ✓ Bericht verzonden! Ik reageer binnen 48 uur.';
+      document.getElementById('contactNaam').value    = '';
+      document.getElementById('contactEmail').value   = '';
+      document.getElementById('contactBericht').value = '';
+    } catch(e) {
+      console.error('Contact mail fout:', e);
+      feedback.className = 'contact-feedback error';
+      feedback.textContent = '// Versturen mislukt. Probeer het opnieuw of mail direct naar contact@thegamerscube.nl';
+    } finally {
+      btn.disabled = false;
+      btnText.textContent = 'Versturen';
+    }
+  };
+
+  // ── ZAKELIJK FORMULIER ──
+  window.submitZakelijk = async function() {
+    const bedrijf = document.getElementById('zakelijkBedrijf').value.trim();
+    const contact = document.getElementById('zakelijkContact').value.trim();
+    const email   = document.getElementById('zakelijkEmail').value.trim();
+    const type    = document.getElementById('zakelijkType').value;
+    const bericht = document.getElementById('zakelijkBericht').value.trim();
+    const feedback = document.getElementById('zakelijkFeedback');
+    const btn     = document.getElementById('zakelijkBtn');
+    const btnText = document.getElementById('zakelijkBtnText');
+
+    if (!bedrijf || !contact || !email || !type || !bericht) {
+      feedback.className = 'contact-feedback error';
+      feedback.textContent = '// Vul alle velden in.';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      feedback.className = 'contact-feedback error';
+      feedback.textContent = '// Ongeldig e-mailadres.';
+      return;
+    }
+
+    btn.disabled = true;
+    btnText.textContent = 'Versturen...';
+    feedback.textContent = '';
+
+    try {
+      await emailjs.send(EJS_SERVICE, EJS_ZAKELIJK, {
+        bedrijf:    bedrijf,
+        contact:    contact,
+        from_email: email,
+        type:       type,
+        message:    bericht,
+        to_email:   'info@thegamerscube.nl'
+      });
+      feedback.className = 'contact-feedback success';
+      feedback.textContent = '// ✓ Aanvraag ontvangen! Ik neem binnen 2 werkdagen contact op.';
+      document.getElementById('zakelijkBedrijf').value = '';
+      document.getElementById('zakelijkContact').value = '';
+      document.getElementById('zakelijkEmail').value   = '';
+      document.getElementById('zakelijkType').value    = '';
+      document.getElementById('zakelijkBericht').value = '';
+    } catch(e) {
+      console.error('Zakelijk mail fout:', e);
+      feedback.className = 'contact-feedback error';
+      feedback.textContent = '// Versturen mislukt. Probeer het opnieuw of mail naar info@thegamerscube.nl';
+    } finally {
+      btn.disabled = false;
+      btnText.textContent = 'Aanvraag versturen';
+    }
+  };
+
+  // Kopieer stats naar zakelijk sectie
+  document.addEventListener('DOMContentLoaded', () => {
+    const syncStats = setInterval(() => {
+      const f  = document.getElementById('statFollowers');
+      const s  = document.getElementById('statSubscribers');
+      const f2 = document.getElementById('statFollowers2');
+      const s2 = document.getElementById('statSubscribers2');
+      if (f && f.textContent && f.textContent !== '—') {
+        if (f2) f2.textContent = f.textContent;
+        clearInterval(syncStats);
+      }
+      if (s && s.textContent && s.textContent !== '—') {
+        if (s2) s2.textContent = s.textContent;
+      }
+    }, 500);
   });
 </script>
 
