@@ -3874,7 +3874,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     window.currentUser = user;
     const btn  = document.getElementById('navAuthBtn');
     const info = document.getElementById('navUserInfo');
-    if (!btn) return;
+    if (!btn || !info) return;
     if (user) {
       const name   = user.displayName || user.email.split('@')[0];
       const isAdmin = user.uid === ADMIN_UID;
@@ -4771,7 +4771,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       : null;
 
     if (!window.currentUser) {
-      oEl.innerHTML = '<div class="poll-login-msg" onclick="openAuthModal('login')">'
+      oEl.innerHTML = '<div class="poll-login-msg" onclick="openAuthModal(\'login\')">'
         + '// Log in om te stemmen op de poll'
         + '</div>';
       if (vEl) vEl.textContent = total + ' stemmen';
@@ -4919,7 +4919,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
 
 <script>
-  const TWITCH_PROXY     = "https://twitch-proxy.www-cornelis.workers.dev/"; // ← vervang na deploy
+  window.TWITCH_PROXY = "https://twitch-proxy.JOUWNAME.workers.dev"; // ← vervang na deploy
   const TWITCH_CHANNEL   = "TheGamersCubeNL";
   const YT_KEY2          = "AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU";
   const YT_CH_ID2        = "UCJapCi1J_QZgCcA89J8dPTQ";
@@ -4974,21 +4974,21 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     const grid = document.getElementById('clipsGrid');
     try {
       // Stap 1: broadcaster ID ophalen via proxy
-      const userRes = await fetch(TWITCH_PROXY + '/user?login=' + TWITCH_CHANNEL);
+      const userRes = await fetch(window.TWITCH_PROXY + '/user?login=' + TWITCH_CHANNEL);
       if (!userRes.ok) throw new Error('Gebruiker niet gevonden');
       const userData = await userRes.json();
       const broadcasterId = userData.data && userData.data[0] && userData.data[0].id;
       if (!broadcasterId) throw new Error('Broadcaster niet gevonden');
 
       // Stap 2: followers ophalen via proxy
-      const followRes = await fetch(TWITCH_PROXY + '/followers?broadcaster_id=' + broadcasterId);
+      const followRes = await fetch(window.TWITCH_PROXY + '/followers?broadcaster_id=' + broadcasterId);
       const followData = await followRes.json();
       const followers = followData.total || 0;
       const fEl = document.getElementById('statFollowers');
       if (fEl) fEl.textContent = followers >= 1000 ? (followers/1000).toFixed(1) + 'K' : followers;
 
       // Stap 3: clips ophalen via proxy
-      const clipsRes = await fetch(TWITCH_PROXY + '/clips?broadcaster_id=' + broadcasterId + '&first=6');
+      const clipsRes = await fetch(window.TWITCH_PROXY + '/clips?broadcaster_id=' + broadcasterId + '&first=6');
       const clipsData = await clipsRes.json();
       const clips = clipsData.data || [];
 
@@ -5122,7 +5122,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           + '<div class="guestbook-date">' + date + '</div>'
           + '</div>'
           + '<div class="guestbook-msg">' + msg + '</div>'
-          + '<button class="guestbook-delete' + ((isAdmin||isOwn) ? ' visible' : '') + '" onclick="window.deleteGBEntry('' + d.id + '', this)">&#x2715;</button>';
+          + '<button class="guestbook-delete' + ((isAdmin||isOwn) ? ' visible' : '') + '" onclick="window.deleteGBEntry(\'' + d.id + '\', this)">&#x2715;</button>';
         entriesEl.appendChild(entry);
       });
     } catch(e) { console.error('Guestbook load error:', e); }
@@ -5268,7 +5268,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           + '<div class="admin-list-item-name">' + (data.emoji||'') + ' ' + data.name + '</div>'
           + '<div class="admin-list-item-desc">' + data.price + '</div>'
           + '</div>'
-          + '<button class="admin-delete-btn" onclick="window.deleteMerchItem('' + d.id + '', this)">Verwijderen</button>'
+          + '<button class="admin-delete-btn" onclick="window.deleteMerchItem(\'' + d.id + '\', this)">Verwijderen</button>'
           + '</div>';
       });
     } catch(e) { console.error(e); }
@@ -5350,7 +5350,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           + '<div class="admin-list-item-name">#' + (i+1) + ' ' + (u.name||'Anon') + '</div>'
           + '<div class="admin-list-item-desc">' + (u.pts||0) + ' punten — UID: ' + u.id + '</div>'
           + '</div>'
-          + '<button class="admin-delete-btn" onclick="window.resetLoyalty('' + u.id + '', this)">Reset</button>'
+          + '<button class="admin-delete-btn" onclick="window.resetLoyalty(\'' + u.id + '\', this)">Reset</button>'
           + '</div>';
       }).join('');
     } catch(e) { console.error(e); }
@@ -5389,7 +5389,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           + '<div class="admin-list-item-name">' + (u.name||'Anon') + '</div>'
           + '<div class="admin-list-item-desc">UID: ' + u.id + ' | ' + (u.pts||0) + ' punten | Laatste bezoek: ' + lastVisit + '</div>'
           + '</div>'
-          + '<button class="admin-delete-btn" onclick="window.deleteUser('' + u.id + '', this)">Verwijder data</button>'
+          + '<button class="admin-delete-btn" onclick="window.deleteUser(\'' + u.id + '\', this)">Verwijder data</button>'
           + '</div>';
       }).join('');
       showAdminSuccess('users-success');
@@ -5431,8 +5431,10 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   function setLang(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
-    document.getElementById('btnNL').classList.toggle('active', lang === 'nl');
-    document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+    const btnNL = document.getElementById('btnNL');
+    const btnEN = document.getElementById('btnEN');
+    if (btnNL) btnNL.classList.toggle('active', lang === 'nl');
+    if (btnEN) btnEN.classList.toggle('active', lang === 'en');
     document.querySelectorAll('[data-nl]').forEach(el => {
       el.textContent = lang === 'nl' ? el.dataset.nl : el.dataset.en;
     });
@@ -5631,7 +5633,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       banner.innerHTML = '<div style="font-family:var(--mono);font-size:0.8rem;color:var(--cyan);margin-bottom:8px;">Installeer als app op iPhone</div>'
         + '<div style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);line-height:1.6;">'
         + 'Tik op &#128257; (Delen) en dan op<br>"Zet op beginscherm"</div>'
-        + '<button onclick="localStorage.setItem('iosInstallDismissed',1);this.parentElement.remove()" '
+        + '<button onclick="localStorage.setItem(\'iosInstallDismissed\',1);this.parentElement.remove()" '
         + 'style="margin-top:12px;font-family:var(--mono);font-size:0.7rem;padding:6px 16px;'
         + 'background:transparent;border:1px solid rgba(79,195,247,0.4);color:var(--cyan);cursor:pointer;">Sluiten</button>';
       document.body.appendChild(banner);
@@ -5649,7 +5651,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
   async function checkLiveStatus() {
     try {
-      const res = await fetch(TWITCH_PROXY + '/stream?channel=TheGamersCubeNL');
+      const res = await fetch(window.TWITCH_PROXY + '/stream?channel=TheGamersCubeNL');
       const data = await res.json();
       const stream = data.data && data.data[0];
       const wasLive = isLiveNow;
