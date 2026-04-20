@@ -4149,29 +4149,36 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
   onAuthStateChanged(auth, user => {
     window.currentUser = user;
-    const btn  = document.getElementById('navAuthBtn');
-    const info = document.getElementById('navUserInfo');
-    if (!btn || !info) return;
+
     if (user) {
-      const name   = user.displayName || user.email.split('@')[0];
+      const name    = user.displayName || user.email.split('@')[0];
       const isAdmin = user.uid === ADMIN_UID;
       window.isAdmin = isAdmin;
-      const avatar = user.photoURL
-        ? '<img src="' + user.photoURL + '" style="width:28px;height:28px;border-radius:50%;border:1px solid var(--amber);">'
-        : '<div style="width:28px;height:28px;border-radius:50%;background:var(--amber);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.7rem;">' + name[0].toUpperCase() + '</div>';
-      const adminBadge = isAdmin ? '<span style="font-family:var(--mono);font-size:0.6rem;color:var(--navy);background:var(--amber);padding:2px 6px;margin-left:4px;">ADMIN</span>' : '';
-      const adminBtn = isAdmin ? '<button class="admin-btn" onclick="openAdmin()">&#9881; Admin</button>' : '';
-      info.innerHTML = avatar + '<span style="font-family:var(--mono);font-size:0.75rem;color:var(--amber);margin-left:6px;">' + name + adminBadge + '</span>' + adminBtn;
-      info.style.display = 'flex';
-      btn.textContent = 'Uitloggen';
-      btn.onclick = () => signOut(auth);
-      if (isAdmin) { if (window.loadAdminData) window.loadAdminData(); else setTimeout(() => window.loadAdminData && window.loadAdminData(), 500); }
+
+      const btn  = document.getElementById('navAuthBtn');
+      const info = document.getElementById('navUserInfo');
+      if (btn && info) {
+        const avatar = user.photoURL
+          ? '<img src="' + user.photoURL + '" style="width:28px;height:28px;border-radius:50%;border:1px solid var(--amber);">'
+          : '<div style="width:28px;height:28px;border-radius:50%;background:var(--amber);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.7rem;">' + name[0].toUpperCase() + '</div>';
+        const adminBadge = isAdmin ? '<span style="font-family:var(--mono);font-size:0.6rem;color:var(--navy);background:var(--amber);padding:2px 6px;margin-left:4px;">ADMIN</span>' : '';
+        const adminBtn   = isAdmin ? '<button class="admin-btn" onclick="openAdmin()">&#9881; Admin</button>' : '';
+        info.innerHTML = avatar + '<span style="font-family:var(--mono);font-size:0.75rem;color:var(--amber);margin-left:6px;">' + name + adminBadge + '</span>' + adminBtn;
+        info.style.display = 'flex';
+        btn.textContent = 'Uitloggen';
+        btn.onclick = () => signOut(auth);
+      }
+
+      if (isAdmin) {
+        if (window.loadAdminData) window.loadAdminData();
+        else setTimeout(() => window.loadAdminData && window.loadAdminData(), 500);
+      }
     } else {
       window.isAdmin = false;
-      info.style.display = 'none';
-      info.innerHTML = '';
-      btn.textContent = 'Inloggen';
-      btn.onclick = () => window.openAuthModal('login');
+      const btn  = document.getElementById('navAuthBtn');
+      const info = document.getElementById('navUserInfo');
+      if (btn)  { btn.textContent = 'Inloggen'; btn.onclick = () => window.openAuthModal('login'); }
+      if (info) { info.style.display = 'none'; info.innerHTML = ''; }
     }
   });
 
@@ -5195,7 +5202,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
 
 <script>
-  window.TWITCH_PROXY = "https://twitch-proxy.JOUWNAME.workers.dev"; // ← vervang na deploy
+  window.TWITCH_PROXY = "https://twitch-proxy.www-cornelis.workers.dev";
   const TWITCH_CHANNEL   = "TheGamersCubeNL";
   const YT_KEY2          = "AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU";
   const YT_CH_ID2        = "UCJapCi1J_QZgCcA89J8dPTQ";
