@@ -1082,15 +1082,66 @@
     /* old nav removed */
     .nav-links.open { display: flex; }
 
-
     .about-grid { grid-template-columns: 1fr; }
-    .schedule-grid { grid-template-columns: repeat(4, 1fr); }
     .drnl-banner { flex-direction: column; text-align: center; }
     .hero h1 { font-size: 1.8rem; }
+
+    /* Agenda — scroll horizontaal zodat site niet breed wordt */
+    .schedule-grid-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 -24px;
+      padding: 0 24px 12px;
+    }
+    .schedule-grid {
+      grid-template-columns: repeat(7, minmax(90px, 1fr));
+      min-width: 630px;
+    }
+
+    /* Admin panel — volledig scherm op mobiel */
+    .admin-overlay {
+      padding: 16px 12px;
+    }
+    .admin-tabs {
+      gap: 4px;
+    }
+    .admin-tab {
+      font-size: 0.65rem;
+      padding: 7px 10px;
+      letter-spacing: 0.04em;
+    }
+    .admin-card {
+      padding: 16px;
+    }
+
+    /* Contact formulieren zichtbaar op mobiel */
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .contact-form-wrap,
+    .contact-info-wrap,
+    .zakelijk-form-wrap {
+      width: 100%;
+    }
+    .zakelijk-intro {
+      flex-direction: column;
+      gap: 20px;
+    }
+    .zakelijk-stats {
+      width: 100%;
+      justify-content: space-around;
+    }
   }
 
   @media (max-width: 480px) {
-    .schedule-grid { grid-template-columns: repeat(3, 1fr); }
+    .schedule-grid {
+      grid-template-columns: repeat(7, minmax(76px, 1fr));
+      min-width: 532px;
+    }
+    .contact-field-group {
+      grid-template-columns: 1fr;
+    }
   }
 
   /* Mobile menu toggle */
@@ -3537,6 +3588,7 @@
     <span class="week-label" id="weekLabel">Deze week</span>
     <button class="week-btn" id="nextWeek" onclick="changeWeek(1)">Volgende week &#8594;</button>
   </div>
+  <div class="schedule-grid-wrap">
   <div class="schedule-grid" id="calGrid">
     <div class="day-card" id="day-0"><div class="day-name">Ma</div><div class="day-loading">...</div></div>
     <div class="day-card" id="day-1"><div class="day-name">Di</div><div class="day-loading">...</div></div>
@@ -3545,6 +3597,7 @@
     <div class="day-card" id="day-4"><div class="day-name">Vr</div><div class="day-loading">...</div></div>
     <div class="day-card" id="day-5"><div class="day-name">Za</div><div class="day-loading">...</div></div>
     <div class="day-card" id="day-6"><div class="day-name">Zo</div><div class="day-loading">...</div></div>
+  </div>
   </div>
   <div id="upcomingList" style="margin-top:24px;"></div>
   <div class="schedule-note" id="scheduleNote"><span>[ LADEN ]</span> Agenda wordt opgehaald...</div>
