@@ -4126,7 +4126,7 @@
 
 <!-- PROFILE MODAL -->
 <div class="modal-overlay" id="profileModal">
-  <div class="modal-box" style="text-align:center;max-width:340px;">
+  <div class="modal-box" style="text-align:center;max-width:420px;">
     <button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('open')">&#x2715;</button>
     <div class="modal-title">[ PROFIEL ]</div>
     <div id="profileBody"></div>
@@ -4215,7 +4215,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           ? '<img src="' + user.photoURL + '" style="width:28px;height:28px;border-radius:50%;border:1px solid var(--amber);">'
           : '<div style="width:28px;height:28px;border-radius:50%;background:var(--amber);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.7rem;">' + name[0].toUpperCase() + '</div>';
         const adminBadge = isAdmin ? '<span style="font-family:var(--mono);font-size:0.6rem;color:var(--navy);background:var(--amber);padding:2px 6px;margin-left:4px;">ADMIN</span>' : '';
-        const adminBtn   = isAdmin ? '<button class="admin-btn" onclick="openAdmin()">&#9881; Admin</button>' : '';
+        const adminBtn   = isAdmin ? '<button class="admin-btn admin-visible" onclick="openAdmin()">&#9881; Admin</button>' : '';
         info.innerHTML = avatar + '<span style="font-family:var(--mono);font-size:0.75rem;color:var(--amber);margin-left:6px;">' + name + adminBadge + '</span>' + adminBtn;
         info.style.display = 'flex';
         btn.textContent = 'Uitloggen';
@@ -4555,16 +4555,79 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
   function renderProfile(user) {
     const body = document.getElementById('profileBody');
-    if (!user||!body) return;
-    const name = user.displayName || user.email.split('@')[0];
+    if (!user || !body) return;
+    const name   = user.displayName || user.email.split('@')[0];
+    const isGoogle = user.providerData && user.providerData.some(p => p.providerId === 'google.com');
     const avatar = user.photoURL
-      ? '<img src="'+user.photoURL+'" style="width:80px;height:80px;border-radius:50%;border:2px solid var(--amber);margin-bottom:12px;">'
-      : '<div style="width:80px;height:80px;border-radius:50%;background:var(--amber);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:2rem;margin:0 auto 12px;">'+name[0].toUpperCase()+'</div>';
+      ? '<img src="' + user.photoURL + '" style="width:80px;height:80px;border-radius:50%;border:2px solid var(--amber);margin-bottom:12px;">'
+      : '<div style="width:80px;height:80px;border-radius:50%;background:var(--amber);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:2rem;margin:0 auto 12px;">' + name[0].toUpperCase() + '</div>';
+
     body.innerHTML = avatar
-      +'<div style="font-family:var(--mono);color:var(--amber);font-size:1rem;margin-bottom:4px;">'+name+'</div>'
-      +'<div style="font-family:var(--mono);color:var(--text-dim);font-size:0.75rem;margin-bottom:24px;">'+user.email+'</div>'
-      +'<button class="auth-btn" onclick="window._signOut()">Uitloggen</button>';
+      + '<div style="font-family:var(--mono);color:var(--amber);font-size:1rem;margin-bottom:2px;">' + name + '</div>'
+      + '<div style="font-family:var(--mono);color:var(--text-dim);font-size:0.75rem;margin-bottom:6px;">' + user.email + '</div>'
+      + (isGoogle ? '<div style="font-family:var(--mono);font-size:0.62rem;color:var(--cyan);margin-bottom:20px;opacity:0.7;">// Ingelogd via Google</div>' : '<div style="margin-bottom:20px;"></div>')
+
+      // ── Gebruikersnaam wijzigen ──
+      + '<div style="text-align:left;margin-bottom:20px;">'
+      + '<div style="font-family:var(--mono);font-size:0.68rem;color:var(--cyan);letter-spacing:0.12em;margin-bottom:8px;">// GEBRUIKERSNAAM WIJZIGEN</div>'
+      + '<div style="display:flex;gap:8px;">'
+      + '<input id="profileNameInput" type="text" value="' + name + '" style="flex:1;background:var(--navy2);border:1px solid rgba(79,195,247,0.3);color:var(--text);font-family:var(--mono);font-size:0.85rem;padding:8px 12px;outline:none;">'
+      + '<button onclick="window.saveProfileName()" style="font-family:var(--mono);font-size:0.75rem;padding:8px 14px;background:transparent;border:1px solid var(--cyan);color:var(--cyan);cursor:pointer;white-space:nowrap;">Opslaan</button>'
+      + '</div>'
+      + '<div id="profileNameFeedback" style="font-family:var(--mono);font-size:0.72rem;margin-top:6px;min-height:16px;"></div>'
+      + '</div>'
+
+      // ── Account instellingen ──
+      + '<div style="text-align:left;border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-bottom:20px;">'
+      + '<div style="font-family:var(--mono);font-size:0.68rem;color:var(--cyan);letter-spacing:0.12em;margin-bottom:12px;">// ACCOUNT INSTELLINGEN</div>'
+      + '<button onclick="window.removeFromLoyalty()" style="width:100%;font-family:var(--mono);font-size:0.78rem;padding:10px;background:transparent;border:1px solid rgba(239,83,80,0.4);color:#ef5350;cursor:pointer;margin-bottom:8px;text-align:left;">&#x26A0; Verwijder mij uit het loyaliteitssysteem</button>'
+      + '<div id="loyaltyRemoveFeedback" style="font-family:var(--mono);font-size:0.72rem;margin-bottom:12px;min-height:16px;"></div>'
+      + '</div>'
+
+      // ── Uitloggen ──
+      + '<button class="auth-btn" onclick="window._signOut()">Uitloggen</button>';
   }
+
+  window.saveProfileName = async function() {
+    const input    = document.getElementById('profileNameInput');
+    const feedback = document.getElementById('profileNameFeedback');
+    const newName  = input ? input.value.trim() : '';
+    if (!newName) { if (feedback) { feedback.style.color='#ef5350'; feedback.textContent='// Naam mag niet leeg zijn.'; } return; }
+    if (!window.currentUser) return;
+    try {
+      await window._updateProfile(window.currentUser, { displayName: newName });
+      // Ook bijwerken in loyalty collection
+      if (window._db) {
+        await window._setDoc(window._doc(window._db, 'loyalty', window.currentUser.uid), {
+          name: newName
+        }, { merge: true });
+      }
+      if (feedback) { feedback.style.color='#4caf50'; feedback.textContent='// ✓ Naam opgeslagen!'; }
+      // Update nav display
+      const info = document.getElementById('navUserInfo');
+      if (info) {
+        const span = info.querySelector('span');
+        if (span) span.childNodes[0].textContent = newName;
+      }
+      setTimeout(() => renderProfile(window.currentUser), 1500);
+    } catch(e) {
+      if (feedback) { feedback.style.color='#ef5350'; feedback.textContent='// Fout: ' + e.message; }
+    }
+  };
+
+  window.removeFromLoyalty = async function() {
+    const feedback = document.getElementById('loyaltyRemoveFeedback');
+    if (!window.currentUser || !window._db) return;
+    const confirmed = confirm('Weet je zeker dat je je punten en leaderboard positie wilt verwijderen? Dit kan niet ongedaan worden gemaakt.');
+    if (!confirmed) return;
+    try {
+      await window._deleteDoc(window._doc(window._db, 'loyalty', window.currentUser.uid));
+      if (feedback) { feedback.style.color='#4caf50'; feedback.textContent='// ✓ Verwijderd uit loyaliteitssysteem.'; }
+      if (window.loadLoyalty) loadLoyalty();
+    } catch(e) {
+      if (feedback) { feedback.style.color='#ef5350'; feedback.textContent='// Fout: ' + e.message; }
+    }
+  };
 
   document.addEventListener('click', function(e) {
     if (e.target.id==='authModal') window.closeAuthModal();
@@ -4697,6 +4760,33 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
     <!-- LOYALITEIT BEHEER -->
     <div class="admin-section" id="admin-loyalty">
+      <div class="admin-card">
+        <h3>[ LOYALITEITSSYSTEEM AAN/UIT ]</h3>
+        <div class="admin-success" id="loyalty-toggle-success">Instelling opgeslagen!</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;">
+          <div>
+            <div style="font-family:var(--mono);font-size:0.85rem;color:var(--text);margin-bottom:4px;">Loyaliteitssysteem</div>
+            <div style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);" id="loyaltyStatusText">// Status laden...</div>
+          </div>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+            <span style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);" id="loyaltyToggleLabel">—</span>
+            <div id="loyaltyToggleSwitch" onclick="window.toggleLoyaltySystem()" style="
+              width:48px;height:26px;border-radius:13px;
+              background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+              position:relative;cursor:pointer;transition:all 0.3s;
+            ">
+              <div id="loyaltyToggleKnob" style="
+                position:absolute;top:3px;left:3px;
+                width:18px;height:18px;border-radius:50%;
+                background:var(--text-dim);transition:all 0.3s;
+              "></div>
+            </div>
+          </label>
+        </div>
+        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;">
+          // Uit = punten worden niet meer toegekend, leaderboard toont een melding aan bezoekers.
+        </div>
+      </div>
       <div class="admin-card">
         <h3>[ PUNTEN AANPASSEN ]</h3>
         <div class="admin-success" id="loyalty-success">Punten aangepast!</div>
@@ -4987,9 +5077,25 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   async function loadLoyalty() {
     if (!window._db) { setTimeout(loadLoyalty, 500); return; }
     try {
+      // Controleer of systeem aan staat
+      const settingSnap = await window._getDoc(window._doc(window._db, 'settings', 'loyalty'));
+      const enabled = !settingSnap.exists() || settingSnap.data().enabled !== false;
+      window._loyaltyEnabled = enabled;
+
+      const grid = document.getElementById('loyaltyGrid');
+      const notLoggedIn = document.getElementById('loyaltyNotLoggedIn');
+
+      if (!enabled) {
+        if (grid) grid.innerHTML = '<div style="font-family:var(--mono);font-size:0.85rem;color:var(--text-dim);padding:20px 0;text-align:center;">// Het loyaliteitssysteem is tijdelijk uitgeschakeld.</div>';
+        if (notLoggedIn) notLoggedIn.style.display = 'none';
+        const myWrap = document.getElementById('myLoyaltyWrap');
+        if (myWrap) myWrap.style.display = 'none';
+        return;
+      }
+
       const snap = await window._getDocs(window._collection(window._db, 'loyalty'));
       const users = [];
-      snap.forEach(d => users.push({ id: d.id, ...d.data() }));
+      snap.forEach(d => { if (d.id === "IGeY9roMR2b0iwgexlXQwJBfmnB3") return; users.push({ id: d.id, ...d.data() }); });
       users.sort((a,b) => (b.pts||0) - (a.pts||0));
 
       const grid = document.getElementById('loyaltyGrid');
@@ -5019,19 +5125,23 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
       // Show current user card
       const notLoggedIn = document.getElementById('loyaltyNotLoggedIn');
-      if (window.currentUser) {
-        // Verberg "Log in" bericht altijd als gebruiker ingelogd is
+      if (window.isAdmin) {
+        // Admin nooit tonen in loyaliteitssysteem
+        if (notLoggedIn) notLoggedIn.style.display = 'none';
+        const myWrap = document.getElementById('myLoyaltyWrap');
+        if (myWrap) myWrap.style.display = 'none';
+      } else if (window.currentUser) {
         if (notLoggedIn) notLoggedIn.style.display = 'none';
         const me = users.find(u => u.id === window.currentUser.uid);
         if (me) {
-          const myWrap = document.getElementById('myLoyaltyWrap');
-          const myPts  = document.getElementById('myPts');
-          const myName = document.getElementById('myLoyaltyName');
+          const myWrap  = document.getElementById('myLoyaltyWrap');
+          const myPts   = document.getElementById('myPts');
+          const myName  = document.getElementById('myLoyaltyName');
           const myBadge = document.getElementById('myBadge');
-          const badge = getBadge(me.pts || 0);
-          if (myWrap) myWrap.style.display = 'block';
-          if (myPts)  myPts.textContent = me.pts || 0;
-          if (myName) myName.textContent = me.name || window.currentUser.displayName || 'Jij';
+          const badge   = getBadge(me.pts || 0);
+          if (myWrap)  myWrap.style.display = 'block';
+          if (myPts)   myPts.textContent = me.pts || 0;
+          if (myName)  myName.textContent = me.name || window.currentUser.displayName || 'Jij';
           if (myBadge) myBadge.innerHTML = '<span class="loyalty-badge ' + badge.cls + '">' + badge.label + '</span>';
         }
       } else {
@@ -5043,6 +5153,13 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   // Award points to current user
   async function awardPoints(pts, reason) {
     if (!window.currentUser || !window._db) return;
+    // Admin nooit in loyaliteitssysteem
+    if (window.isAdmin) return;
+    // Controleer of loyaliteitssysteem aan staat
+    if (window._loyaltyEnabled === false) {
+      console.log('Loyaliteitssysteem uitgeschakeld — punten niet toegekend.');
+      return;
+    }
     try {
       const uid  = window.currentUser.uid;
       const ref  = window._doc(window._db, 'loyalty', uid);
@@ -5058,10 +5175,12 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       loadLoyalty();
     } catch(e) { console.error('Award points error:', e); }
   }
+  window.awardPoints = awardPoints;
 
   // Award daily visit points
   async function checkDailyVisit() {
     if (!window.currentUser || !window._db) return;
+    if (window.isAdmin) return; // Admin nooit in loyaliteitssysteem
     try {
       const uid = window.currentUser.uid;
       const ref = window._doc(window._db, 'loyalty', uid);
@@ -5686,6 +5805,45 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     } catch(e) {}
   }
 
+  // ── LOYALITEIT TOGGLE ──
+  async function loadLoyaltyToggle() {
+    if (!window._db) return;
+    try {
+      const snap    = await window._getDoc(window._doc(window._db, 'settings', 'loyalty'));
+      const enabled = !snap.exists() || snap.data().enabled !== false;
+      updateLoyaltyToggleUI(enabled);
+    } catch(e) { console.error('Toggle laden fout:', e); }
+  }
+
+  function updateLoyaltyToggleUI(enabled) {
+    window._loyaltyEnabled = enabled;
+    const sw     = document.getElementById('loyaltyToggleSwitch');
+    const knob   = document.getElementById('loyaltyToggleKnob');
+    const label  = document.getElementById('loyaltyToggleLabel');
+    const status = document.getElementById('loyaltyStatusText');
+    if (sw)     sw.style.background    = enabled ? 'var(--cyan)' : 'rgba(255,255,255,0.1)';
+    if (sw)     sw.style.borderColor   = enabled ? 'var(--cyan)' : 'rgba(255,255,255,0.2)';
+    if (knob)   knob.style.left        = enabled ? '27px' : '3px';
+    if (knob)   knob.style.background  = enabled ? 'var(--navy)' : 'var(--text-dim)';
+    if (label)  label.textContent      = enabled ? 'AAN' : 'UIT';
+    if (label)  label.style.color      = enabled ? 'var(--cyan)' : 'var(--text-dim)';
+    if (status) status.textContent     = enabled
+      ? '// Punten worden normaal toegekend'
+      : '// Systeem uitgeschakeld — geen punten worden toegekend';
+    if (status) status.style.color     = enabled ? 'rgba(79,195,247,0.7)' : '#ef5350';
+  }
+
+  window.toggleLoyaltySystem = async function() {
+    if (!window._db || !window.isAdmin) return;
+    const newEnabled = window._loyaltyEnabled === false; // toggle
+    try {
+      await window._setDoc(window._doc(window._db, 'settings', 'loyalty'), { enabled: newEnabled });
+      updateLoyaltyToggleUI(newEnabled);
+      showAdminSuccess('loyalty-toggle-success');
+      loadLoyalty(); // herlaad leaderboard op de pagina
+    } catch(e) { alert('Fout: ' + e.message); }
+  };
+
   // ── LOYALITEIT ADMIN ──
   window.adminAwardPoints = async function() {
     const uid    = document.getElementById('loyaltyUID').value.trim();
@@ -5783,6 +5941,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     if (_origLoadAdminData) await _origLoadAdminData();
     loadAdminMerch();
     loadAdminLoyalty();
+    loadLoyaltyToggle();
   };
 
   // Load merch on page init
@@ -6597,7 +6756,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           : name[0].toUpperCase();
       }
       // Show admin button if admin
-      if (adminBtn) adminBtn.style.display = window.isAdmin ? 'flex' : 'none';
+      if (adminBtn) adminBtn.classList.toggle('admin-visible', window.isAdmin === true);
     } else {
       if (userInfo)   userInfo.style.display   = 'none';
       if (loginBtn)   loginBtn.style.display   = 'flex';
@@ -6652,6 +6811,14 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
   // Update on auth change
   document.addEventListener('DOMContentLoaded', () => {
+    // Zorg dat admin knop altijd verborgen is bij laden — vóór auth check
+    const adminBtn = document.getElementById('menuAdminBtn');
+    if (adminBtn) {
+      adminBtn.classList.remove('admin-visible');
+    }
+    const navAdminBtns = document.querySelectorAll('.admin-btn');
+    navAdminBtns.forEach(btn => btn.classList.remove('admin-visible'));
+
     if (window.updateMenuTheme) window.updateMenuTheme();
     updateMenuLang();
 
@@ -6664,7 +6831,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         updateMenuUser(user);
         // Update admin button
         const adminBtn = document.getElementById('menuAdminBtn');
-        if (adminBtn) adminBtn.style.display = window.isAdmin ? 'flex' : 'none';
+        if (adminBtn) adminBtn.classList.toggle('admin-visible', window.isAdmin === true);
       }
     }, 1000);
   });
@@ -6673,6 +6840,12 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
 <style id="menuOverride">
   /* ── MENU OVERRIDE ── */
+
+  /* Admin knop altijd verborgen tenzij expliciet zichtbaar gemaakt door JS */
+  #menuAdminBtn { display: none !important; }
+  #menuAdminBtn.admin-visible { display: flex !important; }
+  .admin-btn { display: none !important; }
+  .admin-btn.admin-visible { display: inline-flex !important; }
   #navLinks {
     display: none !important;
     flex-direction: column !important;
