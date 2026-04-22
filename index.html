@@ -241,11 +241,12 @@
     nav {
       display: flex;
       align-items: center;
+      justify-content: space-between;
     }
-    .nav-logo {
-      flex: 1;
-      text-align: center;
-    }
+    .hamburger      { order: 1; }
+    .nav-logo       { order: 2; flex: 1; text-align: center; }
+    .nav-auth       { order: 3; }
+    .nav-muziek-btn { order: 4; }
     .nav-links {
     display: none;
     flex-direction: column;
