@@ -7085,6 +7085,34 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   #menuOverlay {
     z-index: 9998 !important;
   }
+
+  /* ── NAV MOBIEL LAYOUT ── */
+  @media (max-width: 900px) {
+    nav {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 8px !important;
+    }
+    .hamburger {
+      order: 1 !important;
+      flex-shrink: 0 !important;
+      display: flex !important;
+    }
+    .nav-logo {
+      order: 2 !important;
+      flex: 1 !important;
+    }
+    .nav-auth {
+      order: 3 !important;
+      flex-shrink: 0 !important;
+    }
+    .nav-muziek-btn {
+      order: 4 !important;
+      flex-shrink: 0 !important;
+    }
+  }
 </style>
 
 </body>
