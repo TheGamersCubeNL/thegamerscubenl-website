@@ -104,8 +104,7 @@
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(249,168,37,0.2);
     height: 64px;
-    display: grid;
-    grid-template-columns: 1fr auto auto;
+    display: flex;
     align-items: center;
     padding: 0 20px;
     gap: 12px;
@@ -134,6 +133,27 @@
   }
   .nav-logo span { color: var(--cyan); }
 
+  .nav-muziek-btn {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    text-decoration: none;
+    border: 1px solid rgba(249,168,37,0.4);
+    padding: 5px 12px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .nav-muziek-btn:hover {
+    background: var(--amber);
+    color: var(--navy);
+    border-color: var(--amber);
+  }
+  @media (max-width: 480px) {
+    .nav-muziek-btn { font-size: 0.65rem; padding: 4px 8px; }
+  }
+
   /* nav-links desktop */
   .nav-links {
     display: flex;
@@ -143,6 +163,7 @@
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    flex: 1;
   }
   .nav-links::-webkit-scrollbar { display: none; }
 
@@ -3165,7 +3186,65 @@
     .nav-links.open li a::after { display: none; }
   }
 
-  /* ── CONTACT ── */
+  /* ── MUZIEK BANNER ── */
+  .muziek-banner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--navy2);
+    border: 1px solid rgba(249,168,37,0.25);
+    padding: 24px 32px;
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .muziek-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(249,168,37,0.05), transparent);
+    pointer-events: none;
+  }
+  .muziek-banner:hover {
+    border-color: var(--amber);
+    box-shadow: 0 0 30px rgba(249,168,37,0.1);
+    transform: translateY(-1px);
+  }
+  .muziek-banner-icon {
+    font-size: 2.2rem;
+    color: var(--amber);
+    flex-shrink: 0;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+  .muziek-banner-text { flex: 1; }
+  .muziek-banner-title {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .muziek-banner-sub {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+  .muziek-banner-arrow {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    color: var(--amber);
+    opacity: 0.6;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .muziek-banner:hover .muziek-banner-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
   .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -3329,6 +3408,9 @@
 
 <!-- NAV -->
 <nav>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
   <a class="nav-logo" href="#top"><img id="navLogo" src="" alt="TheGamersCubeNL" style="height:36px;display:none;"> <span id="navLogoText">TheGamers<span>CubeNL</span></span></a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#over">Over</a></li>
@@ -3399,9 +3481,7 @@
     </button>
   </ul>
   <div class="nav-auth"><button id="navAuthBtn" onclick="openAuthModal('login')">Inloggen</button></div>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
+  <a class="nav-muziek-btn" href="/muziek.html">♪ Muziek</a>
 </nav>
 
 
@@ -4231,6 +4311,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         const adminBtn   = isAdmin ? '<button class="admin-btn admin-visible" onclick="openAdmin()">&#9881; Admin</button>' : '';
         info.innerHTML = avatar + '<span style="font-family:var(--mono);font-size:0.75rem;color:var(--amber);margin-left:6px;">' + name + adminBadge + '</span>' + adminBtn;
         info.style.display = 'flex';
+        btn.style.display = 'none'; // Verberg inlogknop als ingelogd
         btn.textContent = 'Uitloggen';
         btn.onclick = () => signOut(auth);
       }
@@ -4243,7 +4324,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       window.isAdmin = false;
       const btn  = document.getElementById('navAuthBtn');
       const info = document.getElementById('navUserInfo');
-      if (btn)  { btn.textContent = 'Inloggen'; btn.onclick = () => window.openAuthModal('login'); }
+      if (btn)  { btn.style.display = ''; btn.textContent = 'Inloggen'; btn.onclick = () => window.openAuthModal('login'); }
       if (info) { info.style.display = 'none'; info.innerHTML = ''; }
     }
   });

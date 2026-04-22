@@ -5,774 +5,563 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Muziek — TheGamersCubeNL</title>
   <link rel="icon" href="/icons/icon-192.png">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy:    #060d1a;
-      --navy2:   #0d1b2e;
-      --navy3:   #0a1525;
-      --amber:   #f9a825;
-      --cyan:    #4fc3f7;
-      --text:    #e8eaf0;
-      --text-dim:#8899aa;
-      --mono:    'Share Tech Mono', monospace;
-      --sans:    'Rajdhani', sans-serif;
+      --navy:  #060d1a;
+      --navy2: #0d1b2e;
+      --navy3: #0a1525;
+      --amber: #f9a825;
+      --cyan:  #4fc3f7;
+      --text:  #e8eaf0;
+      --dim:   #8899aa;
+      --mono:  'Share Tech Mono', monospace;
+      --sans:  'Rajdhani', sans-serif;
     }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; overflow:hidden; }
+    body { background:var(--navy); color:var(--text); font-family:var(--sans); display:flex; flex-direction:column; }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--navy);
-      color: var(--text);
-      font-family: var(--sans);
-      min-height: 100vh;
-      overflow-x: hidden;
+    /* BACKGROUND */
+    .bg-grid {
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image: linear-gradient(rgba(79,195,247,.03) 1px,transparent 1px), linear-gradient(90deg,rgba(79,195,247,.03) 1px,transparent 1px);
+      background-size:48px 48px;
     }
-
-    /* ── SCANLINES ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-      pointer-events: none;
-      z-index: 0;
+    .bg-glow {
+      position:fixed; width:600px; height:600px; border-radius:50%;
+      filter:blur(120px); pointer-events:none; z-index:0; transition:all 2s ease;
     }
+    .bg-glow-1 { background:radial-gradient(circle,rgba(249,168,37,.07),transparent 70%); top:-200px; left:-200px; }
+    .bg-glow-2 { background:radial-gradient(circle,rgba(79,195,247,.05),transparent 70%); bottom:-200px; right:-200px; }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 56px;
-      background: rgba(6,13,26,0.92);
-      border-bottom: 1px solid rgba(79,195,247,0.12);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-      z-index: 100;
+      position:relative; z-index:10; height:56px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 24px; border-bottom:1px solid rgba(79,195,247,.08);
     }
-    .nav-brand {
-      font-family: var(--mono);
-      font-size: 0.9rem;
-      color: var(--amber);
-      letter-spacing: 0.08em;
-      text-decoration: none;
-    }
-    .nav-back {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--cyan);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      opacity: 0.8;
-      transition: opacity 0.2s;
-    }
-    .nav-back:hover { opacity: 1; }
+    .nav-brand { font-family:var(--mono); font-size:.85rem; color:var(--amber); text-decoration:none; letter-spacing:.06em; }
+    .nav-back  { font-family:var(--mono); font-size:.7rem; color:var(--dim); text-decoration:none; letter-spacing:.08em; transition:color .2s; }
+    .nav-back:hover { color:var(--cyan); }
 
-    /* ── MAIN ── */
-    main {
-      padding: 88px 32px 60px;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
+    /* APP LAYOUT */
+    .app {
+      flex:1; display:grid; grid-template-columns:320px 1fr;
+      overflow:hidden; position:relative; z-index:1;
     }
 
-    /* ── HEADER ── */
-    .page-header {
-      margin-bottom: 48px;
-    }
-    .page-tag {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--cyan);
-      letter-spacing: 0.2em;
-      opacity: 0.7;
-      margin-bottom: 8px;
-    }
-    .page-title {
-      font-family: var(--mono);
-      font-size: 2.4rem;
-      color: var(--amber);
-      letter-spacing: 0.06em;
-      line-height: 1;
-      margin-bottom: 12px;
-    }
-    .page-divider {
-      height: 1px;
-      background: linear-gradient(90deg, var(--cyan), transparent);
-      width: 200px;
+    /* LEFT: PLAYER PANEL */
+    .player-panel {
+      display:flex; flex-direction:column; overflow-y:auto;
+      border-right:1px solid rgba(79,195,247,.08); padding:28px 24px; gap:0;
     }
 
-    /* ── NOW PLAYING ── */
-    .now-playing {
-      background: var(--navy2);
-      border: 1px solid rgba(249,168,37,0.2);
-      padding: 28px 32px;
-      margin-bottom: 40px;
-      display: none;
-      position: relative;
-      overflow: hidden;
+    /* Artwork */
+    .artwork-wrap { width:100%; aspect-ratio:1; margin-bottom:24px; flex-shrink:0; }
+    .artwork {
+      width:100%; height:100%; background:var(--navy2);
+      border:1px solid rgba(79,195,247,.1); position:relative; overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
     }
-    .now-playing::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(249,168,37,0.04), transparent);
-      pointer-events: none;
+    .artwork-ring {
+      position:absolute; inset:-2px; border:1px solid transparent;
+      border-top-color:rgba(249,168,37,.4); border-radius:50%;
+      animation:spin 4s linear infinite; opacity:0; transition:opacity .4s; pointer-events:none;
     }
-    .now-playing.active { display: block; }
-    .np-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--amber);
-      letter-spacing: 0.2em;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .np-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--amber);
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+    .artwork.playing .artwork-ring { opacity:1; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .artwork-icon { font-size:3.5rem; opacity:.12; transition:opacity .3s; }
+    .artwork.playing .artwork-icon { opacity:.06; }
 
-    .np-title {
-      font-family: var(--sans);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
+    /* Visualizer */
+    .visualizer {
+      position:absolute; bottom:0; left:0; right:0; height:64px;
+      display:flex; align-items:flex-end; justify-content:center;
+      gap:3px; padding:0 10px 10px; opacity:0; transition:opacity .4s;
     }
-    .np-artist {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      margin-bottom: 20px;
+    .artwork.playing .visualizer { opacity:1; }
+    .viz-bar {
+      flex:1; max-width:6px; background:linear-gradient(to top,var(--amber),var(--cyan));
+      border-radius:2px 2px 0 0; animation:vb .7s ease-in-out infinite alternate;
+      transform-origin:bottom;
     }
+    @keyframes vb { from{transform:scaleY(.08)} to{transform:scaleY(1)} }
 
-    /* Progress bar */
-    .np-progress-wrap {
-      margin-bottom: 12px;
+    /* Track meta */
+    .track-meta { margin-bottom:20px; min-height:52px; }
+    .track-meta-title {
+      font-family:var(--sans); font-size:1.3rem; font-weight:700;
+      color:var(--text); margin-bottom:4px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     }
-    .np-progress-bar {
-      width: 100%;
-      height: 3px;
-      background: rgba(255,255,255,0.1);
-      cursor: pointer;
-      position: relative;
+    .track-meta-artist { font-family:var(--mono); font-size:.7rem; color:var(--amber); letter-spacing:.1em; }
+    .track-meta-empty  { font-family:var(--mono); font-size:.75rem; color:var(--dim); opacity:.4; }
+
+    /* Progress */
+    .progress-wrap { margin-bottom:6px; }
+    .progress-bar {
+      width:100%; height:2px; background:rgba(255,255,255,.07);
+      cursor:pointer; position:relative; transition:height .15s;
     }
-    .np-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--amber), var(--cyan));
-      width: 0%;
-      transition: width 0.5s linear;
-      pointer-events: none;
+    .progress-bar:hover { height:4px; }
+    .progress-fill {
+      height:100%; background:linear-gradient(90deg,var(--amber),var(--cyan));
+      width:0%; pointer-events:none; position:relative;
     }
-    .np-times {
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      margin-top: 6px;
+    .progress-fill::after {
+      content:''; position:absolute; right:-5px; top:50%; transform:translateY(-50%);
+      width:10px; height:10px; border-radius:50%; background:var(--amber);
+      opacity:0; transition:opacity .2s;
+    }
+    .progress-bar:hover .progress-fill::after { opacity:1; }
+    .progress-times {
+      display:flex; justify-content:space-between;
+      font-family:var(--mono); font-size:.6rem; color:var(--dim); margin-top:5px;
     }
 
     /* Controls */
-    .np-controls {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 16px;
+    .controls {
+      display:flex; align-items:center; justify-content:center;
+      gap:6px; margin:16px 0;
     }
-    .np-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-dim);
-      cursor: pointer;
-      font-size: 1.2rem;
-      padding: 6px;
-      transition: color 0.2s, transform 0.1s;
-      line-height: 1;
+    .ctrl {
+      background:transparent; border:none; cursor:pointer;
+      width:36px; height:36px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--dim); font-size:.95rem; transition:all .15s;
     }
-    .np-btn:hover { color: var(--text); }
-    .np-btn.play-pause {
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: var(--amber);
-      color: var(--navy);
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .ctrl:hover { color:var(--text); background:rgba(255,255,255,.05); }
+    .ctrl.active { color:var(--cyan); }
+    .ctrl.play {
+      width:50px; height:50px; background:var(--amber);
+      color:var(--navy); font-size:1.1rem;
     }
-    .np-btn.play-pause:hover { transform: scale(1.08); }
+    .ctrl.play:hover { transform:scale(1.07); background:#fbb726; }
 
-    .np-volume {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-left: auto;
+    /* Volume */
+    .vol-row { display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+    .vol-icon { font-size:.8rem; color:var(--dim); flex-shrink:0; cursor:pointer; }
+    input[type=range].vol {
+      flex:1; -webkit-appearance:none; height:2px;
+      background:rgba(255,255,255,.1); outline:none; cursor:pointer;
     }
-    .np-volume-icon { font-size: 0.9rem; color: var(--text-dim); }
-    .np-volume input[type=range] {
-      width: 80px;
-      accent-color: var(--cyan);
-      cursor: pointer;
+    input[type=range].vol::-webkit-slider-thumb {
+      -webkit-appearance:none; width:12px; height:12px;
+      border-radius:50%; background:var(--cyan); cursor:pointer;
     }
 
-    /* ── UPLOAD SECTION (admin only) ── */
-    .upload-section {
-      display: none;
-      background: var(--navy2);
-      border: 1px solid rgba(79,195,247,0.15);
-      padding: 24px 28px;
-      margin-bottom: 32px;
-    }
-    .upload-section.visible { display: block; }
-    .upload-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--cyan);
-      letter-spacing: 0.15em;
-      margin-bottom: 16px;
-    }
-    .upload-fields {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    @media (max-width: 600px) { .upload-fields { grid-template-columns: 1fr; } }
-
+    /* Upload */
+    .upload-section { display:none; border-top:1px solid rgba(79,195,247,.07); padding-top:18px; }
+    .upload-section.visible { display:block; }
+    .upload-lbl { font-family:var(--mono); font-size:.6rem; color:var(--cyan); letter-spacing:.15em; margin-bottom:10px; }
+    .upload-row { display:flex; gap:8px; margin-bottom:8px; }
     .upload-input {
-      background: var(--navy3);
-      border: 1px solid rgba(79,195,247,0.2);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      padding: 9px 12px;
-      outline: none;
-      width: 100%;
-      transition: border-color 0.2s;
+      flex:1; background:rgba(255,255,255,.03); border:1px solid rgba(79,195,247,.14);
+      color:var(--text); font-family:var(--mono); font-size:.7rem;
+      padding:7px 10px; outline:none; transition:border-color .2s; min-width:0;
     }
-    .upload-input:focus { border-color: var(--cyan); }
+    .upload-input:focus { border-color:var(--cyan); }
+    .upload-file {
+      width:100%; border:1px dashed rgba(79,195,247,.18); background:transparent;
+      color:var(--dim); font-family:var(--mono); font-size:.65rem; padding:9px;
+      cursor:pointer; transition:all .2s; text-align:center; position:relative; margin-bottom:8px;
+    }
+    .upload-file:hover { border-color:var(--cyan); color:var(--cyan); }
+    .upload-file input { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; }
+    .upload-progress { height:2px; background:rgba(255,255,255,.05); margin:6px 0; display:none; }
+    .upload-progress-fill { height:100%; background:linear-gradient(90deg,var(--amber),var(--cyan)); width:0%; transition:width .3s; }
+    .upload-submit {
+      width:100%; background:transparent; border:1px solid var(--amber);
+      color:var(--amber); font-family:var(--mono); font-size:.7rem;
+      padding:8px; cursor:pointer; letter-spacing:.1em; transition:all .2s;
+    }
+    .upload-submit:hover { background:var(--amber); color:var(--navy); }
+    .upload-submit:disabled { opacity:.35; cursor:not-allowed; }
+    .upload-msg { font-family:var(--mono); font-size:.62rem; min-height:14px; margin-top:6px; }
+    .upload-msg.ok  { color:#4caf50; }
+    .upload-msg.err { color:#ef5350; }
 
-    .upload-file-area {
-      border: 1px dashed rgba(79,195,247,0.3);
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      margin-bottom: 14px;
-      position: relative;
+    /* RIGHT: LIST PANEL */
+    .list-panel { display:flex; flex-direction:column; overflow:hidden; }
+    .list-header {
+      padding:18px 24px 12px; border-bottom:1px solid rgba(79,195,247,.06);
+      flex-shrink:0; display:flex; flex-direction:column; gap:10px;
     }
-    .upload-file-area:hover { border-color: var(--cyan); background: rgba(79,195,247,0.03); }
-    .upload-file-area input[type=file] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
+    .list-top { display:flex; align-items:center; justify-content:space-between; }
+    .list-title { font-family:var(--mono); font-size:.62rem; color:var(--cyan); letter-spacing:.18em; }
+    .list-count { font-family:var(--mono); font-size:.62rem; color:var(--dim); }
+    .list-search {
+      width:100%; background:rgba(255,255,255,.03); border:1px solid rgba(79,195,247,.1);
+      color:var(--text); font-family:var(--mono); font-size:.72rem; padding:7px 12px;
+      outline:none; transition:border-color .2s;
     }
-    .upload-file-label {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--text-dim);
-      pointer-events: none;
-    }
-    .upload-file-label span { color: var(--cyan); }
-    .upload-file-name {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--amber);
-      margin-top: 6px;
-    }
+    .list-search:focus { border-color:var(--cyan); }
+    .list-search::placeholder { color:var(--dim); opacity:.4; }
 
-    .upload-progress {
-      height: 3px;
-      background: rgba(255,255,255,0.1);
-      margin-bottom: 14px;
-      display: none;
-    }
-    .upload-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--amber), var(--cyan));
-      width: 0%;
-      transition: width 0.3s;
-    }
-
-    .upload-btn {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      padding: 10px 24px;
-      background: transparent;
-      border: 1px solid var(--amber);
-      color: var(--amber);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .upload-btn:hover { background: var(--amber); color: var(--navy); }
-    .upload-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .upload-feedback {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      margin-top: 10px;
-      min-height: 16px;
-    }
-    .upload-feedback.ok  { color: #4caf50; }
-    .upload-feedback.err { color: #ef5350; }
-
-    /* ── TRACK LIST ── */
-    .tracks-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--cyan);
-      letter-spacing: 0.15em;
-      margin-bottom: 16px;
-      opacity: 0.8;
-    }
-
-    .track-list { display: flex; flex-direction: column; gap: 2px; }
+    .track-list { flex:1; overflow-y:auto; }
+    .track-list::-webkit-scrollbar { width:3px; }
+    .track-list::-webkit-scrollbar-thumb { background:rgba(79,195,247,.15); border-radius:2px; }
 
     .track-item {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 20px;
-      background: var(--navy2);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all 0.15s;
-      position: relative;
+      display:grid; grid-template-columns:40px 1fr auto auto;
+      align-items:center; gap:12px; padding:10px 24px;
+      cursor:pointer; transition:background .1s;
+      border-left:2px solid transparent;
     }
-    .track-item:hover { border-color: rgba(79,195,247,0.2); background: rgba(13,27,46,0.9); }
-    .track-item.playing { border-color: rgba(249,168,37,0.3); background: rgba(249,168,37,0.04); }
+    .track-item:hover { background:rgba(255,255,255,.02); }
+    .track-item.playing { background:rgba(249,168,37,.04); border-left-color:var(--amber); }
 
-    .track-num {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      width: 20px;
-      text-align: right;
-      flex-shrink: 0;
+    .track-n { font-family:var(--mono); font-size:.68rem; color:var(--dim); text-align:center; }
+    .track-item.playing .track-n { display:none; }
+    .track-anim { display:none; align-items:flex-end; justify-content:center; gap:2px; height:14px; }
+    .track-item.playing .track-anim { display:flex; }
+    .anim-b {
+      width:3px; background:var(--amber); border-radius:1px;
+      animation:vb .6s ease-in-out infinite alternate;
     }
-    .track-item.playing .track-num { color: var(--amber); }
+    .anim-b:nth-child(2) { animation-delay:.15s; }
+    .anim-b:nth-child(3) { animation-delay:.3s; }
 
-    .track-play-icon {
-      font-size: 0.75rem;
-      color: var(--amber);
-      display: none;
-      flex-shrink: 0;
-    }
-    .track-item.playing .track-num  { display: none; }
-    .track-item.playing .track-play-icon { display: block; }
-
-    .track-info { flex: 1; min-width: 0; }
+    .track-info { min-width:0; }
     .track-name {
-      font-family: var(--sans);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-family:var(--sans); font-size:.92rem; font-weight:600; color:var(--text);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:1px;
     }
-    .track-item.playing .track-name { color: var(--amber); }
-    .track-artist {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      margin-top: 2px;
+    .track-item.playing .track-name { color:var(--amber); }
+    .track-artist { font-family:var(--mono); font-size:.6rem; color:var(--dim); }
+    .track-dur { font-family:var(--mono); font-size:.62rem; color:var(--dim); flex-shrink:0; }
+    .track-del {
+      background:transparent; border:none; color:transparent;
+      cursor:pointer; font-size:.68rem; padding:4px; transition:color .2s; flex-shrink:0;
     }
+    .track-item:hover .track-del { color:rgba(239,83,80,.25); }
+    .track-del:hover { color:#ef5350 !important; }
 
-    .track-duration {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      flex-shrink: 0;
+    .list-empty {
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center; height:100%; gap:12px; color:var(--dim);
     }
+    .list-empty-icon { font-size:2.4rem; opacity:.15; }
+    .list-empty-txt  { font-family:var(--mono); font-size:.72rem; opacity:.4; }
 
-    .track-delete {
-      background: transparent;
-      border: none;
-      color: transparent;
-      cursor: pointer;
-      font-size: 0.75rem;
-      padding: 4px 8px;
-      transition: color 0.2s;
-      flex-shrink: 0;
-    }
-    .track-item:hover .track-delete { color: rgba(239,83,80,0.5); }
-    .track-delete:hover { color: #ef5350 !important; }
-
-    /* Empty state */
-    .tracks-empty {
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      text-align: center;
-      padding: 48px 20px;
-      border: 1px dashed rgba(255,255,255,0.06);
-    }
-
-    /* Loading */
-    .tracks-loading {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--text-dim);
-      text-align: center;
-      padding: 32px;
-      opacity: 0.6;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 40px 32px 24px;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      opacity: 0.5;
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 600px) {
-      main { padding: 80px 16px 40px; }
-      nav  { padding: 0 16px; }
-      .now-playing { padding: 20px 18px; }
-      .np-volume   { display: none; }
-      .page-title  { font-size: 1.8rem; }
+    /* MOBILE */
+    @media (max-width:768px) {
+      html, body { overflow:auto; }
+      .app { grid-template-columns:1fr; grid-template-rows:auto 1fr; overflow:visible; height:auto; }
+      .player-panel { border-right:none; border-bottom:1px solid rgba(79,195,247,.08); padding:18px 14px; }
+      .artwork-wrap { max-width:200px; margin:0 auto 18px; }
+      .list-panel { min-height:380px; }
+      .track-item { padding:9px 14px; }
+      .list-header { padding:14px 14px 10px; }
     }
   </style>
 </head>
 <body>
 
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+
 <nav>
   <a class="nav-brand" href="/">TheGamersCubeNL</a>
-  <a class="nav-back" href="/">← Terug naar hoofdpagina</a>
+  <a class="nav-back" href="/">← Terug</a>
 </nav>
 
-<main>
-  <div class="page-header">
-    <div class="page-tag">// MUZIEK</div>
-    <h1 class="page-title">[ MUZIEK ]</h1>
-    <div class="page-divider"></div>
-  </div>
+<div class="app">
 
-  <!-- Now Playing -->
-  <div class="now-playing" id="nowPlaying">
-    <div class="np-label">
-      <div class="np-dot"></div>
-      NU SPEELT
-    </div>
-    <div class="np-title" id="npTitle">—</div>
-    <div class="np-artist" id="npArtist">—</div>
-    <div class="np-progress-wrap">
-      <div class="np-progress-bar" id="npProgressBar">
-        <div class="np-progress-fill" id="npProgressFill"></div>
-      </div>
-      <div class="np-times">
-        <span id="npCurrent">0:00</span>
-        <span id="npDuration">0:00</span>
+  <!-- PLAYER -->
+  <div class="player-panel">
+    <div class="artwork-wrap">
+      <div class="artwork" id="artwork">
+        <div class="artwork-ring"></div>
+        <div class="artwork-icon">♪</div>
+        <div class="visualizer" id="viz"></div>
       </div>
     </div>
-    <div class="np-controls">
-      <button class="np-btn" id="btnPrev" title="Vorige">⏮</button>
-      <button class="np-btn play-pause" id="btnPlay" title="Afspelen/Pauzeren">▶</button>
-      <button class="np-btn" id="btnNext" title="Volgende">⏭</button>
-      <div class="np-volume">
-        <span class="np-volume-icon">🔊</span>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8">
+
+    <div class="track-meta" id="meta">
+      <div class="track-meta-empty">// Selecteer een nummer</div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-bar" id="pbar">
+        <div class="progress-fill" id="pfill"></div>
+      </div>
+      <div class="progress-times">
+        <span id="tCur">0:00</span>
+        <span id="tDur">0:00</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="ctrl" id="btnShuffle" title="Shuffle" onclick="toggleShuffle()">⇄</button>
+      <button class="ctrl" id="btnPrev"    onclick="prevTrack()">⏮</button>
+      <button class="ctrl play" id="btnPlay" onclick="togglePlay()">▶</button>
+      <button class="ctrl" id="btnNext"    onclick="nextTrack()">⏭</button>
+      <button class="ctrl" id="btnRepeat"  title="Herhalen" onclick="cycleRepeat()">↻</button>
+    </div>
+
+    <div class="vol-row">
+      <span class="vol-icon" id="volIcon" onclick="toggleMute()">🔊</span>
+      <input type="range" class="vol" id="volSlider" min="0" max="1" step="0.02" value="0.8" oninput="setVolume(this.value)">
+    </div>
+
+    <div class="upload-section" id="uploadSection">
+      <div class="upload-lbl">// NUMMER UPLOADEN</div>
+      <div class="upload-row">
+        <input class="upload-input" type="text" id="upTitle"  placeholder="Titel">
+        <input class="upload-input" type="text" id="upArtist" placeholder="Artiest">
+      </div>
+      <div class="upload-file" id="upFileBtn">
+        <input type="file" id="upFile" accept="audio/*" onchange="onFileChange()">
+        <span id="upFileName">// Kies audiobestand · MP3 WAV FLAC OGG</span>
+      </div>
+      <div class="upload-progress" id="upProg"><div class="upload-progress-fill" id="upProgFill"></div></div>
+      <button class="upload-submit" id="upBtn" onclick="uploadTrack()">↑ UPLOADEN</button>
+      <div class="upload-msg" id="upMsg"></div>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div class="list-panel">
+    <div class="list-header">
+      <div class="list-top">
+        <div class="list-title">// NUMMERS</div>
+        <div class="list-count" id="listCount"></div>
+      </div>
+      <input class="list-search" id="searchInput" type="text" placeholder="Zoeken op titel of artiest..." oninput="filterTracks()">
+    </div>
+    <div class="track-list" id="trackList">
+      <div class="list-empty">
+        <div class="list-empty-icon">♪</div>
+        <div class="list-empty-txt">// Laden...</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Upload (admin only) -->
-  <div class="upload-section" id="uploadSection">
-    <div class="upload-label">// NUMMER UPLOADEN</div>
-    <div class="upload-fields">
-      <input class="upload-input" type="text" id="uploadTitle" placeholder="Titel">
-      <input class="upload-input" type="text" id="uploadArtist" placeholder="Artiest (bijv. TheGamersCubeNL)">
-    </div>
-    <div class="upload-file-area" id="uploadArea">
-      <input type="file" id="uploadFile" accept="audio/*">
-      <div class="upload-file-label">Klik om een audiobestand te kiezen<br><span>MP3, WAV, OGG, FLAC</span></div>
-      <div class="upload-file-name" id="uploadFileName"></div>
-    </div>
-    <div class="upload-progress" id="uploadProgress">
-      <div class="upload-progress-fill" id="uploadProgressFill"></div>
-    </div>
-    <button class="upload-btn" id="uploadBtn" onclick="window.uploadTrack()">Uploaden</button>
-    <div class="upload-feedback" id="uploadFeedback"></div>
-  </div>
+<audio id="audio" preload="none"></audio>
 
-  <!-- Track List -->
-  <div class="tracks-label">// NUMMERS</div>
-  <div class="track-list" id="trackList">
-    <div class="tracks-loading">// Laden...</div>
-  </div>
-</main>
-
-<footer>© 2026 TheGamersCubeNL · NL STREAMER</footer>
-
-<!-- Audio element -->
-<audio id="audioPlayer" preload="none"></audio>
-
-<!-- Firebase -->
 <script type="module">
-  import { initializeApp }                              from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-  import { getAuth, onAuthStateChanged }                from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-  import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, orderBy, query }
-                                                        from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-  import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject }
-                                                        from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+import { initializeApp }       from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, orderBy, query }
+                               from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject }
+                               from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
-  const ADMIN_UID = 'IGeY9roMR2b0iwgexlXQwJBfmnB3';
+const ADMIN = 'IGeY9roMR2b0iwgexlXQwJBfmnB3';
+const app   = initializeApp({
+  apiKey:'AIzaSyAmkDflYji7bT8ai8gyiONhStJ2rQIuIN0',
+  authDomain:'thegamerscubenl-d1d19.firebaseapp.com',
+  projectId:'thegamerscubenl-d1d19',
+  storageBucket:'thegamerscubenl-d1d19.firebasestorage.app',
+  messagingSenderId:'502479660199',
+  appId:'1:502479660199:web:88b135e3328ee954d92782'
+});
 
-  const app  = initializeApp({
-    apiKey:            'AIzaSyAmkDflYji7bT8ai8gyiONhStJ2rQIuIN0',
-    authDomain:        'thegamerscubenl-d1d19.firebaseapp.com',
-    projectId:         'thegamerscubenl-d1d19',
-    storageBucket:     'thegamerscubenl-d1d19.firebasestorage.app',
-    messagingSenderId: '502479660199',
-    appId:             '1:502479660199:web:88b135e3328ee954d92782'
-  });
+const auth    = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
+const audio   = document.getElementById('audio');
 
-  const auth    = getAuth(app);
-  const db      = getFirestore(app);
-  const storage = getStorage(app);
+// STATE
+let tracks=[], filtered=[], curIdx=-1, playing=false;
+let shuffleOn=false, repeatMode=0, prevVol=0.8, mutedState=false, shuffleBag=[];
 
-  let tracks       = [];
-  let currentIndex = -1;
-  let isPlaying    = false;
-  const audio      = document.getElementById('audioPlayer');
+// BUILD VISUALIZER
+const viz = document.getElementById('viz');
+for(let i=0;i<22;i++){
+  const b=document.createElement('div'); b.className='viz-bar';
+  b.style.cssText=`height:${Math.random()*44+8}px;animation-duration:${.35+Math.random()*.65}s;animation-delay:${Math.random()*.4}s`;
+  viz.appendChild(b);
+}
 
-  // ── AUTH ──
-  onAuthStateChanged(auth, user => {
-    const isAdmin = user && user.uid === ADMIN_UID;
-    const upload  = document.getElementById('uploadSection');
-    if (upload) upload.classList.toggle('visible', isAdmin);
-    window._isAdmin = isAdmin;
-  });
+// AUTH
+onAuthStateChanged(auth, u => {
+  window._isAdmin = u && u.uid===ADMIN;
+  document.getElementById('uploadSection').classList.toggle('visible', !!window._isAdmin);
+  renderList();
+});
 
-  // ── LOAD TRACKS ──
-  async function loadTracks() {
-    const list = document.getElementById('trackList');
-    try {
-      const snap = await getDocs(query(collection(db, 'music'), orderBy('uploadedAt', 'desc')));
-      tracks = [];
-      snap.forEach(d => tracks.push({ id: d.id, ...d.data() }));
-
-      if (tracks.length === 0) {
-        list.innerHTML = '<div class="tracks-empty">// Nog geen muziek geüpload.</div>';
-        return;
-      }
-
-      list.innerHTML = tracks.map((t, i) => `
-        <div class="track-item" id="track-${i}" onclick="window.playTrack(${i})">
-          <span class="track-num">${i + 1}</span>
-          <span class="track-play-icon">♪</span>
-          <div class="track-info">
-            <div class="track-name">${esc(t.title)}</div>
-            <div class="track-artist">${esc(t.artist || '—')}</div>
-          </div>
-          <span class="track-duration" id="dur-${i}">—</span>
-          ${window._isAdmin ? `<button class="track-delete" onclick="event.stopPropagation();window.deleteTrack('${t.id}','${esc(t.storagePath || '')}',this)" title="Verwijderen">✕</button>` : ''}
-        </div>
-      `).join('');
-
-      // Load durations
-      tracks.forEach((t, i) => {
-        const tmp = new Audio();
-        tmp.src = t.url;
-        tmp.addEventListener('loadedmetadata', () => {
-          const el = document.getElementById('dur-' + i);
-          if (el) el.textContent = fmtTime(tmp.duration);
-        });
-      });
-
-    } catch(e) {
-      console.error('loadTracks:', e);
-      list.innerHTML = '<div class="tracks-empty">// Fout bij laden. Probeer opnieuw.</div>';
-    }
+// LOAD
+async function loadTracks(){
+  try{
+    const snap = await getDocs(query(collection(db,'music'), orderBy('uploadedAt','desc')));
+    tracks=[]; snap.forEach(d=>tracks.push({id:d.id,...d.data()}));
+    filtered=[...tracks]; renderList();
+  }catch(e){
+    document.getElementById('trackList').innerHTML=`<div class="list-empty"><div class="list-empty-icon">⚠</div><div class="list-empty-txt">// Fout bij laden</div></div>`;
   }
+}
 
-  // ── PLAYER ──
-  window.playTrack = function(index) {
-    if (index < 0 || index >= tracks.length) return;
-    const t = tracks[index];
+function renderList(){
+  const list=document.getElementById('trackList');
+  const cnt=document.getElementById('listCount');
+  if(cnt) cnt.textContent=tracks.length ? tracks.length+' nummer'+(tracks.length!==1?'s':'') : '';
+  if(!filtered.length){
+    list.innerHTML=`<div class="list-empty"><div class="list-empty-icon">${tracks.length?'🔍':'♪'}</div><div class="list-empty-txt">${tracks.length?'// Geen resultaten':'// Nog geen muziek geüpload'}</div></div>`;
+    return;
+  }
+  list.innerHTML=filtered.map((t,i)=>{
+    const gi=tracks.indexOf(t);
+    return `<div class="track-item${gi===curIdx?' playing':''}" id="ti-${gi}" onclick="window._play(${gi})">
+      <div class="track-n">${i+1}</div>
+      <div class="track-anim"><div class="anim-b" style="height:5px"></div><div class="anim-b" style="height:10px"></div><div class="anim-b" style="height:6px"></div></div>
+      <div class="track-info">
+        <div class="track-name">${esc(t.title)}</div>
+        <div class="track-artist">${esc(t.artist||'—')}</div>
+      </div>
+      <div class="track-dur" id="dur-${gi}">—</div>
+      ${window._isAdmin?`<button class="track-del" onclick="event.stopPropagation();window._del('${t.id}','${esc(t.storagePath||'')}')">✕</button>`:''}
+    </div>`;
+  }).join('');
 
-    // Update UI
-    document.querySelectorAll('.track-item').forEach((el, i) => {
-      el.classList.toggle('playing', i === index);
+  tracks.forEach((t,i)=>{
+    const tmp=new Audio(); tmp.src=t.url;
+    tmp.addEventListener('loadedmetadata',()=>{
+      const el=document.getElementById('dur-'+i); if(el) el.textContent=fmt(tmp.duration);
     });
-
-    currentIndex = index;
-    audio.src    = t.url;
-    audio.volume = parseFloat(document.getElementById('volumeSlider').value);
-    audio.play();
-    isPlaying = true;
-
-    document.getElementById('npTitle').textContent  = t.title;
-    document.getElementById('npArtist').textContent = t.artist || '—';
-    document.getElementById('nowPlaying').classList.add('active');
-    document.getElementById('btnPlay').textContent  = '⏸';
-    document.title = t.title + ' — TheGamersCubeNL';
-  };
-
-  document.getElementById('btnPlay').onclick = () => {
-    if (currentIndex < 0) { if (tracks.length > 0) window.playTrack(0); return; }
-    if (isPlaying) { audio.pause(); isPlaying = false; document.getElementById('btnPlay').textContent = '▶'; }
-    else           { audio.play();  isPlaying = true;  document.getElementById('btnPlay').textContent = '⏸'; }
-  };
-
-  document.getElementById('btnNext').onclick = () => {
-    const next = (currentIndex + 1) % tracks.length;
-    window.playTrack(next);
-  };
-
-  document.getElementById('btnPrev').onclick = () => {
-    if (audio.currentTime > 3) { audio.currentTime = 0; return; }
-    const prev = (currentIndex - 1 + tracks.length) % tracks.length;
-    window.playTrack(prev);
-  };
-
-  audio.addEventListener('ended', () => {
-    const next = (currentIndex + 1) % tracks.length;
-    window.playTrack(next);
   });
+}
 
-  audio.addEventListener('timeupdate', () => {
-    if (!audio.duration) return;
-    const pct = (audio.currentTime / audio.duration) * 100;
-    document.getElementById('npProgressFill').style.width = pct + '%';
-    document.getElementById('npCurrent').textContent  = fmtTime(audio.currentTime);
-    document.getElementById('npDuration').textContent = fmtTime(audio.duration);
-  });
+// PLAY
+window._play = function(idx){
+  if(idx<0||idx>=tracks.length) return;
+  const t=tracks[idx]; curIdx=idx;
+  audio.src=t.url; audio.volume=parseFloat(document.getElementById('volSlider').value);
+  audio.play().then(()=>{ playing=true; updateUI(); }).catch(console.error);
+  document.getElementById('meta').innerHTML=`<div class="track-meta-title">${esc(t.title)}</div><div class="track-meta-artist">${esc(t.artist||'—')}</div>`;
+  document.title=t.title+' — TheGamersCubeNL';
+  document.querySelector('.bg-glow-1').style.transform='scale(1.3)';
+  setTimeout(()=>document.querySelector('.bg-glow-1').style.transform='',800);
+  renderList();
+};
 
-  // Progress bar click to seek
-  document.getElementById('npProgressBar').onclick = function(e) {
-    if (!audio.duration) return;
-    const rect = this.getBoundingClientRect();
-    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
-  };
+window.togglePlay=function(){
+  if(curIdx<0){if(tracks.length) window._play(0); return;}
+  if(playing){audio.pause();playing=false;}else{audio.play();playing=true;}
+  updateUI();
+};
+window.nextTrack=function(){
+  if(!tracks.length) return;
+  let n;
+  if(shuffleOn){ if(!shuffleBag.length) buildBag(); n=shuffleBag.pop(); }
+  else n=(curIdx+1)%tracks.length;
+  window._play(n);
+};
+window.prevTrack=function(){
+  if(audio.currentTime>3){audio.currentTime=0;return;}
+  window._play((curIdx-1+tracks.length)%tracks.length);
+};
+window.toggleShuffle=function(){
+  shuffleOn=!shuffleOn; if(shuffleOn) buildBag();
+  document.getElementById('btnShuffle').classList.toggle('active',shuffleOn);
+};
+window.cycleRepeat=function(){
+  repeatMode=(repeatMode+1)%3;
+  const btn=document.getElementById('btnRepeat');
+  btn.classList.toggle('active',repeatMode>0);
+  btn.title=['Herhalen uit','Alles herhalen','Eén herhalen'][repeatMode];
+  btn.textContent=repeatMode===2?'↺¹':'↻';
+};
+window.setVolume=function(v){
+  audio.volume=parseFloat(v); mutedState=false;
+  document.getElementById('volIcon').textContent=v==0?'🔇':v<0.4?'🔉':'🔊';
+};
+window.toggleMute=function(){
+  mutedState=!mutedState;
+  if(mutedState){prevVol=audio.volume;audio.volume=0;document.getElementById('volSlider').value=0;document.getElementById('volIcon').textContent='🔇';}
+  else{audio.volume=prevVol;document.getElementById('volSlider').value=prevVol;document.getElementById('volIcon').textContent=prevVol<0.4?'🔉':'🔊';}
+};
+window.filterTracks=function(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  filtered=q?tracks.filter(t=>t.title.toLowerCase().includes(q)||(t.artist||'').toLowerCase().includes(q)):[...tracks];
+  renderList();
+};
 
-  document.getElementById('volumeSlider').oninput = function() {
-    audio.volume = parseFloat(this.value);
-  };
+function buildBag(){
+  shuffleBag=tracks.map((_,i)=>i).filter(i=>i!==curIdx);
+  for(let i=shuffleBag.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[shuffleBag[i],shuffleBag[j]]=[shuffleBag[j],shuffleBag[i]];}
+}
+function updateUI(){
+  document.getElementById('btnPlay').textContent=playing?'⏸':'▶';
+  document.getElementById('artwork').classList.toggle('playing',playing);
+}
 
-  // ── UPLOAD ──
-  document.getElementById('uploadFile').addEventListener('change', function() {
-    const nameEl = document.getElementById('uploadFileName');
-    if (this.files[0]) {
-      nameEl.textContent = '// ' + this.files[0].name;
-      // Auto-fill title from filename if empty
-      const titleInput = document.getElementById('uploadTitle');
-      if (!titleInput.value) {
-        titleInput.value = this.files[0].name.replace(/\.[^.]+$/, '');
-      }
+audio.addEventListener('ended',()=>{
+  if(repeatMode===2){audio.play();return;}
+  if(repeatMode===1||shuffleOn||curIdx<tracks.length-1) window.nextTrack();
+  else{playing=false;updateUI();}
+});
+audio.addEventListener('timeupdate',()=>{
+  if(!audio.duration) return;
+  document.getElementById('pfill').style.width=(audio.currentTime/audio.duration*100)+'%';
+  document.getElementById('tCur').textContent=fmt(audio.currentTime);
+  document.getElementById('tDur').textContent=fmt(audio.duration);
+});
+document.getElementById('pbar').addEventListener('click',function(e){
+  if(!audio.duration) return;
+  const r=this.getBoundingClientRect();
+  audio.currentTime=((e.clientX-r.left)/r.width)*audio.duration;
+});
+
+// UPLOAD
+window.onFileChange=function(){
+  const f=document.getElementById('upFile').files[0]; if(!f) return;
+  document.getElementById('upFileName').textContent='// '+f.name;
+  const t=document.getElementById('upTitle'); if(!t.value) t.value=f.name.replace(/\.[^.]+$/,'');
+};
+window.uploadTrack=async function(){
+  if(!window._isAdmin) return;
+  const title=document.getElementById('upTitle').value.trim();
+  const artist=document.getElementById('upArtist').value.trim()||'TheGamersCubeNL';
+  const file=document.getElementById('upFile').files[0];
+  const msg=document.getElementById('upMsg'), btn=document.getElementById('upBtn');
+  const prog=document.getElementById('upProg'), fill=document.getElementById('upProgFill');
+  if(!title){msg.className='upload-msg err';msg.textContent='// Vul een titel in.';return;}
+  if(!file) {msg.className='upload-msg err';msg.textContent='// Kies een bestand.';return;}
+  btn.disabled=true; msg.textContent=''; prog.style.display='block'; fill.style.width='0%';
+  const path='music/'+Date.now()+'_'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  const task=uploadBytesResumable(ref(storage,path),file);
+  task.on('state_changed',
+    s=>fill.style.width=(s.bytesTransferred/s.totalBytes*100)+'%',
+    e=>{msg.className='upload-msg err';msg.textContent='// '+e.message;btn.disabled=false;prog.style.display='none';},
+    async()=>{
+      const url=await getDownloadURL(task.snapshot.ref);
+      await addDoc(collection(db,'music'),{title,artist,url,storagePath:path,uploadedAt:new Date().toISOString()});
+      msg.className='upload-msg ok'; msg.textContent='// ✓ '+title+' geüpload!';
+      document.getElementById('upTitle').value=''; document.getElementById('upArtist').value='';
+      document.getElementById('upFile').value=''; document.getElementById('upFileName').textContent='// Kies audiobestand · MP3 WAV FLAC OGG';
+      prog.style.display='none'; btn.disabled=false; loadTracks();
     }
-  });
+  );
+};
+window._del=async function(id,path){
+  if(!window._isAdmin||!confirm('Dit nummer verwijderen?')) return;
+  try{
+    await deleteDoc(doc(db,'music',id));
+    if(path) try{await deleteObject(ref(storage,path));}catch(e){}
+    if(tracks[curIdx]?.id===id){audio.pause();playing=false;curIdx=-1;document.getElementById('meta').innerHTML='<div class="track-meta-empty">// Selecteer een nummer</div>';updateUI();}
+    loadTracks();
+  }catch(e){alert('Fout: '+e.message);}
+};
 
-  window.uploadTrack = async function() {
-    if (!window._isAdmin) return;
-    const title    = document.getElementById('uploadTitle').value.trim();
-    const artist   = document.getElementById('uploadArtist').value.trim() || 'TheGamersCubeNL';
-    const fileInput = document.getElementById('uploadFile');
-    const file     = fileInput.files[0];
-    const feedback = document.getElementById('uploadFeedback');
-    const btn      = document.getElementById('uploadBtn');
-    const progress = document.getElementById('uploadProgress');
-    const fill     = document.getElementById('uploadProgressFill');
+// KEYBOARD
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.code==='Space')     {e.preventDefault();window.togglePlay();}
+  if(e.code==='ArrowRight'){e.preventDefault();window.nextTrack();}
+  if(e.code==='ArrowLeft') {e.preventDefault();window.prevTrack();}
+  if(e.code==='KeyS')      window.toggleShuffle();
+  if(e.code==='KeyR')      window.cycleRepeat();
+});
 
-    if (!title)  { feedback.className = 'upload-feedback err'; feedback.textContent = '// Vul een titel in.'; return; }
-    if (!file)   { feedback.className = 'upload-feedback err'; feedback.textContent = '// Kies een audiobestand.'; return; }
+function fmt(s){if(!s||isNaN(s))return'0:00';return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-    btn.disabled = true;
-    feedback.textContent = '';
-    progress.style.display = 'block';
-    fill.style.width = '0%';
-
-    try {
-      const storagePath = 'music/' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-      const storageRef  = ref(storage, storagePath);
-      const uploadTask  = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on('state_changed',
-        snap => {
-          const pct = (snap.bytesTransferred / snap.totalBytes) * 100;
-          fill.style.width = pct + '%';
-        },
-        err => {
-          feedback.className = 'upload-feedback err';
-          feedback.textContent = '// Upload fout: ' + err.message;
-          btn.disabled = false;
-          progress.style.display = 'none';
-        },
-        async () => {
-          const url = await getDownloadURL(uploadTask.snapshot.ref);
-          await addDoc(collection(db, 'music'), {
-            title, artist, url, storagePath,
-            uploadedAt: new Date().toISOString()
-          });
-          feedback.className = 'upload-feedback ok';
-          feedback.textContent = '// ✓ ' + title + ' geüpload!';
-          document.getElementById('uploadTitle').value    = '';
-          document.getElementById('uploadArtist').value  = '';
-          fileInput.value = '';
-          document.getElementById('uploadFileName').textContent = '';
-          progress.style.display = 'none';
-          btn.disabled = false;
-          loadTracks();
-        }
-      );
-    } catch(e) {
-      feedback.className = 'upload-feedback err';
-      feedback.textContent = '// Fout: ' + e.message;
-      btn.disabled = false;
-      progress.style.display = 'none';
-    }
-  };
-
-  // ── DELETE ──
-  window.deleteTrack = async function(id, storagePath, btn) {
-    if (!window._isAdmin) return;
-    if (!confirm('Dit nummer verwijderen?')) return;
-    try {
-      await deleteDoc(doc(db, 'music', id));
-      if (storagePath) {
-        try { await deleteObject(ref(storage, storagePath)); } catch(e) {}
-      }
-      loadTracks();
-    } catch(e) {
-      alert('Verwijderen mislukt: ' + e.message);
-    }
-  };
-
-  // ── HELPERS ──
-  function fmtTime(s) {
-    if (!s || isNaN(s)) return '0:00';
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
-    return m + ':' + String(sec).padStart(2, '0');
-  }
-
-  function esc(str) {
-    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // Init
-  loadTracks();
+loadTracks();
 </script>
-
 </body>
 </html>
