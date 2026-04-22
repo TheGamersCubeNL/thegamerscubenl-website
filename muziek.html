@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muziek — TheGamersCubeNL</title>
+  <link rel="icon" href="/icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:    #060d1a;
+      --navy2:   #0d1b2e;
+      --navy3:   #0a1525;
+      --amber:   #f9a825;
+      --cyan:    #4fc3f7;
+      --text:    #e8eaf0;
+      --text-dim:#8899aa;
+      --mono:    'Share Tech Mono', monospace;
+      --sans:    'Rajdhani', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SCANLINES ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: rgba(6,13,26,0.92);
+      border-bottom: 1px solid rgba(79,195,247,0.12);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      z-index: 100;
+    }
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--amber);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    .nav-back {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .nav-back:hover { opacity: 1; }
+
+    /* ── MAIN ── */
+    main {
+      padding: 88px 32px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      margin-bottom: 48px;
+    }
+    .page-tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+    .page-title {
+      font-family: var(--mono);
+      font-size: 2.4rem;
+      color: var(--amber);
+      letter-spacing: 0.06em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .page-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      width: 200px;
+    }
+
+    /* ── NOW PLAYING ── */
+    .now-playing {
+      background: var(--navy2);
+      border: 1px solid rgba(249,168,37,0.2);
+      padding: 28px 32px;
+      margin-bottom: 40px;
+      display: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .now-playing::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(249,168,37,0.04), transparent);
+      pointer-events: none;
+    }
+    .now-playing.active { display: block; }
+    .np-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--amber);
+      letter-spacing: 0.2em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .np-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+
+    .np-title {
+      font-family: var(--sans);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .np-artist {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+
+    /* Progress bar */
+    .np-progress-wrap {
+      margin-bottom: 12px;
+    }
+    .np-progress-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      cursor: pointer;
+      position: relative;
+    }
+    .np-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), var(--cyan));
+      width: 0%;
+      transition: width 0.5s linear;
+      pointer-events: none;
+    }
+    .np-times {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-top: 6px;
+    }
+
+    /* Controls */
+    .np-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .np-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 6px;
+      transition: color 0.2s, transform 0.1s;
+      line-height: 1;
+    }
+    .np-btn:hover { color: var(--text); }
+    .np-btn.play-pause {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--amber);
+      color: var(--navy);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .np-btn.play-pause:hover { transform: scale(1.08); }
+
+    .np-volume {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+    .np-volume-icon { font-size: 0.9rem; color: var(--text-dim); }
+    .np-volume input[type=range] {
+      width: 80px;
+      accent-color: var(--cyan);
+      cursor: pointer;
+    }
+
+    /* ── UPLOAD SECTION (admin only) ── */
+    .upload-section {
+      display: none;
+      background: var(--navy2);
+      border: 1px solid rgba(79,195,247,0.15);
+      padding: 24px 28px;
+      margin-bottom: 32px;
+    }
+    .upload-section.visible { display: block; }
+    .upload-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      margin-bottom: 16px;
+    }
+    .upload-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 600px) { .upload-fields { grid-template-columns: 1fr; } }
+
+    .upload-input {
+      background: var(--navy3);
+      border: 1px solid rgba(79,195,247,0.2);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      padding: 9px 12px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .upload-input:focus { border-color: var(--cyan); }
+
+    .upload-file-area {
+      border: 1px dashed rgba(79,195,247,0.3);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .upload-file-area:hover { border-color: var(--cyan); background: rgba(79,195,247,0.03); }
+    .upload-file-area input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .upload-file-label {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+    .upload-file-label span { color: var(--cyan); }
+    .upload-file-name {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--amber);
+      margin-top: 6px;
+    }
+
+    .upload-progress {
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 14px;
+      display: none;
+    }
+    .upload-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), var(--cyan));
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .upload-btn {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      padding: 10px 24px;
+      background: transparent;
+      border: 1px solid var(--amber);
+      color: var(--amber);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .upload-btn:hover { background: var(--amber); color: var(--navy); }
+    .upload-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .upload-feedback {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      margin-top: 10px;
+      min-height: 16px;
+    }
+    .upload-feedback.ok  { color: #4caf50; }
+    .upload-feedback.err { color: #ef5350; }
+
+    /* ── TRACK LIST ── */
+    .tracks-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
+      letter-spacing: 0.15em;
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .track-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .track-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      background: var(--navy2);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+    }
+    .track-item:hover { border-color: rgba(79,195,247,0.2); background: rgba(13,27,46,0.9); }
+    .track-item.playing { border-color: rgba(249,168,37,0.3); background: rgba(249,168,37,0.04); }
+
+    .track-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      width: 20px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .track-item.playing .track-num { color: var(--amber); }
+
+    .track-play-icon {
+      font-size: 0.75rem;
+      color: var(--amber);
+      display: none;
+      flex-shrink: 0;
+    }
+    .track-item.playing .track-num  { display: none; }
+    .track-item.playing .track-play-icon { display: block; }
+
+    .track-info { flex: 1; min-width: 0; }
+    .track-name {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .track-item.playing .track-name { color: var(--amber); }
+    .track-artist {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .track-duration {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .track-delete {
+      background: transparent;
+      border: none;
+      color: transparent;
+      cursor: pointer;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+    .track-item:hover .track-delete { color: rgba(239,83,80,0.5); }
+    .track-delete:hover { color: #ef5350 !important; }
+
+    /* Empty state */
+    .tracks-empty {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 48px 20px;
+      border: 1px dashed rgba(255,255,255,0.06);
+    }
+
+    /* Loading */
+    .tracks-loading {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 32px;
+      opacity: 0.6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 32px 24px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      opacity: 0.5;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 80px 16px 40px; }
+      nav  { padding: 0 16px; }
+      .now-playing { padding: 20px 18px; }
+      .np-volume   { display: none; }
+      .page-title  { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="/">TheGamersCubeNL</a>
+  <a class="nav-back" href="/">← Terug naar hoofdpagina</a>
+</nav>
+
+<main>
+  <div class="page-header">
+    <div class="page-tag">// MUZIEK</div>
+    <h1 class="page-title">[ MUZIEK ]</h1>
+    <div class="page-divider"></div>
+  </div>
+
+  <!-- Now Playing -->
+  <div class="now-playing" id="nowPlaying">
+    <div class="np-label">
+      <div class="np-dot"></div>
+      NU SPEELT
+    </div>
+    <div class="np-title" id="npTitle">—</div>
+    <div class="np-artist" id="npArtist">—</div>
+    <div class="np-progress-wrap">
+      <div class="np-progress-bar" id="npProgressBar">
+        <div class="np-progress-fill" id="npProgressFill"></div>
+      </div>
+      <div class="np-times">
+        <span id="npCurrent">0:00</span>
+        <span id="npDuration">0:00</span>
+      </div>
+    </div>
+    <div class="np-controls">
+      <button class="np-btn" id="btnPrev" title="Vorige">⏮</button>
+      <button class="np-btn play-pause" id="btnPlay" title="Afspelen/Pauzeren">▶</button>
+      <button class="np-btn" id="btnNext" title="Volgende">⏭</button>
+      <div class="np-volume">
+        <span class="np-volume-icon">🔊</span>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8">
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload (admin only) -->
+  <div class="upload-section" id="uploadSection">
+    <div class="upload-label">// NUMMER UPLOADEN</div>
+    <div class="upload-fields">
+      <input class="upload-input" type="text" id="uploadTitle" placeholder="Titel">
+      <input class="upload-input" type="text" id="uploadArtist" placeholder="Artiest (bijv. TheGamersCubeNL)">
+    </div>
+    <div class="upload-file-area" id="uploadArea">
+      <input type="file" id="uploadFile" accept="audio/*">
+      <div class="upload-file-label">Klik om een audiobestand te kiezen<br><span>MP3, WAV, OGG, FLAC</span></div>
+      <div class="upload-file-name" id="uploadFileName"></div>
+    </div>
+    <div class="upload-progress" id="uploadProgress">
+      <div class="upload-progress-fill" id="uploadProgressFill"></div>
+    </div>
+    <button class="upload-btn" id="uploadBtn" onclick="window.uploadTrack()">Uploaden</button>
+    <div class="upload-feedback" id="uploadFeedback"></div>
+  </div>
+
+  <!-- Track List -->
+  <div class="tracks-label">// NUMMERS</div>
+  <div class="track-list" id="trackList">
+    <div class="tracks-loading">// Laden...</div>
+  </div>
+</main>
+
+<footer>© 2026 TheGamersCubeNL · NL STREAMER</footer>
+
+<!-- Audio element -->
+<audio id="audioPlayer" preload="none"></audio>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp }                              from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getAuth, onAuthStateChanged }                from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+  import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, orderBy, query }
+                                                        from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+  import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject }
+                                                        from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+
+  const ADMIN_UID = 'IGeY9roMR2b0iwgexlXQwJBfmnB3';
+
+  const app  = initializeApp({
+    apiKey:            'AIzaSyAmkDflYji7bT8ai8gyiONhStJ2rQIuIN0',
+    authDomain:        'thegamerscubenl-d1d19.firebaseapp.com',
+    projectId:         'thegamerscubenl-d1d19',
+    storageBucket:     'thegamerscubenl-d1d19.firebasestorage.app',
+    messagingSenderId: '502479660199',
+    appId:             '1:502479660199:web:88b135e3328ee954d92782'
+  });
+
+  const auth    = getAuth(app);
+  const db      = getFirestore(app);
+  const storage = getStorage(app);
+
+  let tracks       = [];
+  let currentIndex = -1;
+  let isPlaying    = false;
+  const audio      = document.getElementById('audioPlayer');
+
+  // ── AUTH ──
+  onAuthStateChanged(auth, user => {
+    const isAdmin = user && user.uid === ADMIN_UID;
+    const upload  = document.getElementById('uploadSection');
+    if (upload) upload.classList.toggle('visible', isAdmin);
+    window._isAdmin = isAdmin;
+  });
+
+  // ── LOAD TRACKS ──
+  async function loadTracks() {
+    const list = document.getElementById('trackList');
+    try {
+      const snap = await getDocs(query(collection(db, 'music'), orderBy('uploadedAt', 'desc')));
+      tracks = [];
+      snap.forEach(d => tracks.push({ id: d.id, ...d.data() }));
+
+      if (tracks.length === 0) {
+        list.innerHTML = '<div class="tracks-empty">// Nog geen muziek geüpload.</div>';
+        return;
+      }
+
+      list.innerHTML = tracks.map((t, i) => `
+        <div class="track-item" id="track-${i}" onclick="window.playTrack(${i})">
+          <span class="track-num">${i + 1}</span>
+          <span class="track-play-icon">♪</span>
+          <div class="track-info">
+            <div class="track-name">${esc(t.title)}</div>
+            <div class="track-artist">${esc(t.artist || '—')}</div>
+          </div>
+          <span class="track-duration" id="dur-${i}">—</span>
+          ${window._isAdmin ? `<button class="track-delete" onclick="event.stopPropagation();window.deleteTrack('${t.id}','${esc(t.storagePath || '')}',this)" title="Verwijderen">✕</button>` : ''}
+        </div>
+      `).join('');
+
+      // Load durations
+      tracks.forEach((t, i) => {
+        const tmp = new Audio();
+        tmp.src = t.url;
+        tmp.addEventListener('loadedmetadata', () => {
+          const el = document.getElementById('dur-' + i);
+          if (el) el.textContent = fmtTime(tmp.duration);
+        });
+      });
+
+    } catch(e) {
+      console.error('loadTracks:', e);
+      list.innerHTML = '<div class="tracks-empty">// Fout bij laden. Probeer opnieuw.</div>';
+    }
+  }
+
+  // ── PLAYER ──
+  window.playTrack = function(index) {
+    if (index < 0 || index >= tracks.length) return;
+    const t = tracks[index];
+
+    // Update UI
+    document.querySelectorAll('.track-item').forEach((el, i) => {
+      el.classList.toggle('playing', i === index);
+    });
+
+    currentIndex = index;
+    audio.src    = t.url;
+    audio.volume = parseFloat(document.getElementById('volumeSlider').value);
+    audio.play();
+    isPlaying = true;
+
+    document.getElementById('npTitle').textContent  = t.title;
+    document.getElementById('npArtist').textContent = t.artist || '—';
+    document.getElementById('nowPlaying').classList.add('active');
+    document.getElementById('btnPlay').textContent  = '⏸';
+    document.title = t.title + ' — TheGamersCubeNL';
+  };
+
+  document.getElementById('btnPlay').onclick = () => {
+    if (currentIndex < 0) { if (tracks.length > 0) window.playTrack(0); return; }
+    if (isPlaying) { audio.pause(); isPlaying = false; document.getElementById('btnPlay').textContent = '▶'; }
+    else           { audio.play();  isPlaying = true;  document.getElementById('btnPlay').textContent = '⏸'; }
+  };
+
+  document.getElementById('btnNext').onclick = () => {
+    const next = (currentIndex + 1) % tracks.length;
+    window.playTrack(next);
+  };
+
+  document.getElementById('btnPrev').onclick = () => {
+    if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+    const prev = (currentIndex - 1 + tracks.length) % tracks.length;
+    window.playTrack(prev);
+  };
+
+  audio.addEventListener('ended', () => {
+    const next = (currentIndex + 1) % tracks.length;
+    window.playTrack(next);
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    document.getElementById('npProgressFill').style.width = pct + '%';
+    document.getElementById('npCurrent').textContent  = fmtTime(audio.currentTime);
+    document.getElementById('npDuration').textContent = fmtTime(audio.duration);
+  });
+
+  // Progress bar click to seek
+  document.getElementById('npProgressBar').onclick = function(e) {
+    if (!audio.duration) return;
+    const rect = this.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+  };
+
+  document.getElementById('volumeSlider').oninput = function() {
+    audio.volume = parseFloat(this.value);
+  };
+
+  // ── UPLOAD ──
+  document.getElementById('uploadFile').addEventListener('change', function() {
+    const nameEl = document.getElementById('uploadFileName');
+    if (this.files[0]) {
+      nameEl.textContent = '// ' + this.files[0].name;
+      // Auto-fill title from filename if empty
+      const titleInput = document.getElementById('uploadTitle');
+      if (!titleInput.value) {
+        titleInput.value = this.files[0].name.replace(/\.[^.]+$/, '');
+      }
+    }
+  });
+
+  window.uploadTrack = async function() {
+    if (!window._isAdmin) return;
+    const title    = document.getElementById('uploadTitle').value.trim();
+    const artist   = document.getElementById('uploadArtist').value.trim() || 'TheGamersCubeNL';
+    const fileInput = document.getElementById('uploadFile');
+    const file     = fileInput.files[0];
+    const feedback = document.getElementById('uploadFeedback');
+    const btn      = document.getElementById('uploadBtn');
+    const progress = document.getElementById('uploadProgress');
+    const fill     = document.getElementById('uploadProgressFill');
+
+    if (!title)  { feedback.className = 'upload-feedback err'; feedback.textContent = '// Vul een titel in.'; return; }
+    if (!file)   { feedback.className = 'upload-feedback err'; feedback.textContent = '// Kies een audiobestand.'; return; }
+
+    btn.disabled = true;
+    feedback.textContent = '';
+    progress.style.display = 'block';
+    fill.style.width = '0%';
+
+    try {
+      const storagePath = 'music/' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const storageRef  = ref(storage, storagePath);
+      const uploadTask  = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on('state_changed',
+        snap => {
+          const pct = (snap.bytesTransferred / snap.totalBytes) * 100;
+          fill.style.width = pct + '%';
+        },
+        err => {
+          feedback.className = 'upload-feedback err';
+          feedback.textContent = '// Upload fout: ' + err.message;
+          btn.disabled = false;
+          progress.style.display = 'none';
+        },
+        async () => {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          await addDoc(collection(db, 'music'), {
+            title, artist, url, storagePath,
+            uploadedAt: new Date().toISOString()
+          });
+          feedback.className = 'upload-feedback ok';
+          feedback.textContent = '// ✓ ' + title + ' geüpload!';
+          document.getElementById('uploadTitle').value    = '';
+          document.getElementById('uploadArtist').value  = '';
+          fileInput.value = '';
+          document.getElementById('uploadFileName').textContent = '';
+          progress.style.display = 'none';
+          btn.disabled = false;
+          loadTracks();
+        }
+      );
+    } catch(e) {
+      feedback.className = 'upload-feedback err';
+      feedback.textContent = '// Fout: ' + e.message;
+      btn.disabled = false;
+      progress.style.display = 'none';
+    }
+  };
+
+  // ── DELETE ──
+  window.deleteTrack = async function(id, storagePath, btn) {
+    if (!window._isAdmin) return;
+    if (!confirm('Dit nummer verwijderen?')) return;
+    try {
+      await deleteDoc(doc(db, 'music', id));
+      if (storagePath) {
+        try { await deleteObject(ref(storage, storagePath)); } catch(e) {}
+      }
+      loadTracks();
+    } catch(e) {
+      alert('Verwijderen mislukt: ' + e.message);
+    }
+  };
+
+  // ── HELPERS ──
+  function fmtTime(s) {
+    if (!s || isNaN(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + String(sec).padStart(2, '0');
+  }
+
+  function esc(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Init
+  loadTracks();
+</script>
+
+</body>
+</html>
