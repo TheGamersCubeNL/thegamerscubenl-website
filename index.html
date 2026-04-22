@@ -4362,6 +4362,11 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 <script>
   const CAL_API_KEY = 'AIzaSyAJ8gVAbin4IC6RvjilrG2xS5XcqfFK1bM';
   const CAL_ID      = 'btv2f60vv39vjg181k076mggms@group.calendar.google.com';
+  // Expose als window globals zodat andere script blocks ze kunnen gebruiken
+  window._CAL_API_KEY = CAL_API_KEY;
+  window._CAL_ID      = CAL_ID;
+  window._YT_KEY      = 'AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU';
+  window._YT_CH_ID    = 'UCJapCi1J_QZgCcA89J8dPTQ';
   const YT_KEY      = 'AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU';
   const YT_CH_ID    = 'UCJapCi1J_QZgCcA89J8dPTQ';
   const DAG_NL      = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
@@ -4712,7 +4717,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         const span = info.querySelector('span');
         if (span) span.childNodes[0].textContent = newName;
       }
-      setTimeout(() => renderProfile(window.currentUser), 1500);
+      setTimeout(() => { if (window.currentUser) renderProfile(window.currentUser); }, 1500);
     } catch(e) {
       if (feedback) { feedback.style.color='#ef5350'; feedback.textContent='// Fout: ' + e.message; }
     }
@@ -4968,12 +4973,11 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       </div>
       <div class="admin-card">
         <h3>[ VOLGENDE STREAM ]</h3>
-        <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:16px;">Pin een aankomende stream bovenaan de lijst.</p>
-        <div class="admin-row">
-          <input class="admin-input" id="nextStreamTitle" placeholder="Stream titel, bijv: Star Citizen patch 4.0!">
-          <input class="admin-input" id="nextStreamDate" type="datetime-local">
-        </div>
-        <button class="admin-save-btn" onclick="saveNextStream()">Pinnen</button>
+        <p style="font-family:var(--mono);font-size:0.78rem;color:var(--text-dim);line-height:1.6;">
+          // De countdown werkt automatisch via Google Calendar.<br>
+          // Voeg een event toe in je agenda om de countdown bij te werken.<br><br>
+          <a href="https://calendar.google.com" target="_blank" style="color:var(--cyan);text-decoration:none;">→ Google Calendar openen</a>
+        </p>
       </div>
     </div>
 
@@ -5088,32 +5092,6 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       const note = document.getElementById('scheduleNote');
       if (note) { note.style.borderColor = ''; }
       showAdminSuccess('sched-success');
-    } catch(e) { alert('Fout: ' + e.message); }
-  }
-
-  // ── NEXT STREAM PIN ──
-  window.saveNextStream = async function() {
-    const title = document.getElementById('nextStreamTitle').value.trim();
-    const date  = document.getElementById('nextStreamDate').value;
-    if (!title || !date) return;
-    try {
-      await window._setDoc(window._doc(window._db, 'settings', 'nextStream'), { title, date });
-      showAdminSuccess('sched-success');
-      // Show in upcoming list
-      const listEl = document.getElementById('upcomingList');
-      const d = new Date(date);
-      const days = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
-      const months = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
-      const dag = days[(d.getDay()+6)%7];
-      const datum = dag + ' ' + d.getDate() + ' ' + months[d.getMonth()];
-      const tijd = d.toLocaleTimeString('nl-NL', {hour:'2-digit',minute:'2-digit'});
-      const pinned = '<div class="upcoming-event" style="border-color:rgba(249,168,37,0.4);">'
-        + '<div class="upcoming-dot" style="background:var(--amber);"></div>'
-        + '<div class="upcoming-date">' + datum + '</div>'
-        + '<div class="upcoming-title">&#128204; ' + title + '</div>'
-        + '<div class="upcoming-time">' + tijd + '</div>'
-        + '</div>';
-      if (listEl) listEl.insertAdjacentHTML('afterbegin', pinned);
     } catch(e) { alert('Fout: ' + e.message); }
   }
 
@@ -5256,8 +5234,13 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   // Award points to current user
   async function awardPoints(pts, reason) {
     if (!window.currentUser || !window._db) return;
-    // Admin nooit in loyaliteitssysteem
-    if (window.isAdmin) return;
+    // Admin nooit in loyaliteitssysteem — check expliciet op false én undefined
+    if (window.isAdmin === true) return;
+    // Wacht tot isAdmin zeker bepaald is (auth callback kan nog lopen)
+    if (window.isAdmin === undefined) {
+      setTimeout(() => awardPoints(pts, reason), 300);
+      return;
+    }
     // Controleer of loyaliteitssysteem aan staat
     if (window._loyaltyEnabled === false) {
       console.log('Loyaliteitssysteem uitgeschakeld — punten niet toegekend.');
@@ -5477,22 +5460,33 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
 
 <script>
-  window.TWITCH_PROXY = "https://twitch-proxy.www-cornelis.workers.dev";
-  const TWITCH_CHANNEL   = "TheGamersCubeNL";
-  const YT_KEY2          = "AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU";
-  const YT_CH_ID2        = "UCJapCi1J_QZgCcA89J8dPTQ";
+  window.TWITCH_PROXY  = "https://twitch-proxy.www-cornelis.workers.dev";
+  const TWITCH_CHANNEL = "TheGamersCubeNL";
+  // YT_KEY2 en YT_CH_ID2 verwijderd — gebruik window globals uit vorig script block
+  const YT_KEY2   = window._YT_KEY   || 'AIzaSyDNWqT8frbTOHaeRVRIzip3Gm2FDqaAHjU';
+  const YT_CH_ID2 = window._YT_CH_ID || 'UCJapCi1J_QZgCcA89J8dPTQ';
 
-  // ── COUNTDOWN (via Google Calendar) ──
+  // ── COUNTDOWN (puur via Google Calendar, geen Firebase) ──
   let countdownInterval = null;
 
   async function loadCountdown() {
     const wrap = document.getElementById('countdownWrap');
+    // Haal CAL vars op via window globals (gezet in vorig script block)
+    const calId  = window._CAL_ID;
+    const calKey = window._CAL_API_KEY;
+
+    if (!calId || !calKey) {
+      console.warn('Countdown: CAL_ID of CAL_API_KEY niet beschikbaar, retry...');
+      setTimeout(loadCountdown, 500);
+      return;
+    }
+
     try {
-      const now    = new Date();
-      const tMin   = now.toISOString();
-      const tMax   = new Date(now.getTime() + 60 * 24 * 3600 * 1000).toISOString(); // 60 dagen vooruit
-      const url    = 'https://www.googleapis.com/calendar/v3/calendars/'
-        + encodeURIComponent(CAL_ID) + '/events?key=' + CAL_API_KEY
+      const now  = new Date();
+      const tMin = now.toISOString();
+      const tMax = new Date(now.getTime() + 60 * 24 * 3600 * 1000).toISOString();
+      const url  = 'https://www.googleapis.com/calendar/v3/calendars/'
+        + encodeURIComponent(calId) + '/events?key=' + calKey
         + '&timeMin=' + encodeURIComponent(tMin)
         + '&timeMax=' + encodeURIComponent(tMax)
         + '&singleEvents=true&orderBy=startTime&maxResults=10';
@@ -5501,11 +5495,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       if (!res.ok) throw new Error('Calendar HTTP ' + res.status);
       const events = (await res.json()).items || [];
 
-      // Pak het eerste toekomstige event
-      const next = events.find(ev => {
-        const start = new Date(ev.start.dateTime || ev.start.date);
-        return start > now;
-      });
+      const next = events.find(ev => new Date(ev.start.dateTime || ev.start.date) > now);
 
       if (!next) {
         if (wrap) wrap.innerHTML = '<div class="countdown-title">// VOLGENDE STREAM</div>'
@@ -5513,44 +5503,36 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         return;
       }
 
-      // Zet de naam
       const nameEl = document.getElementById('countdownName');
       if (nameEl) nameEl.textContent = next.summary || 'Livestream';
 
       const targetDate = new Date(next.start.dateTime || next.start.date);
+      const endDate    = next.end && next.end.dateTime ? new Date(next.end.dateTime) : null;
 
-      // Start de afteller
       if (countdownInterval) clearInterval(countdownInterval);
       countdownInterval = setInterval(() => {
         const diff = targetDate - new Date();
         if (diff <= 0) {
           clearInterval(countdownInterval);
-          // Controleer of stream al voorbij is (end time)
-          const endDate = next.end && next.end.dateTime ? new Date(next.end.dateTime) : null;
-          const digits  = document.getElementById('countdownDigits');
+          const digits = document.getElementById('countdownDigits');
           if (digits) {
             if (!endDate || new Date() < endDate) {
               digits.innerHTML = '<div class="countdown-live">● NU LIVE!</div>';
             } else {
-              // Stream voorbij — herlaad voor volgend event
-              loadCountdown();
+              loadCountdown(); // Stream voorbij — laad volgend event
             }
           }
           return;
         }
-        const days  = Math.floor(diff / 86400000);
-        const hours = Math.floor((diff % 86400000) / 3600000);
-        const mins  = Math.floor((diff % 3600000)  / 60000);
-        const secs  = Math.floor((diff % 60000)    / 1000);
-        const pad   = n => String(n).padStart(2, '0');
-        const dEl = document.getElementById('cdDays');
-        const hEl = document.getElementById('cdHours');
-        const mEl = document.getElementById('cdMins');
-        const sEl = document.getElementById('cdSecs');
-        if (dEl) dEl.textContent = pad(days);
-        if (hEl) hEl.textContent = pad(hours);
-        if (mEl) mEl.textContent = pad(mins);
-        if (sEl) sEl.textContent = pad(secs);
+        const pad  = n => String(n).padStart(2, '0');
+        const dEl  = document.getElementById('cdDays');
+        const hEl  = document.getElementById('cdHours');
+        const mEl  = document.getElementById('cdMins');
+        const sEl  = document.getElementById('cdSecs');
+        if (dEl) dEl.textContent = pad(Math.floor(diff / 86400000));
+        if (hEl) hEl.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+        if (mEl) mEl.textContent = pad(Math.floor((diff % 3600000) / 60000));
+        if (sEl) sEl.textContent = pad(Math.floor((diff % 60000) / 1000));
       }, 1000);
 
     } catch(e) {
@@ -5652,12 +5634,15 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
   }
 
   // ── LOYALTY COUNT FOR STATS ──
+  // Hergebruikt data van loadLoyalty om dubbele Firestore reads te voorkomen
   async function loadLoyaltyCount() {
     if (!window._db) return;
     try {
       const snap = await window._getDocs(window._collection(window._db, 'loyalty'));
+      // Filter admin eruit voor accurate count
+      const count = [...snap.docs].filter(d => d.id !== 'IGeY9roMR2b0iwgexlXQwJBfmnB3').length;
       const el = document.getElementById('statLoyalty');
-      if (el) el.textContent = snap.size;
+      if (el) el.textContent = count;
     } catch(e) {}
   }
 
