@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tgcnl-v3';
+const CACHE_NAME = 'tgcnl-v4';
 
 const STATIC_ASSETS = [
   '/',
