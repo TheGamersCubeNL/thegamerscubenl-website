@@ -951,8 +951,9 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       }
 
       // Update hamburger menu
-      if (window.updateMenuUser) window.updateMenuUser(user);
-      else { let _t = setInterval(() => { if (window.updateMenuUser) { clearInterval(_t); window.updateMenuUser(user); } }, 100); setTimeout(() => clearInterval(_t), 5000); }
+      const _doMenuUpdate = () => window.updateMenuUser(user, isAdmin);
+      if (window.updateMenuUser) _doMenuUpdate();
+      else { let _t = setInterval(() => { if (window.updateMenuUser) { clearInterval(_t); _doMenuUpdate(); } }, 100); setTimeout(() => clearInterval(_t), 5000); }
 
     } else {
       window.isAdmin = false;
@@ -3466,7 +3467,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     document.body.style.overflow = '';
   }
 
-  window.updateMenuUser = function updateMenuUser(user) {
+  window.updateMenuUser = function updateMenuUser(user, forceAdmin) {
     const userInfo   = document.getElementById('menuUserInfo');
     const loginBtn   = document.getElementById('menuLoginBtn');
     const logoutBtn  = document.getElementById('menuLogoutBtn');
@@ -3490,7 +3491,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
           : name[0].toUpperCase();
       }
       // Show admin button if admin
-      if (adminBtn) adminBtn.classList.toggle('admin-visible', window.isAdmin === true);
+      if (adminBtn) adminBtn.classList.toggle('admin-visible', forceAdmin === true || window.isAdmin === true);
     } else {
       if (userInfo)   userInfo.style.display   = 'none';
       if (loginBtn)   loginBtn.style.display   = 'flex';
