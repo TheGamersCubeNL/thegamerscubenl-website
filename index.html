@@ -2357,7 +2357,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         timestamp:   gbServerTs()
       });
       if (msgEl) msgEl.value = '';
-      await awardPoints(15, 'gastenboek bericht');
+      if (window.awardPoints) await window.awardPoints(15, 'gastenboek bericht');
       loadGuestbook();
     } catch(e) { alert('Fout bij plaatsen: ' + e.message); }
   };
