@@ -949,12 +949,21 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
         if (window.loadAdminData) window.loadAdminData();
         else setTimeout(() => window.loadAdminData && window.loadAdminData(), 500);
       }
+
+      // Update hamburger menu
+      if (window.updateMenuUser) window.updateMenuUser(user);
+      else setTimeout(() => window.updateMenuUser && window.updateMenuUser(user), 300);
+
     } else {
       window.isAdmin = false;
       const btn  = document.getElementById('navAuthBtn');
       const info = document.getElementById('navUserInfo');
       if (btn)  { btn.style.display = ''; btn.textContent = 'Inloggen'; btn.onclick = () => window.openAuthModal('login'); }
       if (info) { info.style.display = 'none'; info.innerHTML = ''; }
+
+      // Update hamburger menu
+      if (window.updateMenuUser) window.updateMenuUser(null);
+      else setTimeout(() => window.updateMenuUser && window.updateMenuUser(null), 300);
     }
   });
 
@@ -1846,7 +1855,6 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       }).join('');
 
       // Show current user card
-      const notLoggedIn = document.getElementById('loyaltyNotLoggedIn');
       if (window.isAdmin) {
         // Admin nooit tonen in loyaliteitssysteem
         if (notLoggedIn) notLoggedIn.style.display = 'none';
@@ -3458,7 +3466,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     document.body.style.overflow = '';
   }
 
-  function updateMenuUser(user) {
+  window.updateMenuUser = function updateMenuUser(user) {
     const userInfo   = document.getElementById('menuUserInfo');
     const loginBtn   = document.getElementById('menuLoginBtn');
     const logoutBtn  = document.getElementById('menuLogoutBtn');
@@ -3490,7 +3498,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       if (profileBtn) profileBtn.style.display = 'none';
       if (adminBtn)   adminBtn.style.display   = 'none';
     }
-  }
+  };
 
   window.toggleThemeMenu = function() {
     window.toggleTheme();
