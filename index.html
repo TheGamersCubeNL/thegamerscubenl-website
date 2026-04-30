@@ -1821,7 +1821,6 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
       snap.forEach(d => { if (d.id === "IGeY9roMR2b0iwgexlXQwJBfmnB3") return; users.push({ id: d.id, ...d.data() }); });
       users.sort((a,b) => (b.pts||0) - (a.pts||0));
 
-      const grid = document.getElementById('loyaltyGrid');
       if (!grid) return;
 
       if (users.length === 0) {
