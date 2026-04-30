@@ -1,8 +1,9 @@
-const CACHE_NAME = 'tgcnl-v4';
+const CACHE_NAME = 'tgcnl-v5';
 
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/css/main.css',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
