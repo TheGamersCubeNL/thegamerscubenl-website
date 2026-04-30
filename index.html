@@ -3528,46 +3528,18 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
     if (topEN) topEN.classList.toggle('active', lang === 'en');
   }
 
-  // Hook into auth state changes to update menu
-  const _origMenuAuth = setInterval(() => {
-    if (window._auth) {
-      clearInterval(_origMenuAuth);
-      // Watch auth state
-      const checkUser = setInterval(() => {
-        updateMenuUser(window.currentUser);
-        updateMenuTheme();
-        updateMenuLang();
-      }, 500);
-      // Stop checking after 10s
-      setTimeout(() => clearInterval(checkUser), 10000);
-    }
-  }, 200);
-
-  // Update on auth change
+  // Init menu op DOMContentLoaded
   document.addEventListener('DOMContentLoaded', () => {
-    // Zorg dat admin knop altijd verborgen is bij laden — vóór auth check
+    // Admin knoppen verborgen bij laden
     const adminBtn = document.getElementById('menuAdminBtn');
-    if (adminBtn) {
-      adminBtn.classList.remove('admin-visible');
-    }
-    const navAdminBtns = document.querySelectorAll('.admin-btn');
-    navAdminBtns.forEach(btn => btn.classList.remove('admin-visible'));
+    if (adminBtn) adminBtn.classList.remove('admin-visible');
+    document.querySelectorAll('.admin-btn').forEach(btn => btn.classList.remove('admin-visible'));
 
     if (window.updateMenuTheme) window.updateMenuTheme();
     updateMenuLang();
 
-    // Poll for user state changes
-    let lastUser = null;
-    setInterval(() => {
-      const user = window.currentUser;
-      if (user !== lastUser) {
-        lastUser = user;
-        updateMenuUser(user);
-        // Update admin button
-        const adminBtn = document.getElementById('menuAdminBtn');
-        if (adminBtn) adminBtn.classList.toggle('admin-visible', window.isAdmin === true);
-      }
-    }, 1000);
+    // Initieel menu updaten met huidige user (kan al ingelogd zijn via session)
+    updateMenuUser(window.currentUser || null);
   });
 </script>
 </body>
