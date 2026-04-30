@@ -68,7 +68,7 @@
         <div class="nav-menu-user-email" id="menuUserEmail">-</div>
       </div>
     </div>
-    <button class="nav-menu-btn" id="menuLoginBtn" onclick="window.openAuthModal('login');closeMenuOnMobile();">
+    <button class="nav-menu-btn" id="menuLoginBtn" style="display:none;" onclick="window.openAuthModal('login');closeMenuOnMobile();">
       <span class="btn-icon">&#128274;</span> Inloggen
     </button>
     <button class="nav-menu-btn" id="menuLogoutBtn" style="display:none;" onclick="window._signOut && window._signOut();closeMenuOnMobile();">
@@ -109,7 +109,7 @@
       <span class="btn-icon">&#10084;</span> Doneren
     </button>
   </ul>
-  <div class="nav-auth"><button id="navAuthBtn" onclick="openAuthModal('login')">Inloggen</button></div>
+  <div class="nav-auth"><div id="navUserInfo" style="display:none;align-items:center;gap:8px;"></div><button id="navAuthBtn" onclick="openAuthModal('login')">Inloggen</button></div>
   <a class="nav-muziek-btn" href="/muziek.html">♪ Muziek</a>
 </nav>
 
@@ -952,7 +952,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
       // Update hamburger menu
       if (window.updateMenuUser) window.updateMenuUser(user);
-      else setTimeout(() => window.updateMenuUser && window.updateMenuUser(user), 300);
+      else { let _t = setInterval(() => { if (window.updateMenuUser) { clearInterval(_t); window.updateMenuUser(user); } }, 100); setTimeout(() => clearInterval(_t), 5000); }
 
     } else {
       window.isAdmin = false;
@@ -963,7 +963,7 @@ window.LOGO_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAMgCAYAAAD
 
       // Update hamburger menu
       if (window.updateMenuUser) window.updateMenuUser(null);
-      else setTimeout(() => window.updateMenuUser && window.updateMenuUser(null), 300);
+      else { let _t2 = setInterval(() => { if (window.updateMenuUser) { clearInterval(_t2); window.updateMenuUser(null); } }, 100); setTimeout(() => clearInterval(_t2), 5000); }
     }
   });
 
