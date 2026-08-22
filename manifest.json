@@ -1,7 +1,7 @@
 {
   "name": "TheGamersCubeNL",
-  "short_name": "GamersCube",
-  "description": "Streamer app — Star Citizen & Fortnite",
+  "short_name": "TGCNL",
+  "description": "TGCNL — Star Citizen & Fortnite",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
