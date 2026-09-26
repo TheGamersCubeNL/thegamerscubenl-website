@@ -102,6 +102,25 @@ nav::after {
 }
 .nav-logo span { color: var(--cyan); }
 
+.nav-max-btn {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: #0a0a0a;
+  background: #ffd000;
+  text-decoration: none;
+  border: 1px solid #ffd000;
+  padding: 5px 12px;
+  transition: filter 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-max-btn:hover { filter: brightness(1.08); }
+@media (max-width: 480px) {
+  .nav-max-btn { font-size: 0.65rem; padding: 4px 8px; }
+}
+
 .nav-muziek-btn {
   font-family: var(--mono);
   font-size: 0.72rem;
@@ -215,7 +234,8 @@ nav::after {
   .hamburger      { order: 1; }
   .nav-logo       { order: 2; flex: 1; text-align: center; }
   .nav-auth       { order: 3; }
-  .nav-muziek-btn { order: 4; }
+  .nav-max-btn    { order: 4; }
+  .nav-muziek-btn { order: 5; }
   .nav-links {
   display: none;
   flex-direction: column;
@@ -3552,8 +3572,12 @@ body.is-live { padding-top: 36px; }
       order: 3 !important;
       flex-shrink: 0 !important;
     }
-    .nav-muziek-btn {
+    .nav-max-btn {
       order: 4 !important;
+      flex-shrink: 0 !important;
+    }
+    .nav-muziek-btn {
+      order: 5 !important;
       flex-shrink: 0 !important;
     }
   }
