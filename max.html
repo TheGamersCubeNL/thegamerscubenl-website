@@ -188,7 +188,7 @@
         <div class="sub" id="showLine">Programma laden…</div>
         <div class="stats">
           <div class="stat"><b id="listeners">—</b><i>LUISTERAARS</i></div>
-          <div class="stat"><b id="bitrate">HLS</b><i>STREAM</i></div>
+          <div class="stat"><b id="bitrate">128</b><i>KBPS</i></div>
           <div class="stat"><b id="status">—</b><i>STATUS</i></div>
           <div class="stat"><b id="source">AUTO</b><i>BRON</i></div>
         </div>
@@ -219,11 +219,9 @@
   </footer>
 
   <audio id="player" preload="none" playsinline x-webkit-airplay="allow"></audio>
-  <script src="https://assets.clrd.net/assets/js/cloudradio-hls.js"></script>
   <script>
-    const SLUG = "max-hitradio";
-    const HLS = "https://hls.cloudrad.io/" + SLUG + "/stream.m3u8";
-    const INFO = "https://embed.clrd.net/api/" + SLUG + "/info.json?history_format=json&history_count=8";
+    const STREAM = "https://audio.cloudrad.io/ef465bb5/live";
+    const INFO = "https://embed.clrd.net/api/ef465bb5/info.json?history_format=json&history_count=8";
     const SHOWS = [
       { from: 6, to: 10, name: "MAX OCHTEND", line: "Wakker worden met de grootste hits" },
       { from: 10, to: 16, name: "MAX DAG", line: "Non-stop, de hele middag" },
@@ -237,8 +235,7 @@
     const err = document.getElementById("err");
     const note = document.getElementById("castNote");
     const eq = document.getElementById("eq");
-    const nativeHls = audio.canPlayType("application/vnd.apple.mpegurl") !== "";
-    let session = null;
+    let session = false;
     let starting = false;
     let castCtx = null;
     let meta = { title: "MAX HITRADIO", artist: "De grootste hits, altijd aan" };
@@ -287,6 +284,8 @@
     }
     function coverOf(obj) {
       if (!obj || typeof obj !== "object") return "";
+      const art = obj.cover_art;
+      if (art && typeof art === "object") return str(art.large || art.small);
       return str(obj.cover || obj.art || obj.artwork || obj.image || obj.cover_url || obj.artwork_url);
     }
     function historyOf(data) {
@@ -312,6 +311,7 @@
       const status = str(data.status || data.state || "");
       const source = str(data.live_source || data.source || "");
       document.getElementById("listeners").textContent = listeners == null || listeners === "" ? "—" : String(listeners);
+      document.getElementById("bitrate").textContent = str(data.bitrate) || "128";
       document.getElementById("status").textContent = status || "LIVE";
       document.getElementById("source").textContent = source || "AUTO";
       setArt(coverOf(data) || (hist[0] && coverOf(hist[0])));
@@ -344,7 +344,7 @@
       const cs = castSession();
       if (!cs) return Promise.reject(new Error("geen cast"));
       audio.pause();
-      const mediaInfo = new chrome.cast.media.MediaInfo(HLS, "application/vnd.apple.mpegurl");
+      const mediaInfo = new chrome.cast.media.MediaInfo(STREAM, "audio/mpeg");
       mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
       const md = new chrome.cast.media.MusicTrackMediaMetadata();
       md.title = meta.title;
@@ -384,7 +384,7 @@
     } else if (typeof audio.webkitShowPlaybackTargetPicker === "function") {
       airBtn.hidden = false;
       airBtn.addEventListener("click", async () => {
-        if (!audio.src) audio.src = HLS;
+        if (!audio.src) audio.src = STREAM;
         audio.webkitShowPlaybackTargetPicker();
       });
     }
@@ -399,16 +399,9 @@
     });
 
     async function startLocal() {
-      if (nativeHls) {
-        if (!audio.src || audio.src.indexOf(SLUG) === -1) audio.src = HLS;
-        await audio.play();
-        session = { native: true };
-        return;
-      }
-      if (!session) {
-        session = await CloudRadio.play(audio, HLS, { onError: () => {} });
-      }
+      if (!audio.src || audio.src.indexOf("ef465bb5") === -1) audio.src = STREAM;
       await audio.play();
+      session = true;
     }
 
     async function start() {
@@ -431,8 +424,8 @@
       try {
         await startLocal();
       } catch (e) {
-        session = null;
-        err.textContent = "Stream niet bereikbaar. De CloudRadio-slug moet max-hitradio zijn.";
+        session = false;
+        err.textContent = "Stream niet bereikbaar. Probeer het zo opnieuw.";
         err.style.display = "block";
       } finally {
         starting = false;
