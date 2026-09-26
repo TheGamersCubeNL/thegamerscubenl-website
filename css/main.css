@@ -105,18 +105,16 @@ nav::after {
 .nav-max-btn {
   font-family: var(--mono);
   font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  font-weight: 700;
-  color: #0a0a0a;
-  background: #ffd000;
+  letter-spacing: 0.1em;
+  color: var(--amber);
   text-decoration: none;
-  border: 1px solid #ffd000;
+  border: 1px solid rgba(249,168,37,0.4);
   padding: 5px 12px;
-  transition: filter 0.2s;
+  transition: all 0.2s;
   white-space: nowrap;
   flex-shrink: 0;
 }
-.nav-max-btn:hover { filter: brightness(1.08); }
+.nav-max-btn:hover { background: var(--amber); color: var(--navy); border-color: var(--amber); }
 @media (max-width: 480px) {
   .nav-max-btn { font-size: 0.65rem; padding: 4px 8px; }
 }

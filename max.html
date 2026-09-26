@@ -3,262 +3,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MAX HITRADIO — De grootste hits, altijd aan</title>
-  <meta name="description" content="Luister live naar MAX HITRADIO. De grootste hits, altijd aan. Now playing, programma's en de laatst gedraaide nummers.">
+  <title>MAX HITRADIO — TheGamersCubeNL</title>
+  <meta name="description" content="Luister live naar MAX HITRADIO op TheGamersCubeNL. De grootste hits, altijd aan.">
   <link rel="icon" href="/icons/icon-192.png">
   <link rel="canonical" href="https://thegamerscube.nl/max.html">
-  <link rel="preload" as="image" href="/max-logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --y: #ffd000;
-      --y2: #ffe566;
-      --bg: #070707;
-      --card: #121212;
-      --line: #2a2a2a;
-      --w: #f6f6f6;
-      --m: #9a9a9a;
-      --red: #ff2d2d;
+      --navy: #060d1a;
+      --navy2: #0d1b2e;
+      --amber: #f9a825;
+      --cyan: #4fc3f7;
+      --text: #e8eaf0;
+      --dim: #8899aa;
+      --mono: "Share Tech Mono", monospace;
+      --sans: Rajdhani, sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { background: #000; color: var(--w); font-family: Oswald, sans-serif; }
     body {
       min-height: 100vh;
-      background:
-        radial-gradient(900px 420px at 0% -10%, rgba(255,208,0,.16), transparent 55%),
-        linear-gradient(180deg, #101010 0%, #050505 40%, #000 100%);
+      background: var(--navy);
+      color: var(--text);
+      font-family: var(--sans);
     }
-    a { color: inherit; }
-    button, input { font-family: inherit; }
+    .bg-grid {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(79,195,247,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,195,247,.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .bg-glow {
+      position: fixed; width: 560px; height: 560px; border-radius: 50%;
+      filter: blur(120px); pointer-events: none; z-index: 0;
+    }
+    .bg-glow-1 { background: radial-gradient(circle, rgba(249,168,37,.08), transparent 70%); top: -180px; left: -160px; }
+    .bg-glow-2 { background: radial-gradient(circle, rgba(79,195,247,.06), transparent 70%); bottom: -180px; right: -160px; }
 
-    .top {
-      position: sticky; top: 0; z-index: 5;
-      display: grid; grid-template-columns: 1fr auto 1fr;
-      align-items: center; gap: 12px;
-      padding: 10px 18px;
-      background: rgba(0,0,0,.92);
-      border-bottom: 3px solid var(--y);
-      backdrop-filter: blur(8px);
+    nav {
+      position: relative; z-index: 2; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 22px; border-bottom: 1px solid rgba(79,195,247,.08);
     }
-    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .brand img { height: 52px; width: auto; display: block; }
-    .brand small { display: block; color: var(--y); letter-spacing: 1.6px; font-size: 11px; font-weight: 600; }
-    .brand strong { display: block; font-size: 20px; letter-spacing: .4px; line-height: 1; }
-    .live {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #161616; border: 1px solid #333; border-radius: 999px;
-      padding: 7px 12px; font-size: 12px; letter-spacing: 1.4px; font-weight: 700;
-    }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); animation: pulse 1.1s infinite; }
-    .dot.off { background: #555; box-shadow: none; animation: none; }
-    @keyframes pulse { 50% { opacity: .35; } }
-    .clockbox { text-align: right; }
-    .clock { font-size: 28px; font-weight: 700; letter-spacing: 1px; font-variant-numeric: tabular-nums; }
-    .date { color: var(--m); font-size: 11px; letter-spacing: 1.2px; }
+    .nav-brand { font-family: var(--mono); font-size: .85rem; color: var(--amber); text-decoration: none; letter-spacing: .06em; }
+    .nav-back { font-family: var(--mono); font-size: .7rem; color: var(--dim); text-decoration: none; letter-spacing: .08em; }
+    .nav-back:hover { color: var(--cyan); }
 
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 18px 16px 28px; }
-    .stage {
-      display: grid; grid-template-columns: 340px 1fr; gap: 16px;
+    main { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 28px 16px 48px; }
+    .kicker { font-family: var(--mono); font-size: .68rem; color: var(--cyan); letter-spacing: .18em; }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 700; line-height: .92; margin: 6px 0; }
+    .slogan { font-family: var(--mono); color: var(--amber); letter-spacing: .14em; font-size: .78rem; }
+
+    .stage { margin-top: 22px; display: grid; grid-template-columns: 300px 1fr; gap: 16px; }
+    .card {
+      background: rgba(13,27,46,.72);
+      border: 1px solid rgba(79,195,247,.12);
     }
-    .deck, .now, .panel {
-      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    .deck { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+    .art {
+      aspect-ratio: 1; background: var(--navy2);
+      border: 1px solid rgba(79,195,247,.1);
+      display: grid; place-items: center; position: relative; overflow: hidden;
     }
-    .deck {
-      padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 16px;
-    }
-    .disc {
-      width: min(100%, 280px); aspect-ratio: 1;
-      border-radius: 18px; position: relative; overflow: hidden;
-      background:
-        linear-gradient(160deg, #1c1c1c, #0a0a0a);
-      border: 1px solid #333;
-      display: grid; place-items: center;
-    }
-    .disc img.art {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    }
-    .mark {
-      position: relative; z-index: 1; text-align: center; padding: 16px;
-    }
-    .mark b { display: block; font-size: 64px; line-height: .85; color: var(--y); letter-spacing: -1px; }
-    .mark span { letter-spacing: 3px; font-size: 14px; }
-    .disc.has-art .mark { display: none; }
+    .art b { font-size: 4.2rem; color: var(--amber); line-height: .8; letter-spacing: -1px; }
+    .art span { display: block; font-family: var(--mono); letter-spacing: .2em; font-size: .72rem; color: var(--cyan); }
+    .art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .eq {
-      position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 2;
-      height: 42px; display: flex; align-items: flex-end; gap: 4px; opacity: .0;
+      position: absolute; left: 10px; right: 10px; bottom: 10px; height: 36px;
+      display: flex; align-items: flex-end; gap: 3px; opacity: 0;
     }
     body.playing .eq { opacity: 1; }
     .eq i {
-      flex: 1; background: linear-gradient(to top, var(--y), #fff3);
-      border-radius: 2px 2px 0 0; transform-origin: bottom;
-      animation: bar .7s ease-in-out infinite alternate;
+      flex: 1; background: linear-gradient(to top, var(--amber), var(--cyan));
+      transform-origin: bottom; animation: bar .7s ease-in-out infinite alternate;
     }
-    @keyframes bar { from { transform: scaleY(.15); } to { transform: scaleY(1); } }
+    @keyframes bar { from { transform: scaleY(.12); } to { transform: scaleY(1); } }
 
     .play {
-      width: 100%; height: 64px; border: 0; border-radius: 12px;
-      background: var(--y); color: #000; font-size: 22px; font-weight: 700;
-      letter-spacing: 1px; cursor: pointer;
+      height: 52px; border: 0; background: var(--amber); color: var(--navy);
+      font-family: var(--mono); letter-spacing: .12em; font-size: .85rem; cursor: pointer;
     }
     .play:hover { filter: brightness(1.06); }
-    .play:disabled { opacity: .6; cursor: wait; }
-    .vol { width: 100%; display: flex; align-items: center; gap: 10px; color: var(--m); font-size: 12px; letter-spacing: 1px; }
-    .vol input { flex: 1; accent-color: var(--y); }
-
-    .now { padding: 22px 24px 18px; display: flex; flex-direction: column; min-height: 340px; }
-    .kicker { color: var(--y); font-size: 12px; font-weight: 700; letter-spacing: 2.4px; }
-    .now h1 { font-size: clamp(34px, 5vw, 62px); line-height: .92; margin: 10px 0 8px; font-weight: 700; }
-    .artist { font-size: 22px; color: #e7e7e7; }
-    .sub { margin-top: 8px; color: var(--m); font-size: 15px; letter-spacing: .4px; }
-    .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-    .stat {
-      background: #0d0d0d; border: 1px solid #2a2a2a; border-radius: 10px;
-      padding: 8px 12px; min-width: 110px;
+    .play:disabled { opacity: .55; cursor: wait; }
+    .controls { display: flex; align-items: center; gap: 8px; }
+    .iconbtn {
+      height: 40px; min-width: 40px; padding: 0 10px;
+      background: transparent; color: var(--cyan);
+      border: 1px solid rgba(79,195,247,.28);
+      font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; cursor: pointer;
     }
-    .stat b { display: block; color: var(--y); font-size: 18px; font-variant-numeric: tabular-nums; }
-    .stat i { font-style: normal; color: var(--m); font-size: 10px; letter-spacing: 1.2px; }
-    .err {
-      display: none; margin-top: 14px; color: #ffd0d0; background: #2a1010;
-      border: 1px solid #5a2020; border-radius: 10px; padding: 10px 12px; font-size: 14px;
+    .iconbtn:hover, .iconbtn.on { background: var(--cyan); color: var(--navy); }
+    .iconbtn[hidden] { display: none; }
+    google-cast-launcher {
+      width: 28px; height: 28px; cursor: pointer; display: inline-block; vertical-align: middle;
+      --connected-color: #4fc3f7;
     }
-    .split { margin-top: auto; padding-top: 16px; border-top: 1px solid #2a2a2a; display: grid; grid-template-columns: 1fr 1.2fr; gap: 14px; }
-    .mini h3 { color: var(--m); font-size: 11px; letter-spacing: 1.6px; margin-bottom: 6px; font-weight: 600; }
-    .mini b { display: block; font-size: 18px; }
-    .mini span { color: #cfcfcf; }
+    .vol { display: flex; align-items: center; gap: 10px; color: var(--dim); font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; }
+    .vol input { flex: 1; accent-color: var(--amber); }
 
-    .grid2 { margin-top: 16px; display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; }
-    .panel { padding: 16px 16px 8px; }
-    .panel h2 { font-size: 13px; letter-spacing: 2px; color: var(--y); margin-bottom: 8px; }
-    .show {
-      display: grid; grid-template-columns: 92px 1fr; gap: 10px;
-      padding: 10px 8px; border-top: 1px solid #222; align-items: center;
-    }
-    .show time { color: var(--m); font-size: 13px; letter-spacing: .5px; }
-    .show strong { display: block; font-size: 16px; }
-    .show span { color: #bdbdbd; font-size: 13px; }
-    .show.on { background: rgba(255,208,0,.08); border-radius: 10px; border-top-color: transparent; }
-    .show.on strong { color: var(--y); }
+    .now { padding: 22px; display: flex; flex-direction: column; min-height: 320px; }
+    .now h2 { font-size: clamp(1.8rem, 4vw, 3rem); line-height: .95; font-weight: 700; margin: 8px 0 4px; }
+    .artist { font-family: var(--mono); color: var(--amber); letter-spacing: .08em; font-size: .78rem; }
+    .sub { margin-top: 8px; color: var(--dim); }
+    .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .stat { border: 1px solid rgba(79,195,247,.14); padding: 8px 10px; min-width: 108px; }
+    .stat b { display: block; color: var(--cyan); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+    .stat i { font-style: normal; font-family: var(--mono); font-size: .58rem; letter-spacing: .12em; color: var(--dim); }
+    .err { display: none; margin-top: 12px; color: #ffcdd2; font-family: var(--mono); font-size: .7rem; }
+    .split { margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(79,195,247,.1); display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .mini h3 { font-family: var(--mono); font-size: .6rem; letter-spacing: .16em; color: var(--cyan); margin-bottom: 4px; font-weight: 400; }
+    .mini b { display: block; font-size: 1.15rem; }
+    .mini span { color: var(--dim); font-size: .9rem; }
 
+    .grid2 { margin-top: 16px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
+    .panel { padding: 14px 14px 6px; }
+    .panel h3 { font-family: var(--mono); font-size: .66rem; letter-spacing: .16em; color: var(--cyan); font-weight: 400; margin-bottom: 6px; }
+    .show { display: grid; grid-template-columns: 92px 1fr; gap: 8px; padding: 9px 4px; border-top: 1px solid rgba(79,195,247,.08); }
+    .show time { font-family: var(--mono); font-size: .68rem; color: var(--dim); }
+    .show.on { background: rgba(249,168,37,.06); }
+    .show.on strong { color: var(--amber); }
+    .show span { display: block; color: var(--dim); font-size: .92rem; }
     .hist { list-style: none; }
-    .hist li {
-      display: grid; grid-template-columns: 42px 1fr auto; gap: 10px;
-      align-items: center; padding: 8px 4px; border-top: 1px solid #222;
-    }
-    .hist .cov {
-      width: 42px; height: 42px; border-radius: 6px; background: #1b1b1b;
-      display: grid; place-items: center; color: var(--y); font-weight: 700; overflow: hidden;
-    }
-    .hist img { width: 42px; height: 42px; object-fit: cover; display: block; }
-    .hist b { display: block; font-size: 15px; font-weight: 600; }
-    .hist span { color: var(--m); font-size: 12px; }
-    .empty { color: var(--m); padding: 14px 4px 18px; font-size: 15px; }
-
-    .ticker {
-      margin-top: 16px; overflow: hidden; white-space: nowrap;
-      border-top: 3px solid var(--y); border-bottom: 1px solid #222;
-      background: #000; padding: 10px 0;
-    }
-    .ticker-track { display: inline-block; animation: tick 32s linear infinite; font-weight: 600; letter-spacing: .3px; }
-    .ticker-track span { margin-right: 42px; }
-    .ticker-track span i { color: var(--y); font-style: normal; }
-    @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .hist li { display: grid; grid-template-columns: 40px 1fr; gap: 10px; align-items: center; padding: 8px 2px; border-top: 1px solid rgba(79,195,247,.08); }
+    .cov { width: 40px; height: 40px; background: var(--navy); border: 1px solid rgba(79,195,247,.12); display: grid; place-items: center; color: var(--amber); font-family: var(--mono); font-size: .62rem; overflow: hidden; }
+    .cov img { width: 100%; height: 100%; object-fit: cover; }
+    .hist b { display: block; }
+    .hist span { color: var(--dim); font-size: .85rem; }
+    .empty { color: var(--dim); font-family: var(--mono); font-size: .68rem; padding: 12px 2px 16px; }
+    .castnote { margin-top: 10px; font-family: var(--mono); font-size: .62rem; color: var(--dim); min-height: 1em; }
 
     footer {
-      max-width: 1100px; margin: 0 auto; padding: 8px 16px 28px;
-      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-      color: var(--m); font-size: 13px; letter-spacing: .6px;
+      position: relative; z-index: 1;
+      max-width: 1040px; margin: 0 auto; padding: 0 16px 28px;
+      display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      font-family: var(--mono); font-size: .65rem; color: var(--dim); letter-spacing: .06em;
     }
-    footer a { color: var(--y); text-decoration: none; }
+    footer a { color: var(--cyan); text-decoration: none; }
     audio { display: none; }
-
-    @media (max-width: 860px) {
-      .top { grid-template-columns: 1fr auto; }
-      .clockbox { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; }
+    @media (max-width: 800px) {
       .stage, .grid2, .split { grid-template-columns: 1fr; }
       .now { min-height: 0; }
-      .brand small, .brand strong { display: none; }
     }
   </style>
 </head>
 <body>
-  <header class="top">
-    <a class="brand" href="/">
-      <img src="/max-logo.png" alt="MAX HITRADIO">
-      <div>
-        <strong>MAX HITRADIO</strong>
-        <small>DE GROOTSTE HITS</small>
-      </div>
-    </a>
-    <div class="live" id="livePill"><i class="dot off" id="dot"></i> <span id="liveLabel">STANDBY</span></div>
-    <div class="clockbox">
-      <div class="clock" id="clock">00:00:00</div>
-      <div class="date" id="date"></div>
-    </div>
-  </header>
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
 
-  <div class="wrap">
+  <nav>
+    <a class="nav-brand" href="/">TheGamersCubeNL</a>
+    <a class="nav-back" href="/">← Terug</a>
+  </nav>
+
+  <main>
+    <div class="kicker">// LIVE RADIO</div>
+    <h1>MAX HITRADIO</h1>
+    <p class="slogan">DE GROOTSTE HITS, ALTIJD AAN</p>
+
     <section class="stage">
-      <div class="deck">
-        <div class="disc" id="disc">
-          <div class="mark"><b>MAX</b><span>HITRADIO</span></div>
+      <div class="card deck">
+        <div class="art" id="art">
+          <div id="mark"><b>MAX</b><span>HITRADIO</span></div>
           <div class="eq" id="eq" aria-hidden="true"></div>
         </div>
-        <button class="play" id="playBtn" type="button">▶ LUISTER LIVE</button>
-        <label class="vol">VOL
+        <button class="play" id="playBtn" type="button">▶ LUISTER</button>
+        <div class="controls">
+          <button class="iconbtn" id="castBtn" type="button" title="Casten naar Chromecast">
+            <google-cast-launcher id="castLauncher"></google-cast-launcher>
+            CAST
+          </button>
+          <button class="iconbtn" id="airBtn" type="button" hidden>AIRPLAY</button>
+        </div>
+        <label class="vol">VOLUME
           <input id="vol" type="range" min="0" max="1" step="0.01" value="0.9" aria-label="Volume">
         </label>
+        <p class="castnote" id="castNote"></p>
       </div>
 
-      <div class="now">
-        <div class="kicker" id="kicker">NOW PLAYING</div>
-        <h1 id="title">MAX HITRADIO</h1>
-        <div class="artist" id="artist">De grootste hits, altijd aan</div>
-        <div class="sub" id="showLine">Programma laadt…</div>
+      <div class="card now">
+        <div class="kicker">// NOW PLAYING</div>
+        <h2 id="title">MAX HITRADIO</h2>
+        <div class="artist" id="artist">DE GROOTSTE HITS, ALTIJD AAN</div>
+        <div class="sub" id="showLine">Programma laden…</div>
         <div class="stats">
           <div class="stat"><b id="listeners">—</b><i>LUISTERAARS</i></div>
-          <div class="stat"><b id="bitrate">—</b><i>BITRATE</i></div>
+          <div class="stat"><b id="bitrate">HLS</b><i>STREAM</i></div>
           <div class="stat"><b id="status">—</b><i>STATUS</i></div>
           <div class="stat"><b id="source">AUTO</b><i>BRON</i></div>
         </div>
         <p class="err" id="err"></p>
         <div class="split">
-          <div class="mini">
-            <h3>DIT PROGRAMMA</h3>
-            <b id="showName">—</b>
-            <span id="showWindow">—</span>
-          </div>
-          <div class="mini">
-            <h3>HIERNA</h3>
-            <b id="nextTitle">—</b>
-            <span id="nextArtist"></span>
-          </div>
+          <div class="mini"><h3>PROGRAMMA</h3><b id="showName">—</b><span id="showWindow">—</span></div>
+          <div class="mini"><h3>HIERNA</h3><b id="nextTitle">—</b><span id="nextArtist"></span></div>
         </div>
       </div>
     </section>
 
     <section class="grid2">
-      <div class="panel">
-        <h2>PROGRAMMA</h2>
+      <div class="card panel">
+        <h3>// PROGRAMMA</h3>
         <div id="schedule"></div>
       </div>
-      <div class="panel">
-        <h2>NET GEDRAAID</h2>
+      <div class="card panel">
+        <h3>// NET GEDRAAID</h3>
         <ul class="hist" id="hist"></ul>
-        <p class="empty" id="histEmpty">Nog geen songgeschiedenis. Die verschijnt zodra de stream metadata stuurt.</p>
+        <p class="empty" id="histEmpty">// Nog geen songgeschiedenis</p>
       </div>
     </section>
-  </div>
-
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-track" id="ticker"></div>
-  </div>
+  </main>
 
   <footer>
     <span>MAX HITRADIO · THEGAMERSCUBE.NL</span>
-    <span><a href="/">Terug naar de site</a> · <a href="/muziek.html">Muziekbibliotheek</a></span>
+    <span><a href="/">Home</a> · <a href="/muziek.html">Muziek</a></span>
   </footer>
 
-  <audio id="player" preload="none" playsinline></audio>
+  <audio id="player" preload="none" playsinline x-webkit-airplay="allow"></audio>
   <script src="https://assets.clrd.net/assets/js/cloudradio-hls.js"></script>
   <script>
     const SLUG = "max-hitradio";
@@ -269,210 +229,229 @@
       { from: 10, to: 16, name: "MAX DAG", line: "Non-stop, de hele middag" },
       { from: 16, to: 19, name: "MAX DRIVE", line: "Onderweg naar huis" },
       { from: 19, to: 24, name: "MAX AVOND", line: "De avond draait door" },
-      { from: 0, to: 6, name: "MAX NIGHT", line: "Altijd aan, ook als de stad slaapt" }
+      { from: 0, to: 6, name: "MAX NIGHT", line: "Altijd aan" }
     ];
-
     const audio = document.getElementById("player");
     const btn = document.getElementById("playBtn");
     const vol = document.getElementById("vol");
     const err = document.getElementById("err");
+    const note = document.getElementById("castNote");
     const eq = document.getElementById("eq");
+    const nativeHls = audio.canPlayType("application/vnd.apple.mpegurl") !== "";
     let session = null;
     let starting = false;
+    let castCtx = null;
+    let meta = { title: "MAX HITRADIO", artist: "De grootste hits, altijd aan" };
     audio.volume = 0.9;
 
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 16; i++) {
       const bar = document.createElement("i");
-      bar.style.height = (18 + Math.random() * 24) + "px";
-      bar.style.animationDuration = (0.35 + Math.random() * 0.55) + "s";
+      bar.style.height = (14 + Math.random() * 22) + "px";
+      bar.style.animationDuration = (0.35 + Math.random() * 0.5) + "s";
       bar.style.animationDelay = (Math.random() * 0.3) + "s";
       eq.appendChild(bar);
     }
 
-    function amsterdamNow() {
-      const fmt = new Intl.DateTimeFormat("nl-NL", {
-        timeZone: "Europe/Amsterdam",
-        hour: "2-digit", minute: "2-digit", second: "2-digit",
-        weekday: "long", day: "numeric", month: "long", hourCycle: "h23"
-      });
-      const parts = Object.fromEntries(fmt.formatToParts(new Date()).map(p => [p.type, p.value]));
-      return {
-        h: Number(parts.hour),
-        clock: parts.hour + ":" + parts.minute + ":" + parts.second,
-        date: (parts.weekday + " " + parts.day + " " + parts.month).toUpperCase()
-      };
+    function amsterdam() {
+      const parts = Object.fromEntries(new Intl.DateTimeFormat("nl-NL", {
+        timeZone: "Europe/Amsterdam", hour: "2-digit", weekday: "long", day: "numeric", month: "long", hourCycle: "h23"
+      }).formatToParts(new Date()).map(p => [p.type, p.value]));
+      return { h: Number(parts.hour) };
     }
-
-    function currentShow(h) {
-      return SHOWS.find(s => h >= s.from && h < s.to) || SHOWS[SHOWS.length - 1];
-    }
-
+    function currentShow(h) { return SHOWS.find(s => h >= s.from && h < s.to) || SHOWS[4]; }
     function paintSchedule() {
-      const now = amsterdamNow();
-      document.getElementById("clock").textContent = now.clock;
-      document.getElementById("date").textContent = now.date;
-      const cur = currentShow(now.h);
+      const cur = currentShow(amsterdam().h);
       document.getElementById("showName").textContent = cur.name;
       document.getElementById("showWindow").textContent = cur.line;
       document.getElementById("showLine").textContent = cur.name + " · " + cur.line;
-      const box = document.getElementById("schedule");
-      box.innerHTML = SHOWS.map(s => {
+      document.getElementById("schedule").innerHTML = SHOWS.map(s => {
         const label = String(s.from).padStart(2, "0") + ":00–" + String(s.to % 24).padStart(2, "0") + ":00";
         return `<div class="show${s === cur ? " on" : ""}"><time>${label}</time><div><strong>${s.name}</strong><span>${s.line}</span></div></div>`;
       }).join("");
     }
 
     function str(v) { return v == null ? "" : String(v).trim(); }
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "&#39;" }[c])); }
     function pair(obj) {
-      if (!obj || typeof obj !== "object") return { title: str(obj), artist: "" };
+      if (!obj || typeof obj !== "object") return { title: str(obj) || "MAX HITRADIO", artist: "" };
       const artist = str(obj.artist || obj.song_artist || obj.track_artist);
       const title = str(obj.title || obj.song_title || obj.track_title || obj.name);
       const song = str(obj.song || obj.now_playing || obj.text);
       if (artist && title) return { title, artist };
-      if (song.includes(" - ")) {
-        const [a, t] = song.split(" - ");
-        return { artist: a.trim(), title: t.trim() };
-      }
-      return { title: song || title || "MAX HITRADIO", artist: artist };
+      if (song.includes(" - ")) { const [a, t] = song.split(" - "); return { artist: a.trim(), title: t.trim() }; }
+      return { title: song || title || "MAX HITRADIO", artist };
     }
     function coverOf(obj) {
       if (!obj || typeof obj !== "object") return "";
-      return str(obj.cover || obj.art || obj.artwork || obj.image || obj.cover_url || obj.artwork_url || obj.art_url);
+      return str(obj.cover || obj.art || obj.artwork || obj.image || obj.cover_url || obj.artwork_url);
     }
     function historyOf(data) {
       const raw = data.history || data.songhistory || data.songs || data.recent || [];
       return Array.isArray(raw) ? raw : [];
     }
-
     function setArt(url) {
-      const disc = document.getElementById("disc");
-      let img = disc.querySelector("img.art");
-      if (!url) {
-        if (img) img.remove();
-        disc.classList.remove("has-art");
-        return;
-      }
-      if (!img) {
-        img = document.createElement("img");
-        img.className = "art";
-        img.alt = "";
-        disc.prepend(img);
-      }
-      if (img.src !== url) img.src = url;
-      disc.classList.add("has-art");
+      const art = document.getElementById("art");
+      let img = art.querySelector("img");
+      if (!url) { if (img) img.remove(); return; }
+      if (!img) { img = document.createElement("img"); img.alt = ""; art.prepend(img); }
+      if (img.getAttribute("src") !== url) img.src = url;
     }
-
     function renderInfo(data) {
       const hist = historyOf(data);
       const now = pair(data.current || data.now_playing || data.song || data);
-      const fromHist = hist.length ? pair(hist[0]) : null;
-      const title = now.title && now.title !== "MAX HITRADIO" ? now.title : (fromHist ? fromHist.title : "MAX HITRADIO");
-      const artist = now.artist || (fromHist ? fromHist.artist : "De grootste hits, altijd aan");
-      document.getElementById("title").textContent = title || "MAX HITRADIO";
-      document.getElementById("artist").textContent = artist || "De grootste hits, altijd aan";
+      const first = hist.length ? pair(hist[0]) : null;
+      meta.title = (now.title && now.title !== "MAX HITRADIO") ? now.title : (first ? first.title : "MAX HITRADIO");
+      meta.artist = now.artist || (first ? first.artist : "De grootste hits, altijd aan");
+      document.getElementById("title").textContent = meta.title;
+      document.getElementById("artist").textContent = meta.artist;
       const listeners = data.listeners ?? data.listener_count ?? data.listenerCount;
-      const bitrate = data.bitrate ?? data.bit_rate;
       const status = str(data.status || data.state || "");
-      const source = str(data.live_source || data.source || data.input || "");
+      const source = str(data.live_source || data.source || "");
       document.getElementById("listeners").textContent = listeners == null || listeners === "" ? "—" : String(listeners);
-      document.getElementById("bitrate").textContent = bitrate == null || bitrate === "" ? "HLS" : String(bitrate).replace(/kbps/i, "") + (String(bitrate).match(/[a-z]/i) ? "" : "");
-      if (bitrate != null && bitrate !== "" && !/[a-z]/i.test(String(bitrate))) {
-        document.getElementById("bitrate").textContent = String(bitrate);
-      }
       document.getElementById("status").textContent = status || "LIVE";
       document.getElementById("source").textContent = source || "AUTO";
-      const on = !/off/i.test(status);
-      document.getElementById("dot").classList.toggle("off", !on && !session);
-      document.getElementById("liveLabel").textContent = session ? "ON AIR" : (status ? status.toUpperCase() : "STANDBY");
       setArt(coverOf(data) || (hist[0] && coverOf(hist[0])));
-
       const nxt = hist[1] ? pair(hist[1]) : null;
       document.getElementById("nextTitle").textContent = nxt ? nxt.title : "—";
       document.getElementById("nextArtist").textContent = nxt ? nxt.artist : "";
-
-      const list = document.getElementById("hist");
       const items = hist.slice(0, 8);
       document.getElementById("histEmpty").style.display = items.length ? "none" : "block";
-      list.innerHTML = items.map(item => {
+      document.getElementById("hist").innerHTML = items.map(item => {
         const p = pair(item);
         const c = coverOf(item);
         const cov = c ? `<img src="${c.replace(/"/g, "")}" alt="">` : "MAX";
-        return `<li><div class="cov">${cov}</div><div><b>${escapeHtml(p.title)}</b><span>${escapeHtml(p.artist)}</span></div><span></span></li>`;
+        return `<li><div class="cov">${cov}</div><div><b>${esc(p.title)}</b><span>${esc(p.artist)}</span></div></li>`;
       }).join("");
     }
-
-    function escapeHtml(s) {
-      return String(s).replace(/[&<>"']/g, c => ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "&#39;" }[c]));
-    }
-
     async function pullInfo() {
       try {
         const res = await fetch(INFO, { cache: "no-store" });
         if (!res.ok) throw new Error(String(res.status));
         renderInfo(await res.json());
       } catch (e) {
-        if (!session) {
-          document.getElementById("liveLabel").textContent = "OFFLINE";
-          document.getElementById("dot").classList.add("off");
-          document.getElementById("status").textContent = "OFF";
-        }
+        document.getElementById("status").textContent = session ? "LIVE" : "OFF";
       }
     }
 
-    vol.addEventListener("input", () => { audio.volume = Number(vol.value); });
+    function castSession() {
+      try { return castCtx && castCtx.getCurrentSession(); } catch (e) { return null; }
+    }
+    function loadOnCast() {
+      const cs = castSession();
+      if (!cs) return Promise.reject(new Error("geen cast"));
+      audio.pause();
+      const mediaInfo = new chrome.cast.media.MediaInfo(HLS, "application/vnd.apple.mpegurl");
+      mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
+      const md = new chrome.cast.media.MusicTrackMediaMetadata();
+      md.title = meta.title;
+      md.artist = meta.artist;
+      md.albumName = "MAX HITRADIO";
+      mediaInfo.metadata = md;
+      const request = new chrome.cast.media.LoadRequest(mediaInfo);
+      request.autoplay = true;
+      note.textContent = "// Casten naar " + (cs.getCastDevice().friendlyName || "Chromecast");
+      document.getElementById("castBtn").classList.add("on");
+      return cs.loadMedia(request);
+    }
+    window.__onGCastApiAvailable = function (ok) {
+      if (!ok || !window.cast || !cast.framework) return;
+      castCtx = cast.framework.CastContext.getInstance();
+      castCtx.setOptions({
+        receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+        autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+      });
+      castCtx.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, (ev) => {
+        const on = ev.sessionState === cast.framework.SessionState.SESSION_STARTED
+          || ev.sessionState === cast.framework.SessionState.SESSION_RESUMED;
+        document.getElementById("castBtn").classList.toggle("on", on);
+        if (ev.sessionState === cast.framework.SessionState.SESSION_STARTED) loadOnCast().catch(() => {});
+        if (ev.sessionState === cast.framework.SessionState.SESSION_ENDED) {
+          note.textContent = "";
+          paintPlay();
+        }
+      });
+    };
+
+    const airBtn = document.getElementById("airBtn");
+    if (audio.remote && audio.remote.watchAvailability) {
+      audio.disableRemotePlayback = false;
+      audio.remote.watchAvailability(av => { airBtn.hidden = !av; }).catch(() => {});
+      airBtn.addEventListener("click", () => audio.remote.prompt().catch(() => {}));
+    } else if (typeof audio.webkitShowPlaybackTargetPicker === "function") {
+      airBtn.hidden = false;
+      airBtn.addEventListener("click", async () => {
+        if (!audio.src) audio.src = HLS;
+        audio.webkitShowPlaybackTargetPicker();
+      });
+    }
+
+    vol.addEventListener("input", () => {
+      audio.volume = Number(vol.value);
+      const cs = castSession();
+      if (cs && cs.getMediaSession()) {
+        const req = new chrome.cast.media.VolumeRequest(new chrome.cast.Volume(Number(vol.value)));
+        cs.getMediaSession().setVolume(req, () => {}, () => {});
+      }
+    });
+
+    async function startLocal() {
+      if (nativeHls) {
+        if (!audio.src || audio.src.indexOf(SLUG) === -1) audio.src = HLS;
+        await audio.play();
+        session = { native: true };
+        return;
+      }
+      if (!session) {
+        session = await CloudRadio.play(audio, HLS, { onError: () => {} });
+      }
+      await audio.play();
+    }
 
     async function start() {
       if (starting) return;
-      if (session) {
-        if (audio.paused) { await audio.play(); }
-        else { audio.pause(); }
+      if (castSession()) {
+        const media = castSession().getMediaSession();
+        if (media && media.playerState === chrome.cast.media.PlayerState.PLAYING) {
+          media.pause(new chrome.cast.media.PauseRequest(), () => paintPlay(), () => {});
+        } else if (media) {
+          media.play(new chrome.cast.media.PlayRequest(), () => paintPlay(), () => {});
+        } else {
+          await loadOnCast();
+        }
         return;
       }
+      if (session && !audio.paused) { audio.pause(); return; }
       starting = true;
       btn.disabled = true;
       err.style.display = "none";
       try {
-        session = await CloudRadio.play(audio, HLS, { onError: () => {} });
-        await audio.play();
+        await startLocal();
       } catch (e) {
         session = null;
-        err.textContent = "De stream antwoordt nog niet. In CloudRadio Studio moet de slug max-hitradio zijn, daarna werkt deze knop direct.";
+        err.textContent = "Stream niet bereikbaar. De CloudRadio-slug moet max-hitradio zijn.";
         err.style.display = "block";
       } finally {
         starting = false;
         btn.disabled = false;
+        paintPlay();
       }
     }
 
     function paintPlay() {
-      const on = session && !audio.paused;
-      document.body.classList.toggle("playing", on);
-      btn.textContent = on ? "❚❚ PAUZE" : "▶ LUISTER LIVE";
-      if (on) {
-        document.getElementById("dot").classList.remove("off");
-        document.getElementById("liveLabel").textContent = "ON AIR";
-      }
+      const casting = !!castSession();
+      const on = casting || (session && !audio.paused);
+      document.body.classList.toggle("playing", !!(session && !audio.paused));
+      btn.textContent = on ? "❚❚ PAUZE" : "▶ LUISTER";
     }
-
     btn.addEventListener("click", start);
     audio.addEventListener("play", paintPlay);
     audio.addEventListener("pause", paintPlay);
 
-    const bits = [
-      "MAX HITRADIO",
-      "DE GROOTSTE HITS, ALTIJD AAN",
-      "HITS · MUZIEK · ENERGIE",
-      "ZATERDAG: MAX TOP 40",
-      "LIVE VIA CLOUDRADIO",
-      "APP OPEN. MAX AAN."
-    ];
-    const ticker = bits.map(t => `<span><i>◆</i> ${t}</span>`).join("");
-    document.getElementById("ticker").innerHTML = ticker + ticker;
-
     paintSchedule();
-    setInterval(paintSchedule, 1000);
+    setInterval(paintSchedule, 30000);
     pullInfo();
     setInterval(pullInfo, 15000);
   </script>
+  <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 </body>
 </html>

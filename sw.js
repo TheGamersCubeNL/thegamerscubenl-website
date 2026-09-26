@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tgcnl-v7';
+const CACHE_NAME = 'tgcnl-v8';
 
 const STATIC_ASSETS = [
   '/',
@@ -45,7 +45,8 @@ self.addEventListener('fetch', event => {
     url.hostname.includes('twitch') ||
     url.hostname.includes('youtube') ||
     url.hostname.includes('cloudrad') ||
-    url.hostname.includes('clrd.net')
+    url.hostname.includes('clrd.net') ||
+    url.hostname.includes('gstatic.com')
   ) {
     return;
   }
