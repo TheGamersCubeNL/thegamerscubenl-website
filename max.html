@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAX HITRADIO — TheGamersCubeNL</title>
+  <meta name="description" content="MAX HITRADIO. De grootste hits, altijd aan. Luister live.">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="canonical" href="https://thegamerscube.nl/max.html">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --yellow: #FFD000;
+      --black: #0A0A0A;
+      --panel: #141414;
+      --line: rgba(255,208,0,.18);
+      --dim: #9a9a9a;
+      --text: #f4f4f4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 420px at 10% -10%, rgba(255,208,0,.16), transparent 60%),
+        var(--black);
+      color: var(--text);
+      font-family: Oswald, sans-serif;
+    }
+    nav {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      color: var(--yellow);
+      text-decoration: none;
+      letter-spacing: .08em;
+      font-weight: 700;
+    }
+    .back {
+      color: var(--dim);
+      text-decoration: none;
+      font-family: "Share Tech Mono", monospace;
+      font-size: .75rem;
+      letter-spacing: .08em;
+    }
+    .back:hover { color: var(--yellow); }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 36px 18px 64px;
+    }
+    .kicker {
+      font-family: "Share Tech Mono", monospace;
+      color: var(--yellow);
+      letter-spacing: .22em;
+      font-size: .72rem;
+    }
+    h1 {
+      font-size: clamp(2.6rem, 8vw, 5rem);
+      line-height: .9;
+      letter-spacing: -.02em;
+      margin: 8px 0 6px;
+    }
+    .slogan { color: var(--dim); letter-spacing: .16em; font-size: .95rem; }
+    .player {
+      margin-top: 28px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+    .play {
+      width: 120px;
+      height: 120px;
+      border: 0;
+      background: var(--yellow);
+      color: var(--black);
+      font-family: Oswald, sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .play:hover { filter: brightness(1.05); }
+    .play[disabled] { opacity: .55; cursor: wait; }
+    .meta .song {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      line-height: 1.1;
+      min-height: 1.2em;
+    }
+    .row {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pill {
+      font-family: "Share Tech Mono", monospace;
+      font-size: .68rem;
+      letter-spacing: .08em;
+      border: 1px solid var(--line);
+      padding: 5px 8px;
+      color: var(--yellow);
+    }
+    .vol {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dim);
+      font-family: "Share Tech Mono", monospace;
+      font-size: .68rem;
+    }
+    input[type=range] { flex: 1; accent-color: var(--yellow); }
+    .note, .err {
+      margin-top: 14px;
+      font-family: "Share Tech Mono", monospace;
+      font-size: .72rem;
+      color: var(--dim);
+    }
+    .err { color: #ffb4b4; display: none; }
+    .history {
+      margin-top: 28px;
+    }
+    .history h2 {
+      font-size: .8rem;
+      letter-spacing: .18em;
+      color: var(--yellow);
+      margin-bottom: 10px;
+    }
+    #stream_info_songhistory { color: var(--text); font-size: 1rem; }
+    #stream_info_songhistory img { width: 42px; height: 42px; object-fit: cover; }
+    audio { display: none; }
+    @media (max-width: 640px) {
+      .player { grid-template-columns: 1fr; }
+      .play { width: 100%; height: 72px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/">THEGAMERSCUBE.NL</a>
+    <a class="back" href="/">← TERUG</a>
+  </nav>
+  <main>
+    <div class="kicker">LIVE · CLOUDRADIO</div>
+    <h1>MAX HITRADIO</h1>
+    <p class="slogan">DE GROOTSTE HITS, ALTIJD AAN</p>
+
+    <section class="player">
+      <button class="play" id="playBtn" type="button" aria-label="Afspelen">▶</button>
+      <div class="meta">
+        <div class="song" id="stream_info_song">Druk op play</div>
+        <div class="row">
+          <span class="pill" id="stream_info_status">—</span>
+          <span class="pill"><span id="stream_info_listeners">—</span> LUISTERAARS</span>
+          <span class="pill" id="stream_info_bitrate">—</span>
+          <span class="pill" id="stream_info_live_source"></span>
+        </div>
+        <div class="vol">
+          <span>VOLUME</span>
+          <input id="vol" type="range" min="0" max="1" step="0.01" value="0.9">
+        </div>
+        <p class="err" id="err"></p>
+      </div>
+    </section>
+
+    <section class="history">
+      <h2>NET GEDRAAID</h2>
+      <div id="stream_info_songhistory" data-count="8"></div>
+    </section>
+    <p class="note">Stream: hls.cloudrad.io/max-hitradio</p>
+  </main>
+
+  <audio id="player" preload="none" playsinline></audio>
+  <script src="https://assets.clrd.net/assets/js/cloudradio-hls.js"></script>
+  <script src="https://public.cloudrad.io/max-hitradio/streaminfo.js"></script>
+  <script>
+    const SLUG = "max-hitradio";
+    const HLS = "https://hls.cloudrad.io/" + SLUG + "/stream.m3u8";
+    const audio = document.getElementById("player");
+    const btn = document.getElementById("playBtn");
+    const err = document.getElementById("err");
+    const vol = document.getElementById("vol");
+    let session = null;
+    let starting = false;
+
+    audio.volume = 0.9;
+    vol.addEventListener("input", () => { audio.volume = Number(vol.value); });
+
+    async function start() {
+      if (starting) return;
+      if (session) {
+        if (audio.paused) {
+          await audio.play();
+          btn.textContent = "❚❚";
+        } else {
+          audio.pause();
+          btn.textContent = "▶";
+        }
+        return;
+      }
+      starting = true;
+      btn.disabled = true;
+      err.style.display = "none";
+      try {
+        session = await CloudRadio.play(audio, HLS, {
+          onError: (data) => console.warn("HLS", data)
+        });
+        await audio.play();
+        btn.textContent = "❚❚";
+      } catch (e) {
+        session = null;
+        err.textContent = "Stream niet bereikbaar. Zet het station in CloudRadio op slug \"" + SLUG + "\" (hls.cloudrad.io/" + SLUG + "/stream.m3u8).";
+        err.style.display = "block";
+        btn.textContent = "▶";
+      } finally {
+        starting = false;
+        btn.disabled = false;
+      }
+    }
+
+    btn.addEventListener("click", start);
+    audio.addEventListener("pause", () => { if (session) btn.textContent = "▶"; });
+    audio.addEventListener("play", () => { btn.textContent = "❚❚"; });
+  </script>
+</body>
+</html>
