@@ -271,7 +271,11 @@
     }
 
     function str(v) { return v == null ? "" : String(v).trim(); }
-    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "&#39;" }[c])); }
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return "&#" + c.charCodeAt(0) + ";";
+      });
+    }
     function pair(obj) {
       if (!obj || typeof obj !== "object") return { title: str(obj) || "MAX HITRADIO", artist: "" };
       const artist = str(obj.artist || obj.song_artist || obj.track_artist);
