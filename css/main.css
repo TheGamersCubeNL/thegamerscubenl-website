@@ -102,23 +102,6 @@ nav::after {
 }
 .nav-logo span { color: var(--cyan); }
 
-.nav-max-btn {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  color: var(--amber);
-  text-decoration: none;
-  border: 1px solid rgba(249,168,37,0.4);
-  padding: 5px 12px;
-  transition: all 0.2s;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.nav-max-btn:hover { background: var(--amber); color: var(--navy); border-color: var(--amber); }
-@media (max-width: 480px) {
-  .nav-max-btn { font-size: 0.65rem; padding: 4px 8px; }
-}
-
 .nav-muziek-btn {
   font-family: var(--mono);
   font-size: 0.72rem;
@@ -232,8 +215,7 @@ nav::after {
   .hamburger      { order: 1; }
   .nav-logo       { order: 2; flex: 1; text-align: center; }
   .nav-auth       { order: 3; }
-  .nav-max-btn    { order: 4; }
-  .nav-muziek-btn { order: 5; }
+  .nav-muziek-btn { order: 4; }
   .nav-links {
   display: none;
   flex-direction: column;
@@ -3570,12 +3552,8 @@ body.is-live { padding-top: 36px; }
       order: 3 !important;
       flex-shrink: 0 !important;
     }
-    .nav-max-btn {
-      order: 4 !important;
-      flex-shrink: 0 !important;
-    }
     .nav-muziek-btn {
-      order: 5 !important;
+      order: 4 !important;
       flex-shrink: 0 !important;
     }
   }
