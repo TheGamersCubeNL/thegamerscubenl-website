@@ -45,12 +45,17 @@
         <div class="song-actions"><button type="button" id="favoriteCurrent" class="small-btn" title="Nummer bewaren">♡ Favoriet</button><button type="button" id="shareCurrent" class="small-btn">↗ Deel nummer</button><button type="button" id="artistLookup" class="small-btn">Artiestinfo</button></div>
         <div class="divider"></div>
         <button id="play" class="play-btn" type="button" aria-label="Start MAX HITRADIO"><span class="play-symbol" id="playSymbol" aria-hidden="true">▶</span><span id="playText">LUISTER LIVE</span></button>
+        <div class="cast-row">
+          <button id="castBtn" class="small-btn" type="button">Cast</button>
+          <button id="airBtn" class="small-btn" type="button" hidden>AirPlay</button>
+          <span id="castNote" class="muted small"></span>
+        </div>
         <div class="player-bottom"><label for="volume" class="vol-label">VOLUME <span id="pct">75%</span></label><input type="range" id="volume" min="0" max="100" value="75" aria-label="Volume"><span class="wave-symbol" aria-hidden="true">)))</span></div>
         <p id="status" class="status" role="status">Druk op play om te luisteren.</p>
         <a href="https://audio.cloudrad.io/ef465bb5/live" class="direct-link" target="_blank" rel="noopener noreferrer">Open de radiostream rechtstreeks <span aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <audio id="audio" preload="none" playsinline src="https://audio.cloudrad.io/ef465bb5/live"></audio>
+    <audio id="audio" preload="none" playsinline x-webkit-airplay="allow" src="https://audio.cloudrad.io/ef465bb5/live"></audio>
     <div class="widget-data" aria-hidden="true"><span id="stream_info_song"></span><span id="stream_info_status"></span><span id="stream_info_listeners"></span></div>
   <div class="player-extended"><span id="listenerCount" class="muted">Luisteraantal: niet beschikbaar</span><span id="playerNote" aria-live="polite" class="muted"></span></div>
   </section>
@@ -66,5 +71,5 @@
 </main>
 <footer class="footer"><div class="wrap footer-inner"><a href="#top" class="footer-logo"><img src="assets/max-logo.png" width="180" height="135" alt="MAX HITRADIO"></a><div><strong>MAX HITRADIO</strong><p>De grootste hits, altijd aan.</p></div><div class="footer-links"><a href="#luister">Luister live</a><a href="#over">Over MAX</a><a href="#programmas">Programmering</a><a href="#top">Terug naar boven ↑</a></div></div><div class="wrap footer-legal">© <span id="year"></span> MAX HITRADIO · Ontwerpversie 1.0 · De audio- en nummergegevens worden aangeboden via externe diensten.</div></footer>
 <script src="https://public.cloudrad.io/ef465bb5/live/streaminfo.js" defer></script>
-<script src="js/player.js" defer></script><script src="config.js"></script><script type="module" src="js/app.js"></script>
+<script src="js/player.js" defer></script><script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" defer></script><script src="config.js"></script><script type="module" src="js/app.js"></script>
 <div id="authDialog" class="modal" hidden><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authHeading"><button id="authClose" class="modal-close" aria-label="Sluiten">✕</button><h2 id="authHeading">INLOGGEN</h2><p>Inloggen is nodig voor verzoeken, livechat, stemmen en online favorieten.</p><form id="authForm"><label>E-mailadres<input type="email" name="email" autocomplete="email" required></label><label>Wachtwoord<input type="password" name="password" autocomplete="current-password" minlength="6" required></label><div class="auth-buttons"><button type="submit" class="small-btn" data-mode="login">Log in</button><button id="registerBtn" type="button" class="small-btn">Account maken</button></div></form><button id="googleBtn" class="small-btn">Inloggen met Google</button><button id="logoutBtn" class="small-btn" hidden>Uitloggen</button><p id="authMsg" class="muted" role="status"></p></div></div><div class="floating-radio"><div class="floating-song"><span class="live-dot"></span><span id="miniTrack">MAX HITRADIO · LIVE</span></div><button id="miniPlay" type="button" aria-label="Radio afspelen">▶</button><a href="#luister">Speler ↑</a></div></body></html>
