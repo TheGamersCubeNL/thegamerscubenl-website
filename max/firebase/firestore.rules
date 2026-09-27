@@ -1,0 +1,90 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function logged() {return request.auth != null;}
+  function admin() {return logged() && exists(/databases/$(database)/documents/roles/$(request.auth.uid)) && get(/databases/$(database)/documents/roles/$(request.auth.uid)).data.role == 'admin';}
+  function cleanNew() {return request.resource.data.createdAt == request.time;}
+  function publicLimit() {return request.query.limit <= 80;}
+  match /roles/{uid} {
+    allow get: if logged() && (request.auth.uid == uid || admin());
+    allow list: if admin();
+    allow write: if false; // Set admin role manually via trusted Firebase console/Admin SDK only.
+  }
+  match /bans/{uid} {allow read: if admin() || (logged() && uid == request.auth.uid);allow write: if false;}
+  match /{kind}/{id} {
+    allow get: if kind in ['news','top40','djs','programs','events','contests','polls','station'];
+    allow list: if kind in ['news','top40','djs','programs','events','contests','polls','station'] && publicLimit();
+    allow create,update,delete: if kind in ['news','top40','djs','programs','events','contests','polls','station'] && admin();
+  }
+  match /favorites/{uid} {
+    allow get: if logged() && request.auth.uid == uid;
+    allow list: if false;
+    allow create,update: if logged() && request.auth.uid == uid
+      && request.resource.data.keys().hasOnly(['items','updatedAt'])
+      && request.resource.data.items is list && request.resource.data.items.size() <= 80
+      && request.resource.data.updatedAt == request.time;
+    allow delete: if logged() && request.auth.uid == uid;
+  }
+  match /requests/{id} {
+    allow get,list: if admin();
+    allow create: if logged() && !exists(/databases/$(database)/documents/bans/$(request.auth.uid))
+      && request.resource.data.keys().hasOnly(['uid','artist','title','message','createdAt','status'])
+      && request.resource.data.uid == request.auth.uid
+      && request.resource.data.artist is string && request.resource.data.artist.size() > 0 && request.resource.data.artist.size() <= 90
+      && request.resource.data.title is string && request.resource.data.title.size() > 0 && request.resource.data.title.size() <= 110
+      && request.resource.data.message is string && request.resource.data.message.size() <= 250
+      && request.resource.data.status == 'new' && cleanNew();
+    allow update: if admin();
+    allow delete: if admin();
+  }
+  match /chat/{id} {
+    allow get: if true;
+    allow list: if publicLimit();
+    allow create: if logged() && !exists(/databases/$(database)/documents/bans/$(request.auth.uid))
+      && request.resource.data.keys().hasOnly(['uid','name','message','createdAt'])
+      && request.resource.data.uid == request.auth.uid
+      && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 36
+      && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 250
+      && cleanNew();
+    allow update: if false;
+    allow delete: if admin();
+  }
+  match /entries/{entryId} {
+    allow get,list: if admin();
+    allow create: if logged() && request.resource.data.keys().hasOnly(['contestId','uid','answer','createdAt'])
+      && request.resource.data.uid == request.auth.uid
+      && entryId == request.resource.data.contestId + '_' + request.auth.uid
+      && request.resource.data.answer is string && request.resource.data.answer.size() > 0 && request.resource.data.answer.size() <= 300
+      && exists(/databases/$(database)/documents/contests/$(request.resource.data.contestId))
+      && get(/databases/$(database)/documents/contests/$(request.resource.data.contestId)).data.published == true
+      && get(/databases/$(database)/documents/contests/$(request.resource.data.contestId)).data.endAt is timestamp
+      && get(/databases/$(database)/documents/contests/$(request.resource.data.contestId)).data.endAt > request.time
+      && cleanNew();
+    allow update,delete: if false;
+  }
+  match /polls/{pollId}/votes/{uid} {
+    allow get: if logged() && (request.auth.uid == uid || admin());
+    allow list: if admin();
+    allow create: if logged() && uid == request.auth.uid
+      && request.resource.data.keys().hasOnly(['uid','choice','createdAt'])
+      && request.resource.data.uid == uid
+      && request.resource.data.choice is int
+      && request.resource.data.choice >= 0
+      && get(/databases/$(database)/documents/polls/$(pollId)).data.published == true
+      && get(/databases/$(database)/documents/polls/$(pollId)).data.options is list
+      && request.resource.data.choice < get(/databases/$(database)/documents/polls/$(pollId)).data.options.size()
+      && cleanNew();
+    allow update,delete: if false;
+  }
+  match /pushSubscriptions/{uid} {
+    allow get: if logged() && uid == request.auth.uid;
+    allow list: if false;
+    allow create,update: if logged() && uid == request.auth.uid
+      && request.resource.data.keys().hasOnly(['uid','token','updatedAt'])
+      && request.resource.data.uid == uid
+      && request.resource.data.token is string && request.resource.data.token.size() <= 4096
+      && request.resource.data.updatedAt == request.time;
+    allow delete: if logged() && uid == request.auth.uid;
+  }
+ }
+}

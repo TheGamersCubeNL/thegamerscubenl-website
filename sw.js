@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tgcnl-v14';
+const CACHE_NAME = 'tgcnl-v15';
 
 const STATIC_ASSETS = [
   '/',
@@ -36,6 +36,10 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
   if (event.request.method !== 'GET') return;
+
+  // MAX HITRADIO heeft een eigen site en service worker onder /max/
+  if (url.pathname === '/max' || url.pathname.startsWith('/max/') || url.pathname.startsWith('/maxlive') || url.pathname === '/max.html') return;
+
 
   // Skip API / Firebase
   if (
