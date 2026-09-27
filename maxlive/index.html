@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="Luister live naar MAX HITRADIO — De grootste hits, altijd aan.">
+  <title>MAX HITRADIO | Luister live & Now Playing</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080808'/%3E%3Cpath fill='%23ffe500' d='M8 44 18 18h11l3 12 12-12h12L46 46H35l5-15-11 15h-8l-4-15-5 15z'/%3E%3C/svg%3E">
+  <style>
+    :root{color-scheme:dark;--bg:#090909;--panel:#171717;--yellow:#ffe500;--fg:#fff;--muted:#b8b8b8}
+    *{box-sizing:border-box}body{margin:0;min-height:100dvh;display:grid;place-items:center;background:radial-gradient(ellipse at 74% 16%,#393000 0,transparent 38%),radial-gradient(ellipse at 10% 84%,#282100 0,transparent 40%),var(--bg);color:var(--fg);font-family:Inter,Arial,Helvetica,sans-serif;padding:22px}
+    .wrap{width:min(980px,100%)}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:22px;flex-wrap:wrap}.station-label{font-size:11px;font-weight:900;letter-spacing:.25em;color:var(--yellow)}.live{display:flex;align-items:center;gap:9px;border:1px solid #6c5b00;border-radius:99px;padding:9px 13px;font-size:12px;font-weight:800;letter-spacing:.1em;background:#1c1909}.dot{width:8px;height:8px;background:var(--yellow);border-radius:50%;box-shadow:0 0 0 4px #ffe50025;animation:pulse 1.5s ease-in-out infinite}@keyframes pulse{50%{opacity:.4;box-shadow:0 0 0 8px #ffe50008}}
+    .panel{border:1px solid #353535;background:linear-gradient(145deg,#202020,#0c0c0c 66%);border-radius:28px;box-shadow:0 22px 75px #0009;overflow:hidden;position:relative}.panel:before{content:'';height:5px;background:var(--yellow);position:absolute;inset:0 0 auto}
+    .main{display:grid;grid-template-columns:minmax(250px,.9fr) 1.1fr;gap:clamp(22px,5vw,50px);padding:clamp(22px,5vw,46px)}
+    .art{aspect-ratio:1;border:1px solid #333;border-radius:24px;background:#000;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.logo{width:100%;height:100%;object-fit:contain;padding:6%}
+    h1{font-size:clamp(30px,4vw,50px);letter-spacing:-.05em;margin:6px 0 8px;line-height:1.05}h1 em{font-style:normal;color:var(--yellow)}.sub{color:var(--muted);line-height:1.6;font-size:15px}.tag{font-size:12px;letter-spacing:.13em;font-weight:800;color:var(--yellow)}.controls{margin-top:30px}.play{display:inline-flex;align-items:center;justify-content:center;gap:12px;width:100%;border:none;border-radius:18px;color:#080808;background:var(--yellow);padding:18px;font-size:17px;font-weight:1000;cursor:pointer;transition:transform .14s,filter .14s}.play:hover{filter:brightness(1.1)}.play:active{transform:scale(.985)}.play:focus-visible,.vol:focus-visible,.link:focus-visible{outline:3px solid white;outline-offset:4px}.play svg{width:24px;height:24px;fill:currentColor}.hidden{display:none}.status{min-height:23px;margin:13px 0 25px;color:var(--muted);font-size:13px}.status.error{color:#ff978c}.volume{display:flex;align-items:center;gap:14px;padding:18px;border:1px solid #383838;background:#121212;border-radius:15px}.volume svg{width:21px;height:21px;flex:none;fill:none;stroke:var(--yellow);stroke-width:2}.volume label{font-size:13px;font-weight:800;min-width:58px}.vol{accent-color:var(--yellow);width:100%;cursor:pointer}.pct{font-size:12px;color:var(--muted);min-width:37px;text-align:right}.footer{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;border-top:1px solid #333;padding:16px clamp(22px,5vw,46px);color:#aaa;font-size:12px}.footer b{color:var(--yellow)}.footer a{color:white;text-underline-offset:3px}.stream-url{overflow-wrap:anywhere;font-family:monospace;font-size:11px;opacity:.75;max-width:380px}
+    @media(max-width:690px){.main{grid-template-columns:1fr}.art{max-width:310px;width:100%;margin:0 auto}.main .content{min-width:0}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+    /* Live nummerinformatie */
+    .now{margin-top:22px;padding:18px;border-radius:19px;background:#121212;border:1px solid #494100;display:flex;gap:17px;align-items:center}
+    .cover{width:104px;height:104px;flex:0 0 104px;border-radius:12px;overflow:hidden;background:radial-gradient(circle at 70% 30%,#6b5900,#080808 65%);display:grid;place-items:center;border:1px solid #7b6800;position:relative}
+    .cover img{width:100%;height:100%;object-fit:cover;display:none;position:absolute;inset:0}.cover.has-cover img{display:block}
+    .cover .fallback{font-weight:1000;font-style:italic;color:var(--yellow);font-size:35px;letter-spacing:-.12em}.cover.has-cover .fallback{display:none}
+    .songbox{min-width:0;flex:1}.nowlabel{font-size:11px;font-weight:900;letter-spacing:.13em;color:var(--yellow);margin-bottom:10px}.song{font-weight:900;font-size:clamp(17px,2vw,24px);line-height:1.2;overflow-wrap:anywhere}.artist{font-size:14px;margin-top:5px;color:#dadada;overflow-wrap:anywhere}.metastatus{font-size:11px;color:#aaa;margin-top:10px;line-height:1.4}
+    .widget-data{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+    @media(max-width:420px){.now{align-items:flex-start;gap:12px;padding:12px}.cover{width:76px;height:76px;flex-basis:76px}}
+  </style>
+</head>
+<body>
+  <main class="wrap" id="player">
+    <header class="top"><div class="station-label">MAX HITRADIO / OFFICIËLE LIVE PLAYER</div><div class="live"><span class="dot" aria-hidden="true"></span> LIVE RADIO</div></header>
+    <section class="panel" aria-label="MAX HITRADIO radioplayer">
+      <div class="main">
+        <div class="art"><img class="logo" src="/max-logo.webp" alt="MAX HITRADIO — De grootste hits, altijd aan"></div>
+        <div class="content"><div class="tag">DE GROOTSTE HITS, ALTIJD AAN</div><h1>Jouw muziek.<br><em>Altijd LIVE.</em></h1><p class="sub">Luister rechtstreeks naar MAX HITRADIO. Eén druk op de knop en de grootste hits staan aan.</p>
+
+          <section class="now" aria-label="Nu op MAX HITRADIO">
+            <div class="cover" id="coverWrap"><span class="fallback" aria-hidden="true">MAX</span><img id="cover" alt="Albumhoes van het huidige nummer" referrerpolicy="no-referrer"></div>
+            <div class="songbox">
+              <div class="nowlabel">♫ NU OP MAX HITRADIO</div>
+              <div class="song" id="song" aria-live="polite">Nummerinformatie laden…</div>
+              <div class="artist" id="artist">MAX HITRADIO</div>
+              <div class="metastatus" id="metaStatus" role="status">CloudRadio-widget wordt verbonden…</div>
+              <span id="stream_info_song" class="widget-data" aria-hidden="true"></span><span id="stream_info_status" class="widget-data" aria-hidden="true"></span><span id="stream_info_listeners" class="widget-data" aria-hidden="true"></span>
+            </div>
+          </section>
+          <div class="controls">
+            <button class="play" id="play" type="button" aria-label="Start MAX HITRADIO"><svg id="playIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5v17l14-8.5z"/></svg><svg id="pauseIcon" class="hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h5v18H5zM14 3h5v18h-5z"/></svg><span id="playText">LUISTER NU LIVE</span></button>
+            <div class="status" id="status" role="status" aria-live="polite">Druk op afspelen om te luisteren.</div>
+            <div class="volume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zM16 9a5 5 0 0 1 0 6M19 6a9 9 0 0 1 0 12"/></svg><label for="volume">Volume</label><input class="vol" id="volume" type="range" min="0" max="100" value="75" aria-label="Volume"><span class="pct" id="pct">75%</span></div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span><b>MAX HITRADIO</b> · De grootste hits, altijd aan · <a href="/">TheGamersCubeNL</a></span><span class="stream-url">Live via Cloudrad.io</span></footer>
+    </section>
+    <audio id="audio" preload="none" playsinline src="https://audio.cloudrad.io/ef465bb5/live"></audio>
+  </main>
+  <script src="https://public.cloudrad.io/ef465bb5/live/streaminfo.js" defer></script>
+  <script>
+  (()=>{
+    'use strict';
+    const audio=document.getElementById('audio'),btn=document.getElementById('play'),txt=document.getElementById('playText'),stat=document.getElementById('status'),vol=document.getElementById('volume'),pct=document.getElementById('pct'),iconPlay=document.getElementById('playIcon'),iconPause=document.getElementById('pauseIcon'),root=document.getElementById('player');
+    audio.volume=.75;
+    const setStatus=(msg,error=false)=>{stat.textContent=msg;stat.classList.toggle('error',error)};
+    const setUI=playing=>{root.classList.toggle('playing',playing);iconPlay.classList.toggle('hidden',playing);iconPause.classList.toggle('hidden',!playing);txt.textContent=playing?'PAUZEER LIVE RADIO':'LUISTER NU LIVE';btn.setAttribute('aria-label',playing?'Pauzeer MAX HITRADIO':'Start MAX HITRADIO')};
+    btn.addEventListener('click',async()=>{
+      if(!audio.paused){audio.pause();return}
+      setStatus('Verbinden met de live-uitzending…');btn.disabled=true;
+      try{await audio.play()}catch(e){setUI(false);setStatus('Afspelen is niet gelukt. Controleer je verbinding of open de stream rechtstreeks.',true)}finally{btn.disabled=false}
+    });
+    audio.addEventListener('playing',()=>{setUI(true);setStatus('Je luistert LIVE naar MAX HITRADIO.')});
+    audio.addEventListener('pause',()=>{setUI(false);setStatus('De uitzending is gepauzeerd.')});
+    audio.addEventListener('waiting',()=>setStatus('Even bufferen…'));
+    audio.addEventListener('stalled',()=>setStatus('De stream reageert traag; opnieuw verbinden…'));
+    audio.addEventListener('error',()=>{setUI(false);setStatus('De radiostream is momenteel niet bereikbaar. Probeer het later opnieuw.',true)});
+    vol.addEventListener('input',()=>{audio.volume=Number(vol.value)/100;pct.textContent=vol.value+'%'});
+    if('mediaSession' in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:'MAX HITRADIO',artist:'De grootste hits, altijd aan',album:'LIVE RADIO'});navigator.mediaSession.setActionHandler('play',()=>audio.play().catch(()=>{}));navigator.mediaSession.setActionHandler('pause',()=>audio.pause());}
+
+    // Official CloudRadio widget writes live data to these specific DOM IDs.
+    // An observer copies the song data into our styled now-playing panel.
+    const songSource=document.getElementById('stream_info_song');
+    const statusSource=document.getElementById('stream_info_status');
+    const listenerSource=document.getElementById('stream_info_listeners');
+    const songEl=document.getElementById('song'),artistEl=document.getElementById('artist'),metaEl=document.getElementById('metaStatus');
+    const cover=document.getElementById('cover'),coverWrap=document.getElementById('coverWrap');
+    let lastWidgetSong='',lastCoverUrl='',artworkRequest=0;
+    function parseWidgetSong(raw){
+      const text=raw.trim();
+      if(!text||/^(loading|laden|unknown|onbekend|[-–—])([.\s]*$)/i.test(text)) return null;
+      // CloudRadio's text field is 'current song title and artist', often Artist - Title.
+      const sep=text.indexOf(' - ');
+      return sep>0?{artist:text.slice(0,sep).trim(),title:text.slice(sep+3).trim()}:{artist:'',title:text};
+    }
+    function setCover(url){
+      let safe='';try{const u=new URL(url);if(u.protocol==='https:')safe=u.href}catch{}
+      if(safe===lastCoverUrl)return;
+      lastCoverUrl=safe;coverWrap.classList.remove('has-cover');cover.removeAttribute('src');
+      if(safe){cover.onload=()=>coverWrap.classList.add('has-cover');cover.onerror=()=>coverWrap.classList.remove('has-cover');cover.src=safe;}
+    }
+    // No configuration is needed: try Apple Music catalog artwork by title and artist.
+    // If no convincing result exists, keep the branded MAX fallback.
+    const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\([^)]*\)|\[[^\]]*\]/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
+    async function loadAutoArtwork(track){
+      const request=++artworkRequest;
+      setCover('');
+      if(!track?.artist||!track?.title)return;
+      try{
+        const query=new URL('https://itunes.apple.com/search');
+        query.searchParams.set('term',track.artist+' '+track.title);
+        query.searchParams.set('entity','song');query.searchParams.set('limit','8');
+        const response=await fetch(query.href,{cache:'no-store'});
+        if(!response.ok)throw Error('Artwork service unavailable');
+        const result=await response.json();
+        if(request!==artworkRequest)return;
+        const artist=norm(track.artist),title=norm(track.title);
+        const match=(result.results||[]).find(r=>{
+          const a=norm(r.artistName),t=norm(r.trackName);
+          return (a===artist||a.includes(artist)||artist.includes(a))&&(t===title||t.includes(title)||title.includes(t));
+        });
+        const url=match?.artworkUrl100?.replace(/100x100bb(?=\.)/,'600x600bb')||'';
+        if(url)setCover(url);
+      }catch{if(request===artworkRequest)setCover('');}
+    }
+    function updateFromWidget(){
+      const raw=songSource.textContent||'';
+      const track=parseWidgetSong(raw);
+      const status=(statusSource.dataset.state||'').toLowerCase();
+      const listeners=(listenerSource.textContent||'').trim();
+      if(track){
+        songEl.textContent=track.title;
+        artistEl.textContent=track.artist||'MAX HITRADIO';
+        if(raw!==lastWidgetSong){lastWidgetSong=raw;loadAutoArtwork(track);}
+        if('mediaSession' in navigator){
+          navigator.mediaSession.metadata=new MediaMetadata({title:track.title,artist:track.artist||'MAX HITRADIO',album:'MAX HITRADIO LIVE'});
+        }
+      }
+      if(status==='off'){
+        metaEl.textContent='De zender meldt momenteel OFF AIR.';
+      }else if(track){
+        metaEl.textContent='Automatisch bijgewerkt door CloudRadio'+(listeners&&/^\d+$/.test(listeners)?' · '+listeners+' luisteraars':'');
+      }else{
+        metaEl.textContent='Wachten op nummerinformatie van CloudRadio…';
+      }
+    }
+    const observer=new MutationObserver(updateFromWidget);
+    for(const node of [songSource,statusSource,listenerSource])observer.observe(node,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['data-state']});
+    // Widget polls every 10 seconds; our observer reacts when it changes the DOM.
+    updateFromWidget();
+  })();
+  </script>
+</body>
+</html>
