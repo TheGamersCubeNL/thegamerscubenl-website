@@ -221,7 +221,7 @@ nav::after {
   .nav-muziek-btn { display: none; }
   #navUserInfo > span,
   #navUserInfo .admin-btn { display: none !important; }
-  nav { overflow: hidden; }
+  nav { overflow: visible; }
   .nav-links {
   display: none;
   flex-direction: column;
@@ -3414,6 +3414,11 @@ body.is-live { padding-top: 36px; }
   #navLinks.open {
     display: flex !important;
   }
+  body.menu-open nav {
+    overflow: visible !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
   #navLinks li {
     list-style: none !important;
     width: 100% !important;
@@ -3549,6 +3554,8 @@ body.is-live { padding-top: 36px; }
       order: 1 !important;
       flex-shrink: 0 !important;
       display: flex !important;
+      position: relative;
+      z-index: 10001;
     }
     .nav-logo {
       order: 2 !important;
